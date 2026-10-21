@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Trang chu - {{ site_name }}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Tin tuc moi nhat</h1>
+    <span class="badge text-bg-info">Nguon du lieu: {{ source }}</span>
+</div>
+
+{% if articles %}
+<div class="row g-4">
+    {% for a in articles %}
+    <div class="col-md-6 col-lg-4">
+        <div class="card h-100 shadow-sm">
+            <a href="{{ url_for('article.article_detail', article_id=a._id) }}">
+                <img src="{{ a.image }}" class="card-img-top" alt="{{ a.title }}" style="height:180px;object-fit:cover">
+            </a>
+            <div class="card-body d-flex flex-column">
+                <span class="badge text-bg-secondary align-self-start mb-2">{{ a.category }}</span>
+                <h5 class="card-title">
+                    <a class="text-decoration-none text-dark" href="{{ url_for('article.article_detail', article_id=a._id) }}">{{ a.title }}</a>
+                </h5>
+                <p class="card-text text-muted small">{{ (a.summary or a.content)[:120] }}...</p>
+                <div class="mt-auto d-flex justify-content-between text-muted small">
+                    <span><i class="bi bi-clock"></i> {{ a.created_at }}</span>
+                    <span><i class="bi bi-eye"></i> {{ a.views }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<nav class="mt-4">
+    <ul class="pagination justify-content-center">
+        <li class="page-item {% if not result.has_prev %}disabled{% endif %}">
+            <a class="page-link" href="{{ url_for('article.index') }}">Trang sau</a>
+        </li>
+        <li class="page-item active"><span class="page-link">Trang {{ result.page }}/{{ result.total_pages }}</span></li>
+        <li class="page-item {% if not result.has_next %}disabled{% endif %}">
+            <a class="page-link" href="{{ url_for('article.list_articles', page=result.page+1) }}">Trang tiep</a>
+        </li>
+    </ul>
+</nav>
+{% else %}
+<p class="text-muted">Chua co bai viet nao. Hay chay <code>python database/seed_articles.py</code> de nap du lieu mau.</p>
+{% endif %}
+{% endblock %}

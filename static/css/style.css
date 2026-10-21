@@ -1,0 +1,58 @@
+/* ============================================================
+   style.css - CSS rieng cua du an (Bootstrap phai them vao truoc)
+   ============================================================ */
+
+:root {
+    --brand: #0d6efd;
+    --brand-dark: #0a58ca;
+}
+
+body {
+    background-color: #f5f7fb;
+    font-family: "Segoe UI", Tahoma, "Times New Roman", serif;
+}
+
+.card {
+    border: none;
+    border-radius: .75rem;
+    transition: transform .15s ease-in-out, box-shadow .15s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 .5rem 1.25rem rgba(0, 0, 0, .12) !important;
+}
+
+.card-img-top {
+    object-fit: cover;
+    background-color: #e9ecef;
+}
+
+.navbar-brand i {
+    color: #4dabf7;
+}
+
+.breadcrumb {
+    background: transparent;
+    padding-left: 0;
+}
+
+/* Badge nguon du lieu (Cache / Database) */
+.badge.text-bg-info {
+    font-size: .8rem;
+}
+
+/* Bang trong trang quan tri */
+.table > :not(caption) > * > * {
+    padding: .6rem .75rem;
+}
+
+code {
+    background-color: #f1f3f5;
+    color: #d63384;
+}
+
+/* Hien thi TTL dem lui */
+.text-danger {
+    font-variant-numeric: tabular-nums;
+}

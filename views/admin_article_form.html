@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}{% if article %}Sua bai viet{% else %}Them bai viet{% endif %} - {{ site_name }}{% endblock %}
+
+{% block content %}
+<h1 class="h3 mb-4">
+    <i class="bi bi-{% if article %}pencil-square{% else %}plus-circle{% endif %}"></i>
+    {% if article %}Sua bai viet{% else %}Them bai viet moi{% endif %}
+</h1>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <form method="post">
+            <div class="row g-3">
+                <div class="col-md-8">
+                    <label class="form-label">Tieu de *</label>
+                    <input type="text" name="title" class="form-control" required
+                           value="{{ article.title if article else '' }}">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Chuyen muc</label>
+                    <select name="category" class="form-select">
+                        {% for c in categories %}
+                        <option value="{{ c }}" {% if article and article.category == c %}selected{% endif %}>{{ c }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-12">
+                    <label class="form-label">Tom tat</label>
+                    <textarea name="summary" class="form-control" rows="2">{{ article.summary if article else '' }}</textarea>
+                </div>
+                <div class="col-12">
+                    <label class="form-label">Noi dung *</label>
+                    <textarea name="content" class="form-control" rows="10" required>{{ article.content if article else '' }}</textarea>
+                </div>
+                <div class="col-md-8">
+                    <label class="form-label">Duong dan hinh anh</label>
+                    <input type="text" name="image" class="form-control" placeholder="/static/uploads/news_01.jpg"
+                           value="{{ article.image if article else '' }}">
+                    <div class="form-text">Anh mau nam trong <code>static/uploads/</code> (sinh bang script seed).</div>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Trang thai</label>
+                    <select name="status" class="form-select">
+                        <option value="published" {% if not article or article.status == 'published' %}selected{% endif %}>Hien thi</option>
+                        <option value="draft" {% if article and article.status == 'draft' %}selected{% endif %}>Nhap</option>
+                    </select>
+                </div>
+                <div class="col-12">
+                    <label class="form-label">The (cach nhau bang dau phay)</label>
+                    <input type="text" name="tags" class="form-control"
+                           value="{{ article.tags | join(', ') if article and article.tags else '' }}">
+                </div>
+            </div>
+            <hr>
+            <div class="d-flex gap-2">
+                <button class="btn btn-primary" type="submit">Luu thay doi</button>
+                <a class="btn btn-outline-secondary" href="{{ url_for('admin.articles') }}">Huy</a>
+                {% if article %}
+                <span class="ms-auto text-muted small align-self-center">
+                    Luu xong -&gt; cache cu se bi xoa ngay (Cache Invalidation)
+                </span>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

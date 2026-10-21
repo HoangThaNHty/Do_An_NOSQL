@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %}Dang ky - {{ site_name }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-success text-white fw-bold"><i class="bi bi-person-plus"></i> Dang ky tai khoan</div>
+            <div class="card-body">
+                <form method="post" action="{{ url_for('auth.register') }}">
+                    <div class="mb-3">
+                        <label class="form-label">Ho va ten</label>
+                        <input type="text" name="full_name" class="form-control" value="{{ form.full_name if form else '' }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Ten dang nhap</label>
+                        <input type="text" name="username" class="form-control" value="{{ form.username if form else '' }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" name="email" class="form-control" value="{{ form.email if form else '' }}" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Mat khau</label>
+                        <input type="password" name="password" class="form-control" minlength="6" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Nhap lai mat khau</label>
+                        <input type="password" name="confirm_password" class="form-control" minlength="6" required>
+                    </div>
+                    <button class="btn btn-success w-100" type="submit">Dang ky</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

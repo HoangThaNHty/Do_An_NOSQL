@@ -1,0 +1,32 @@
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+
+# ===== Bien mat khau / cau hinh that =====
+.env
+
+# ===== File lock cua Microsoft Word (~$...) =====
+~$*
+.~lock.*
+
+# ===== Redis =====
+dump.rdb
+appendonly.aof
+*.log
+
+# ===== Du lieu sinh tu dong (co the sinh lai bang script) =====
+database/exports/*.json
+database/exports/*.bson
+
+# ===== IDE =====
+.vscode/
+.idea/
+*.swp
+
+# ===== OS =====
+Thumbs.db
+desktop.ini

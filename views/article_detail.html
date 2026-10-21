@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}{{ article.title }} - {{ site_name }}{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ url_for('article.index') }}">Trang chu</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('article.list_articles', category=article.category) }}">{{ article.category }}</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{ article.title[:40] }}</li>
+    </ol>
+</nav>
+
+<div class="alert alert-info d-flex justify-content-between align-items-center">
+    <span>
+        <i class="bi bi-database"></i> Nguon du lieu cua lan xem nay:
+        <strong>{% if source == 'cache' %}REDIS CACHE (Cache Hit){% else %}MONGODB (Cache Miss){% endif %}</strong>
+    </span>
+    <span class="badge text-bg-dark">TTL cache: {{ config_ttl if config_ttl is defined else '' }}</span>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-8">
+        <article class="card shadow-sm">
+            <img src="{{ article.image }}" class="card-img-top" alt="{{ article.title }}" style="max-height:420px;object-fit:cover">
+            <div class="card-body">
+                <span class="badge text-bg-secondary">{{ article.category }}</span>
+                <h1 class="h3 mt-2">{{ article.title }}</h1>
+                <p class="text-muted small mb-3">
+                    <i class="bi bi-person"></i> {{ article.author_name or 'Ban bien tap' }}
+                    &nbsp;|&nbsp; <i class="bi bi-clock"></i> {{ article.created_at }}
+                    &nbsp;|&nbsp; <i class="bi bi-eye"></i> <strong>{{ article.views }}</strong> luot xem
+                </p>
+                {% if article.summary %}
+                <p class="lead">{{ article.summary }}</p>
+                {% endif %}
+                {% for para in article.content.split('\n') if para.strip() %}
+                <p>{{ para }}</p>
+                {% endfor %}
+                {% if article.tags %}
+                <div class="mt-3">
+                    {% for t in article.tags %}<span class="badge bg-light text-dark border me-1">#{{ t }}</span>{% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </article>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card shadow-sm mb-3">
+            <div class="card-header bg-light fw-bold"><i class="bi bi-lightning-charge"></i> Bao cao cache</div>
+            <div class="card-body small">
+                <p class="mb-2">Bai viet nay duoc doc theo luu v <strong>Cache-Aside</strong>:</p>
+                <ul class="mb-0">
+                    <li>Key: <code>article:cache:{{ article._id }}</code></li>
+                    <li>Luot xem: <code>article:views:{{ article._id }}</code> (INCR)</li>
+                    <li>Du lieu lay tu: <strong>{{ 'Redis' if source == 'cache' else 'MongoDB' }}</strong></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card shadow-sm">
+            <div class="card-header bg-light fw-bold"><i class="bi bi-newspaper"></i> Bai viet lien quan</div>
+            <div class="list-group list-group-flush">
+                {% for r in related %}
+                <a class="list-group-item list-group-item-action" href="{{ url_for('article.article_detail', article_id=r._id) }}">
+                    <small class="text-muted">{{ r.category }}</small><br>{{ r.title }}
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

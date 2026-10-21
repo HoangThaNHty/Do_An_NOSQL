@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Quan tri - {{ site_name }}{% endblock %}
+
+{% block content %}
+<h1 class="h3 mb-4"><i class="bi bi-speedometer2"></i> Dashboard quan tri</h1>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="card text-center shadow-sm border-primary">
+            <div class="card-body">
+                <h5 class="card-title text-muted">Bai viet</h5>
+                <h2 class="text-primary">{{ total_articles }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center shadow-sm border-success">
+            <div class="card-body">
+                <h5 class="card-title text-muted">Nguoi dung</h5>
+                <h2 class="text-success">{{ total_users }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center shadow-sm border-warning">
+            <div class="card-body">
+                <h5 class="card-title text-muted">Session dang hoat dong</h5>
+                <h2 class="text-warning">{{ total_sessions }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center shadow-sm border-danger">
+            <div class="card-body">
+                <h5 class="card-title text-muted">Key tren Redis</h5>
+                <h2 class="text-danger">{{ cache_stats.total_keys }}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card shadow-sm border-info">
+            <div class="card-header bg-info text-white fw-bold"><i class="bi bi-graph-up"></i> Thong ke Cache-Aside</div>
+            <div class="card-body">
+                <table class="table mb-0">
+                    <tbody>
+                        <tr><th>Cache Hit</th><td class="text-success fw-bold">{{ cache_stats.hits }}</td></tr>
+                        <tr><th>Cache Miss</th><td class="text-danger fw-bold">{{ cache_stats.misses }}</td></tr>
+                        <tr><th>Bo nho Redis su dung</th><td>{{ cache_stats.dbsize }}</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header bg-light fw-bold">Thao tac nhanh</div>
+            <div class="card-body d-grid gap-2">
+                <a class="btn btn-primary" href="{{ url_for('admin.articles') }}">Quan ly bai viet</a>
+                <a class="btn btn-outline-secondary" href="{{ url_for('admin.create_article') }}">Them bai viet moi</a>
+                <a class="btn btn-outline-secondary" href="{{ url_for('admin.users') }}">Danh sach nguoi dung</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
