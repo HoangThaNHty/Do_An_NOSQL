@@ -23,7 +23,7 @@ và bộ đếm lượt xem bằng lệnh **INCR**.
 |---|---|---|
 | Python | 3.13 | Kèm `pip install -r requirements.txt` |
 | MongoDB | 8.x | Đang chạy sẵn ở `127.0.0.1:27017` (không authentication) |
-| Redis | 8.10 | Bản Windows portable, đặt ở `D:\Redis` — chạy bằng `scripts\start_redis.bat` |
+| Redis | 8.10 | Bản Windows portable, đặt ở `D:\Redis` — chạy bằng `data\start_redis.bat` |
 | MongoDB Compass | mới nhất | Xem & truy vấn DB gốc |
 | Redis Insight | mới nhất | Xem key, Hash, TTL |
 | Git | 2.54 | Quản lý mã nguồn theo 3 nhánh |
@@ -34,7 +34,7 @@ và bộ đếm lượt xem bằng lệnh **INCR**.
 
 ```bat
 :: (1) Bật MongoDB (service Windows) và Redis
-scripts\start_redis.bat
+data\start_redis.bat
 
 :: (2) Tạo môi trường ảo Python + cài thư viện
 py -3.13 -m venv .venv
@@ -71,8 +71,8 @@ copy .env.example .env
 .venv\Scripts\python database\restore.py --latest --drop
 
 :: Bật/tắt mô phỏng độ trễ mạng khi demo (đọc DB gốc ~200ms)
-scripts\toggle_latency.bat on
-scripts\toggle_latency.bat off
+data\toggle_latency.bat on
+data\toggle_latency.bat off
 ```
 
 ---
@@ -84,12 +84,11 @@ app.py            config.py          requirements.txt
 models/           -> MODEL          (dữ liệu, truy vấn MongoDB, index)
 controllers/      -> CONTROLLER     (nhận request, gọi service, render view)
 services/         -> BUSINESS LOGIC (Cache-Aside, TTL, Invalidation, INCR, Session Hash)
-views/            -> VIEW           (Jinja2 template)
-static/           -> CSS/JS/ảnh/vendor Bootstrap (không dùng CDN để demo offline)
-database/         -> seed, backup, restore
-scripts/          -> benchmark, plot, start_redis, toggle_latency
+views/            -> VIEW           (Jinja2 template + partials dùng chung)
+static/           -> CSS/JS/ảnh thật/font/vendor Bootstrap (không dùng CDN để demo offline)
+data/             -> seed, fetch ảnh, backup, restore, benchmark, plot, .bat
 tests/            -> pytest
-docs/             -> ARCHITECTURE.md, DEMO_CHECKLIST.md, figures/
+docs/             -> ARCHITECTURE.md, DEMO_CHECKLIST.md, figures/, screenshots/
 ```
 
 Chi tiết đầy đủ + bảng "thầy hỏi → trả lời ở đâu": **[`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)**

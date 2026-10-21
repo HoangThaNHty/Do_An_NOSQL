@@ -6,7 +6,7 @@
 > 2. Mở Redis Insight → kết nối `127.0.0.1:6379` → Database `0`
 > 3. Chạy `scripts\start_redis.bat` (nếu Redis chưa chạy)
 > 4. Chạy `.venv\Scripts\python app.py`
-> 5. Chạy `scripts\toggle_latency.bat on` → **khởi động lại app.py** (để thấy đúng
+> 5. Chạy `data\toggle_latency.bat on` → **khởi động lại app.py** (để thấy đúng
 >    kịch bản "đọc DB gốc ~200ms")
 > 6. `.venv\Scripts\python database\seed_redis.py --reset` (làm mới 50 key TTL khác nhau)
 
@@ -20,7 +20,8 @@
 | 1.2 | Mở `http://127.0.0.1:5000/articles/<id bất kỳ>` | Request **lần 1**: `Time ≈ 200ms+` |
 | 1.3 | **F5 lại trang** | Request **lần 2**: `Time ≈ 5–15ms` |
 | 1.4 | Xem tab **Response** của API `GET /api/articles/<id>` | Lần 1: `"source": "database"` → lần 2: `"source": "cache"` |
-| 1.5 | Nói rõ: *"Lần 1 Cache Miss → đọc MongoDB; lần 2 Cache Hit → đọc Redis"* |
+| 1.5 | Mở thêm tab `/admin/cache` (quản trị) | Bảng điều khiển: Cache Hit / Cache Miss tăng dần, cột TTL đếm lùi |
+| 1.6 | Nói rõ: *"Lần 1 Cache Miss → đọc MongoDB; lần 2 Cache Hit → đọc Redis"* |
 
 **Mẹo:** dùng `Ctrl+Shift+R` (hard reload) để chắc chắn không dính cache trình duyệt.
 
@@ -40,7 +41,7 @@
 
 | | Thao tác | Kết quả mong đợi |
 |---|---|---|
-| 3.1 | Trước khi sửa: Redis Insight → tìm key `article:cache:<id>` | Có key, cột **TTL** đếm lùi |
+| 3.1 | Trước khi sửa: mở `/admin/cache` → tìm key `article:cache:<id>` (hoặc Redis Insight) | Có key, cột **TTL** đếm lùi |
 | 3.2 | Sau khi SV1 bấm **Lưu**: refresh lại Redis Insight | **Key đã biến mất** (DEL) |
 | 3.3 | Mở lại bài viết vừa sửa | Hiện **nội dung mới**, Response lại là `"source": "database"` (Cache Miss) |
 | 3.4 | Mở lại lần nữa | `"source": "cache"` (Cache Hit) — key đã được tạo lại với TTL 300s |
@@ -133,6 +134,6 @@ D:\Redis\redis-cli.exe INFO memory
 - [ ] Redis Insight kết nối được, thấy ~50 key
 - [ ] `app.py` chạy, trang chủ hiện 9 bài viết có ảnh
 - [ ] Đăng nhập được bằng `sv1_admin` / `123456`
-- [ ] `scripts\toggle_latency.bat on` đã bật + app.py đã restart
+- [ ] `data\toggle_latency.bat on` đã bật + app.py đã restart
 - [ ] Tab Network F12 đã mở sẵn, đã chọn filter **Fetch/XHR**
 - [ ] Ảnh chụp màn hình lưu vào `docs/screenshots/`

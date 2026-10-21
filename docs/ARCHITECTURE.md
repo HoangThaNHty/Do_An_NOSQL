@@ -110,17 +110,17 @@ D:\Do_AN_NOSQL\
 ├── static/
 │   ├── css/style.css            # CSS riêng của dự án
 │   ├── js/main.js               # Xác nhận xóa, tự ẩn thông báo, cập nhật số liệu cache
-│   ├── uploads/                 # 100 ảnh bài viết (sinh bằng Pillow)
+│   ├── images/                  # 30 ảnh thật (Openverse) dùng cho 100 bài viết (sinh bằng Pillow)
 │   └── vendor/                  # Bootstrap 5 + Icons (tải về local, demo không cần mạng)
 │
-├── database/
-│   ├── seed_articles.py         # Tạo 3 user demo + 100 bài viết + 100 ảnh
-│   ├── seed_redis.py            # Tạo 50 key Redis với TTL khác nhau (20–50 theo yêu cầu)
+├── data/                        # CÔNG CỤ DỮ LIỆU (nạp mẫu, sao lưu, đo hiệu năng)
+│   ├── seed_articles.py         # Tạo 3 user demo + 100 bài viết (dùng ảnh thật)
+│   ├── seed_redis.py            # Tạo 47 key Redis với TTL khác nhau (20–50 theo yêu cầu)
+│   ├── fetch_images.py          # Tải ảnh thật từ Openverse (CC0/PDM) + sinh CREDITS.md
+│   ├── build_fonts_css.py       # Sinh @font-face cục bộ cho font Be Vietnam Pro
 │   ├── backup.py                # Backup MongoDB (JSON) + Redis (key + TTL)
-│   └── restore.py               # Khôi phục từ file backup
-│
-├── scripts/
-│   ├── benchmark.py             # Đo thời gian MongoDB vs Redis (3–5 kịch bản)
+│   ├── restore.py               # Khôi phục từ file backup
+│   ├── benchmark.py             # Đo thời gian MongoDB vs Redis (5 kịch bản)
 │   ├── plot_benchmark.py        # Vẽ biểu đồ matplotlib (Chương 8)
 │   ├── start_redis.bat          # Bật Redis server
 │   └── toggle_latency.bat       # Bật/tắt mô phỏng độ trễ mạng khi demo
@@ -146,8 +146,8 @@ D:\Do_AN_NOSQL\
 | Session trên Redis | `services/session_service.py` |
 | Dữ liệu, index, truy vấn nâng cao | `models/article.py` |
 | Kết nối DB, TTL, cấu hình | `config.py` + `app.py` |
-| Dữ liệu mẫu, backup | `database/` |
-| Đo hiệu năng, biểu đồ | `scripts/` |
+| Dữ liệu mẫu, backup, đo hiệu năng | `data/` |
+| Đo hiệu năng, biểu đồ | `data/benchmark.py`, `data/plot_benchmark.py` |
 
 ---
 
@@ -282,7 +282,7 @@ Mỗi request → before_request trong app.py:
 
 ```bat
 :: 1) Bật MongoDB (đã có sẵn service Windows) và Redis
-scripts\start_redis.bat
+data\start_redis.bat
 
 :: 2) Tạo môi trường Python và cài thư viện
 py -3.13 -m venv .venv
