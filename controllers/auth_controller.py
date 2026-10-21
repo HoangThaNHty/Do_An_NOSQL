@@ -154,7 +154,7 @@ def api_login():
         ip=request.headers.get("X-Forwarded-For", request.remote_addr),
         user_agent=request.headers.get("User-Agent", ""),
     )
-    return jsonify(
+    response = jsonify(
         {
             "success": True,
             "data": {
@@ -165,6 +165,15 @@ def api_login():
             },
         }
     )
+    # Gan cookie de client (Postman / trinh duyet) dung lai duoc phien
+    response.set_cookie(
+        SessionService.COOKIE_NAME,
+        session_id,
+        max_age=session_service.ttl,
+        httponly=True,
+        samesite="Lax",
+    )
+    return response
 
 
 @auth_bp.get("/api/auth/session")
