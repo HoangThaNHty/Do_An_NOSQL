@@ -8,7 +8,7 @@ duoc thuc hien tu dong.
 
 from flask import Blueprint, current_app, flash, g, redirect, render_template, request, url_for
 
-from controllers import admin_required, login_required
+from controllers import admin_only_required, admin_required, login_required
 
 admin_bp = Blueprint("admin", __name__, url_prefix="/admin")
 
@@ -177,7 +177,7 @@ def delete_article(article_id):
 # QUAN LY NGUOI DUNG
 # ======================================================================
 @admin_bp.get("/users")
-@admin_required
+@admin_only_required
 def users():
     """Danh sach nguoi dung."""
     _, auth_service = _services()

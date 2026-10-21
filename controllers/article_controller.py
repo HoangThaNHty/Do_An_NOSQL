@@ -8,7 +8,7 @@ Phan biet 2 loai route trong cung 1 controller:
 
 from flask import Blueprint, current_app, jsonify, render_template, request
 
-from controllers import login_required
+from controllers import editor_required, login_required
 
 article_bp = Blueprint("article", __name__)
 
@@ -167,7 +167,7 @@ def api_get_article(article_id):
 
 
 @article_bp.post("/api/articles")
-@login_required
+@editor_required
 def api_create_article():
     """POST /api/articles - them bai viet moi vao MongoDB."""
     article_service, _ = _services()
@@ -185,7 +185,7 @@ def api_create_article():
 
 
 @article_bp.put("/api/articles/<article_id>")
-@login_required
+@editor_required
 def api_update_article(article_id):
     """
     PUT /api/articles/<id> - sua bai viet.
@@ -200,7 +200,7 @@ def api_update_article(article_id):
 
 
 @article_bp.delete("/api/articles/<article_id>")
-@login_required
+@editor_required
 def api_delete_article(article_id):
     """DELETE /api/articles/<id> - xoa bai viet + xoa cache lien quan."""
     article_service, _ = _services()

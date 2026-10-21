@@ -39,6 +39,10 @@ DEMO_USERS = [
     ("sv1_admin", "sv1@uit.edu.vn", "SV1 - Data Architect", "admin"),
     ("sv2_editor", "sv2@uit.edu.vn", "SV2 - Cache Specialist", "editor"),
     ("sv3_editor", "sv3@uit.edu.vn", "SV3 - Fullstack Integrator", "editor"),
+    # 3 tai khoan dung de demo tung role (ten de nho khi trinh bay)
+    ("admin", "admin@uit.edu.vn", "Quan Tri Vien", "admin"),
+    ("editor", "editor@uit.edu.vn", "Bien Tap Vien", "editor"),
+    ("reader", "reader@uit.edu.vn", "Nguoi Doc", "reader"),
 ]
 DEMO_PASSWORD = "123456"
 

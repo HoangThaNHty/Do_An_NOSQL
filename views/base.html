@@ -65,8 +65,17 @@
                     <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" data-bs-toggle="dropdown">
                         <i class="bi bi-person-circle fs-5"></i>
                         <span class="d-none d-xl-inline">{{ current_user.get('full_name') or current_user.get('username') }}</span>
+                        <span class="badge text-bg-primary d-none d-lg-inline">{{ current_user.get('role') }}</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end shadow border-0" style="border-radius:10px">
+                        <li class="px-3 py-2">
+                            <div class="fw-semibold">{{ current_user.get('full_name') or current_user.get('username') }}</div>
+                            <div class="small text-muted">
+                                @{{ current_user.get('email') }} &middot;
+                                <span class="badge text-bg-primary">{{ current_user.get('role') }}</span>
+                            </div>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="{{ url_for('auth.profile') }}"><i class="bi bi-person me-2"></i>Tai khoan</a></li>
                         {% if current_user.get('role') in ('admin', 'editor') %}
                         <li><a class="dropdown-item" href="{{ url_for('admin.dashboard') }}"><i class="bi bi-speedometer2 me-2"></i>Quan tri</a></li>
