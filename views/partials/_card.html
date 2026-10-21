@@ -5,6 +5,7 @@
         <span class="chip">{{ a.category }}</span>
     </a>
     <div class="body">
+        <div class="cat-label">{{ a.category }}</div>
         <h3><a href="{{ url_for('article.article_detail', article_id=a._id) }}">{{ a.title }}</a></h3>
         <p class="desc">{{ a.summary or (a.content[:110]) }}</p>
         <div class="meta">

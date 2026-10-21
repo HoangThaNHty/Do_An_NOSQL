@@ -213,6 +213,23 @@ PARAGRAPHS = [
     "Song song, cac dau moi nghi thuc chuyen mon duoc to chuc va phat trien nang cao chat luong hoi dap.",
 ]
 
+# Tieu de phu (##) va trich dan (>) xen kiem trong noi dung
+SUBHEADINGS = [
+    "Boi canh va nguyen nhan",
+    "Nhung diem dang chu y",
+    "Tac dong thuc te",
+    "Goc nhin chuyen gia",
+    "Huong phat trien tiep theo",
+]
+
+QUOTES = [
+    "Nhan thuc dung danh cho thay thay doi cong nghe khong bao gio chi den cong cua may.",
+    "Du lieu chi co gia tri khi duoc chuyen hoa thanh thong tin dung cho ra quyet dinh.",
+    "Nhanh hon la tot, nhung dung va dac biet moi la dieu kien can thiet.",
+    "Cong nghe chi tao ra hieu qua khi con nguoi dung thay doi thoi quen.",
+    "Du lieu luu lau hon va lien ket chat hon thi gia tri tang danh theo thoi gian.",
+]
+
 
 def _font(size, bold=False):
     """Load font Windows (fallback ve font mac dinh cua Pillow)."""
@@ -403,6 +420,14 @@ def seed_articles(db, upload_dir: Path, reset=False):
 
         paragraphs = random.sample(PARAGRAPHS, k=min(5, len(PARAGRAPHS)))
         content = "\n\n".join(paragraphs)
+
+        # Mot phan bai viet co them tieu de phu (##) va trich dan (>) cho phan trinh bay
+        if index % 3 == 0:
+            content = (
+                f"## {SUBHEADINGS[(index // 3) % len(SUBHEADINGS)]}\n\n"
+                + content
+                + f"\n\n> {QUOTES[(index // 3) % len(QUOTES)]}"
+            )
         summary = random.choice(SUMMARIES)
         tags = [w.lower() for w in title.split()[:4] if len(w) > 4]
 

@@ -47,9 +47,10 @@
             </div>
             {% else %}
             <div class="col-12">
-                <div class="widget"><div class="widget-body text-center text-muted py-5">
+                <div class="empty-state">
+                    <i class="bi bi-inbox"></i>
                     Khong tim thay bai viet nao khop yeu cau. Hay thu tu khoa khac.
-                </div></div>
+                </div>
             </div>
             {% endfor %}
         </div>
@@ -79,15 +80,15 @@
         <div class="widget">
             <div class="widget-head"><i class="bi bi-fire"></i>Xem nhieu nhat</div>
             <div class="widget-body">
-                <ul class="widget-list">
-                    {% for a in popular %}
-                    <li>
-                        <a href="{{ url_for('article.article_detail', article_id=a._id) }}">
-                            <span class="rank {% if loop.index <= 3 %}top{% endif %}">{{ loop.index }}</span>{{ a.title }}
-                        </a>
-                    </li>
-                    {% endfor %}
-                </ul>
+                {% for a in popular %}
+                <a class="rank-item" href="{{ url_for('article.article_detail', article_id=a._id) }}">
+                    <span class="rank-num">{{ loop.index }}</span>
+                    <span>
+                        <span class="rank-title d-block">{{ a.title }}</span>
+                        <span class="rank-meta"><i class="bi bi-eye me-1"></i>{{ a.views }} luot xem</span>
+                    </span>
+                </a>
+                {% endfor %}
             </div>
         </div>
 

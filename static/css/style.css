@@ -5,18 +5,39 @@
    =================================================================== */
 
 :root {
+    /* Bang mau lay tu he thong thiet ke OpenDesign (hex fallback truoc, oklch sau) */
     --navy: #0f2a4a;
+    --navy-deep: #14243a;
     --navy-light: #1b3f6b;
     --navy-dark: #0a1e36;
-    --accent: #e8590c;
-    --accent-dark: #c94808;
-    --ink: #16202e;
+    --ink: #26313f;
+    --ink: oklch(0.33 0.026 225);
     --muted: #6b7785;
+    --muted: oklch(0.52 0.024 225);
+    --faint: #97a2ae;
+    --faint: oklch(0.63 0.02 225);
     --line: #e6eaf0;
-    --bg: #f6f8fb;
-    --radius: 12px;
-    --shadow-sm: 0 1px 2px rgba(16, 24, 40, .05);
-    --shadow: 0 6px 20px rgba(16, 24, 40, .08);
+    --line: oklch(0.925 0.014 225);
+    --line-hover: #d3dae3;
+    --line-hover: oklch(0.86 0.025 225);
+    --bg: #f8f9fb;
+    --bg: oklch(0.983 0.006 225);
+    --surface: #ffffff;
+    --accent: #e8590c;
+    --accent-dark: #b84607;
+    --accent-dark: oklch(0.553 0.193 43);
+    --accent-soft: #fff1e6;
+    --accent-soft: oklch(0.955 0.05 48);
+    --green: #2f9e5f;
+    --green: oklch(0.5 0.125 152);
+    --ring: rgba(232, 89, 12, .28);
+    --ring: oklch(0.65 0.22 42 / .28);
+
+    --radius: 1rem;
+    --radius-sm: .85rem;
+    --radius-xs: .5rem;
+    --shadow-sm: 0 1px 2px rgba(15, 42, 74, .05), 0 2px 10px rgba(15, 42, 74, .04);
+    --shadow: 0 4px 10px rgba(15, 42, 74, .08), 0 14px 30px rgba(15, 42, 74, .08);
     --shadow-lg: 0 16px 40px rgba(15, 42, 74, .14);
 }
 
@@ -136,7 +157,7 @@ h1, h2, h3, h4, h5, h6, .navbar-brand { font-weight: 700; letter-spacing: -.01em
 /* ======================= SECTION ======================= */
 .section { margin-bottom: 40px; }
 .section-head {
-    display: flex; align-items: center; justify-content: space-between;
+    display: flex; align-items: flex-end; justify-content: space-between;
     border-bottom: 2px solid var(--line); padding-bottom: 12px; margin-bottom: 22px;
 }
 .section-head h2 { font-size: 20px; margin: 0; display: flex; align-items: center; gap: 10px; }
@@ -145,7 +166,6 @@ h1, h2, h3, h4, h5, h6, .navbar-brand { font-weight: 700; letter-spacing: -.01em
 }
 .section-head .more { color: var(--accent); font-weight: 600; font-size: 14px; }
 .section-head .more:hover { color: var(--accent-dark); }
-
 /* ======================= CARD BAI VIET ======================= */
 .card-news {
     background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
@@ -291,6 +311,59 @@ h1, h2, h3, h4, h5, h6, .navbar-brand { font-weight: 700; letter-spacing: -.01em
 .divider-text { display: flex; align-items: center; gap: 14px; color: var(--muted); font-size: 13px; }
 .divider-text::before, .divider-text::after { content: ""; flex: 1; height: 1px; background: var(--line); }
 code { background: #f1f5f9; color: var(--accent-dark); border-radius: 5px; padding: 2px 6px; font-size: 13px; }
+
+/* ---------- Nhan chuyen muc nho (chu in hoa) ---------- */
+.cat-label {
+    font-size: 11.5px; font-weight: 700; letter-spacing: .09em;
+    text-transform: uppercase; color: var(--faint);
+}
+
+/* ---------- The bai viet kieu "tile" (dich ngang khi hover) ---------- */
+.tile {
+    display: flex; gap: 14px; padding: 13px; background: var(--surface);
+    border: 1px solid var(--line); border-radius: var(--radius-sm);
+    text-decoration: none; box-shadow: var(--shadow-sm);
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+.tile:hover { transform: translateX(4px); box-shadow: var(--shadow); }
+.tile img { width: 148px; aspect-ratio: 16/9; object-fit: cover; border-radius: var(--radius-xs); flex: none; }
+.tile-title { font-size: 15px; font-weight: 700; color: var(--navy); margin: 3px 0 4px; line-height: 1.4; }
+.tile:hover .tile-title { color: var(--accent-dark); }
+
+/* ---------- Xep hang (so thu tu lon mau cam) ---------- */
+.rank-item {
+    display: flex; gap: 12px; padding: 10px 0; align-items: flex-start; text-decoration: none;
+}
+.rank-item:hover .rank-title { color: var(--accent-dark); }
+.rank-num {
+    font-size: 22px; font-weight: 800; color: var(--accent);
+    line-height: 1.1; min-width: 1.35em; text-align: center;
+}
+.rank-title { font-size: 14.5px; font-weight: 600; color: var(--navy); line-height: 1.4; }
+.rank-meta { font-size: 12px; color: var(--faint); }
+
+/* ---------- Trang rong ---------- */
+.empty-state {
+    border: 1.5px dashed var(--line); border-radius: var(--radius);
+    padding: 48px 24px; text-align: center; color: var(--muted);
+}
+.empty-state i { color: var(--faint); font-size: 32px; display: block; margin-bottom: 10px; }
+
+/* ---------- Bai viet: trich dan + phu de ---------- */
+.article-lead { font-size: 1.13rem; color: var(--ink); font-weight: 500; line-height: 1.7; }
+.article-caption { font-size: 13px; color: var(--faint); margin-top: 8px; }
+.article-body p { font-size: 1.015rem; line-height: 1.8; margin-bottom: 1.2rem; }
+.article-body h3 { font-size: 1.2rem; margin: 1.8rem 0 .8rem; font-weight: 700; }
+.article-quote {
+    border-left: 3px solid var(--accent); padding: 4px 0 4px 20px; margin: 24px 0;
+    font-size: 1.12rem; font-weight: 600; color: var(--navy); line-height: 1.6;
+}
+.section-head .kicker {
+    display: block; font-size: 11.5px; font-weight: 700; letter-spacing: .1em;
+    text-transform: uppercase; color: var(--faint); margin-bottom: 3px;
+}
+.link-all { font-weight: 600; font-size: 14px; color: var(--accent-dark); white-space: nowrap; }
+.link-all:hover { color: var(--navy); }
 
 @media (max-width: 991.98px) {
     .hero { grid-template-columns: 1fr; }

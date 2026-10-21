@@ -42,8 +42,11 @@
 {% for section in sections %}
 <section class="section">
     <div class="section-head">
-        <h2>{{ section.category }}</h2>
-        <a class="more" href="{{ url_for('article.list_articles', category=section.category) }}">
+        <div>
+            <span class="kicker">Chuyen muc</span>
+            <h2>{{ section.category }}</h2>
+        </div>
+        <a class="link-all" href="{{ url_for('article.list_articles', category=section.category) }}">
             Xem tat ca <i class="bi bi-arrow-right"></i>
         </a>
     </div>
@@ -60,8 +63,11 @@
 <!-- ============ BAI XEM NHIEU NHAT ============ -->
 <section class="section">
     <div class="section-head">
-        <h2>Doc nhieu nhat</h2>
-        <a class="more" href="{{ url_for('article.list_articles', sort='views') }}">Xem tat ca <i class="bi bi-arrow-right"></i></a>
+        <div>
+            <span class="kicker">Xem nhieu nhat</span>
+            <h2>Doc nhieu nhat</h2>
+        </div>
+        <a class="link-all" href="{{ url_for('article.list_articles', sort='views') }}">Xem tat ca <i class="bi bi-arrow-right"></i></a>
     </div>
     <div class="row g-4">
         {% for a in articles[5:11] %}

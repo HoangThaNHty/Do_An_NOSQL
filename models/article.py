@@ -51,14 +51,25 @@ def ensure_indexes(db):
 # Chuyen doi du lieu
 # ------------------------------------------------------------------
 def to_dict(doc):
-    """Chuyen ObjectId -> str va datetime -> chuoi de hien thi/JSON hoa."""
+    """
+    Chuyen ObjectId -> str va datetime -> chuoi de hien thi/JSON hoa.
+    Xu ly ca 2 truong hop: gia tri datetime tu MongoDB va chuoi ISO da
+    serialize (truong hop doc tu Redis Cache).
+    """
     if not doc:
         return None
     out = dict(doc)
     out["_id"] = str(doc["_id"])
     for key in ("created_at", "updated_at"):
-        if isinstance(out.get(key), datetime):
-            out[key] = out[key].strftime("%d/%m/%Y %H:%M")
+        value = out.get(key)
+        if isinstance(value, datetime):
+            out[key] = value.strftime("%d/%m/%Y %H:%M")
+        elif isinstance(value, str) and value:
+            try:
+                parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+                out[key] = parsed.strftime("%d/%m/%Y %H:%M")
+            except ValueError:
+                pass
     return out
 
 

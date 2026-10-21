@@ -1,0 +1,185 @@
+- generic [active] [ref=f75e1]:
+  - generic [ref=f75e3]:
+    - generic [ref=f75e4]: Tin tuc cap nhat lien tuc | Thu tu, ngay 21/10/2026
+    - generic [ref=f75e6]:
+      - link "Moi nhat" [ref=f75e7] [cursor=pointer]:
+        - /url: /articles?sort=newest
+      - text: "|"
+      - link "Xem nhieu nhat" [ref=f75e8] [cursor=pointer]:
+        - /url: /articles?sort=views
+  - navigation [ref=f75e9]:
+    - generic [ref=f75e10]:
+      - link " Tin Tuc NoSQL" [ref=f75e11] [cursor=pointer]:
+        - /url: /
+        - generic [ref=f75e12]: 
+        - generic [ref=f75e14]: Tin Tuc NoSQL
+      - generic [ref=f75e15]:
+        - list [ref=f75e16]:
+          - listitem [ref=f75e17]:
+            - link "Trang chu" [ref=f75e18] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=f75e19]:
+            - link "Cong nghe" [ref=f75e20] [cursor=pointer]:
+              - /url: /articles?category=Cong+nghe
+          - listitem [ref=f75e21]:
+            - link "Kinh te" [ref=f75e22] [cursor=pointer]:
+              - /url: /articles?category=Kinh+te
+          - listitem [ref=f75e23]:
+            - link "The thao" [ref=f75e24] [cursor=pointer]:
+              - /url: /articles?category=The+thao
+          - listitem [ref=f75e25]:
+            - link "Khoa hoc" [ref=f75e26] [cursor=pointer]:
+              - /url: /articles?category=Khoa+hoc
+          - listitem [ref=f75e27]:
+            - link "Xa hoi" [ref=f75e28] [cursor=pointer]:
+              - /url: /articles?category=Xa+hoi
+          - listitem [ref=f75e29]:
+            - link "Doi song" [ref=f75e30] [cursor=pointer]:
+              - /url: /articles?category=Doi+song
+        - generic [ref=f75e31]:
+          - textbox "Tim kiem bai viet..." [ref=f75e32]
+          - button "Tim kiem" [ref=f75e33] [cursor=pointer]:
+            - generic [ref=f75e34]: 
+        - list [ref=f75e35]:
+          - listitem [ref=f75e36]:
+            - link "Dang nhap" [ref=f75e37] [cursor=pointer]:
+              - /url: /login
+          - listitem [ref=f75e38]:
+            - link "Dang ky" [ref=f75e39] [cursor=pointer]:
+              - /url: /register
+  - main [ref=f75e40]:
+    - navigation "breadcrumb" [ref=f75e41]:
+      - list [ref=f75e42]:
+        - listitem [ref=f75e43]:
+          - link "Trang chu" [ref=f75e44] [cursor=pointer]:
+            - /url: /
+        - listitem [ref=f75e45]:
+          - text: /
+          - link "The thao" [ref=f75e46] [cursor=pointer]:
+            - /url: /articles?category=The+thao
+        - listitem [ref=f75e47]: / Chuyen gia danh gia suc manh cua doi tuyen thu t
+    - generic [ref=f75e48]:
+      - article [ref=f75e50]:
+        - img "Chuyen gia danh gia suc manh cua doi tuyen thu te" [ref=f75e51]
+        - generic [ref=f75e52]:
+          - generic [ref=f75e53]: The thao
+          - heading "Chuyen gia danh gia suc manh cua doi tuyen thu te" [level=1] [ref=f75e54]
+          - generic [ref=f75e55]:
+            - generic [ref=f75e56]:
+              - generic [ref=f75e57]: 
+              - text: To So Bien Tap
+            - generic [ref=f75e58]:
+              - generic [ref=f75e59]: 
+              - text: 2026-10-21 08:02:42.530000
+            - generic [ref=f75e60]:
+              - generic [ref=f75e61]: 
+              - text: 36 luot xem
+            - generic [ref=f75e62]:
+              - generic [ref=f75e63]: 
+              - text: The thao
+          - paragraph [ref=f75e64]: Ket qua kiem chung cho thay huong nghien dang dua ra nhung buoc tien ro ret.
+          - generic [ref=f75e65]:
+            - heading "Goc nhin chuyen gia" [level=3] [ref=f75e66]
+            - paragraph [ref=f75e67]: Trong ngan han, cac don vi dang nang cao nang luc doi moi, chu dong dua san cong nghe vao hoat dong. Cach tiep can nay duoc ky vong tao ra nhung dot phat trien moi ve chat luong dich vu.
+            - paragraph [ref=f75e68]: Theo so lieu moi cong bo, chi so tang truong lien tiep trong nhieu thang qua. Dieu nay cho thay nhu cau va nguon luc dang duoc day len trong thoi gian dai, ke ca voi doanh nghia vua va nho.
+            - paragraph [ref=f75e69]: Dinh huong trong ngan han ke tiep se tap trung vao nang cao nang luc chuyen doi so, mo rong pham vi hop tac va nang cao nang luc canh tranh cho cac doanh nghia trong nganh.
+            - paragraph [ref=f75e70]: Truong hop nghien cuu duoc dau ra moi, phuong phap dieu chinh se duoc dieu chinh phu hop voi dac thuyet va thuc te.
+            - paragraph [ref=f75e71]: Nhieu chuyen gia cho rang buoc nam toi nguon luc va con duong giai phap se phu thuoc vao muc do chuan bi cua chinh sach.
+            - blockquote [ref=f75e72]: Cong nghe chi tao ra hieu qua khi con nguoi dung thay doi thoi quen.
+          - generic [ref=f75e73]:
+            - text: "The:"
+            - link "#chuyen" [ref=f75e74] [cursor=pointer]:
+              - /url: /articles?q=chuyen
+      - generic [ref=f75e75]:
+        - generic [ref=f75e76]:
+          - generic [ref=f75e77]:
+            - generic [ref=f75e78]: 
+            - text: Bai viet lien quan
+          - generic [ref=f75e79]:
+            - 'link "The thao Nghi thuc the thao bo phan: bai hoc tu the gioi" [ref=f75e80] [cursor=pointer]':
+              - /url: /articles/6ad871a20974cf8b8e928b87
+              - generic [ref=f75e81]: The thao
+              - generic [ref=f75e82]: "Nghi thuc the thao bo phan: bai hoc tu the gioi"
+            - link "The thao Ky luc moi cua nen the thao trong nu" [ref=f75e83] [cursor=pointer]:
+              - /url: /articles/6ad871a20974cf8b8e928b81
+              - generic [ref=f75e84]: The thao
+              - generic [ref=f75e85]: Ky luc moi cua nen the thao trong nu
+            - link "The thao Chuyen gia binhluan cua tran chung ket si Viet Nam" [ref=f75e86] [cursor=pointer]:
+              - /url: /articles/6ad871a20974cf8b8e928b7b
+              - generic [ref=f75e87]: The thao
+              - generic [ref=f75e88]: Chuyen gia binhluan cua tran chung ket si Viet Nam
+        - generic [ref=f75e89]:
+          - generic [ref=f75e90]:
+            - generic [ref=f75e91]: 
+            - text: Chuyen muc
+          - generic [ref=f75e93]:
+            - link "Cong nghe" [ref=f75e94] [cursor=pointer]:
+              - /url: /articles?category=Cong+nghe
+            - link "Doi song" [ref=f75e95] [cursor=pointer]:
+              - /url: /articles?category=Doi+song
+            - link "Khoa hoc" [ref=f75e96] [cursor=pointer]:
+              - /url: /articles?category=Khoa+hoc
+            - link "Kinh te" [ref=f75e97] [cursor=pointer]:
+              - /url: /articles?category=Kinh+te
+            - link "The thao" [ref=f75e98] [cursor=pointer]:
+              - /url: /articles?category=The+thao
+            - link "Xa hoi" [ref=f75e99] [cursor=pointer]:
+              - /url: /articles?category=Xa+hoi
+  - contentinfo [ref=f75e100]:
+    - generic [ref=f75e101]:
+      - generic [ref=f75e102]:
+        - generic [ref=f75e103]:
+          - link " Tin Tuc NoSQL" [ref=f75e104] [cursor=pointer]:
+            - /url: /
+            - generic [ref=f75e105]: 
+            - text: Tin Tuc NoSQL
+          - paragraph [ref=f75e107]: Chuyen cong nghe, kinh te, the thao, khoa hoc, xa hoi va doi song - cap nhat moi ngay.
+        - generic [ref=f75e108]:
+          - heading "Chuyen muc" [level=5] [ref=f75e109]
+          - list [ref=f75e110]:
+            - listitem [ref=f75e111]:
+              - link "Cong nghe" [ref=f75e112] [cursor=pointer]:
+                - /url: /articles?category=Cong+nghe
+            - listitem [ref=f75e113]:
+              - link "Kinh te" [ref=f75e114] [cursor=pointer]:
+                - /url: /articles?category=Kinh+te
+            - listitem [ref=f75e115]:
+              - link "The thao" [ref=f75e116] [cursor=pointer]:
+                - /url: /articles?category=The+thao
+            - listitem [ref=f75e117]:
+              - link "Khoa hoc" [ref=f75e118] [cursor=pointer]:
+                - /url: /articles?category=Khoa+hoc
+            - listitem [ref=f75e119]:
+              - link "Xa hoi" [ref=f75e120] [cursor=pointer]:
+                - /url: /articles?category=Xa+hoi
+            - listitem [ref=f75e121]:
+              - link "Doi song" [ref=f75e122] [cursor=pointer]:
+                - /url: /articles?category=Doi+song
+        - generic [ref=f75e123]:
+          - heading "Trang" [level=5] [ref=f75e124]
+          - list [ref=f75e125]:
+            - listitem [ref=f75e126]:
+              - link "Trang chu" [ref=f75e127] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=f75e128]:
+              - link "Tin tuc" [ref=f75e129] [cursor=pointer]:
+                - /url: /articles
+            - listitem [ref=f75e130]:
+              - link "Xem nhieu nhat" [ref=f75e131] [cursor=pointer]:
+                - /url: /articles?sort=views
+            - listitem [ref=f75e132]:
+              - link "Dang nhap" [ref=f75e133] [cursor=pointer]:
+                - /url: /login
+        - generic [ref=f75e134]:
+          - heading "Lien he" [level=5] [ref=f75e135]
+          - list [ref=f75e136]:
+            - listitem [ref=f75e137]:
+              - generic [ref=f75e138]: 
+              - text: Ho Chi Minh, Viet Nam
+            - listitem [ref=f75e139]:
+              - generic [ref=f75e140]: 
+              - text: banbienwap@tinnucnosql.vn
+            - listitem [ref=f75e141]:
+              - generic [ref=f75e142]: 
+              - text: (028) 3 8 24 68 90
+      - generic [ref=f75e143]: © 2026 Tin Tuc NoSQL - Do an cuoi ky mon Du lieu NoSQL (De tai 06). Du an dung de hoc tap.
