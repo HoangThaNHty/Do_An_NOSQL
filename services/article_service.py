@@ -142,6 +142,16 @@ class ArticleService:
         cats = article_model.distinct_categories(self.db)
         return cats or article_model.CATEGORIES
 
+    def popular(self, limit=5):
+        """Bai viet duoc xem nhieu nhat (dung cho sidebar)."""
+        result = article_model.list_articles(self.db, page=1, per_page=limit, sort="views")
+        items = []
+        for doc in result["items"]:
+            item = article_model.to_dict(doc)
+            item["views"] = self.cache.get_views(str(doc["_id"]))
+            items.append(item)
+        return items
+
     def total(self):
         return article_model.count_articles(self.db)
 

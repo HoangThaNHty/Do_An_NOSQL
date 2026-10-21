@@ -4,46 +4,89 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{{ site_name }}{% endblock %}</title>
+    <meta name="description" content="Tin tuc truc tiep - cong nghe, kinh te, the thao, khoa hoc, xa hoi va doi song.">
+    <link rel="stylesheet" href="{{ url_for('static', filename='fonts/fonts.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap-icons/font/bootstrap-icons.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+
+<!-- ============ THANH TREN CUNG ============ -->
+<div class="topbar d-none d-md-block">
+    <div class="container d-flex justify-content-between align-items-center">
+        <div>
+            <span class="live-dot"></span>Tin tuc cap nhat lien tuc
+            <span class="topbar-sep">|</span>
+            <span id="today">Chu nhan</span>
+        </div>
+        <div>
+            <a href="{{ url_for('article.list_articles', sort='newest') }}">Moi nhat</a>
+            <span class="topbar-sep">|</span>
+            <a href="{{ url_for('article.list_articles', sort='views') }}">Xem nhieu nhat</a>
+            {% if current_user and current_user.get('role') in ('admin', 'editor') %}
+            <span class="topbar-sep">|</span>
+            <a href="{{ url_for('admin.dashboard') }}">Quan tri</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- ============ THANH DIEU HUONG ============ -->
+<nav class="navbar navbar-expand-lg navbar-site sticky-top">
     <div class="container">
-        <a class="navbar-brand fw-bold" href="{{ url_for('article.index') }}">
-            <i class="bi bi-newspaper"></i> {{ site_name }}
+        <a class="navbar-brand" href="{{ url_for('article.index') }}">
+            <span class="brand-mark"><i class="bi bi-broadcast"></i></span>
+            <span>{{ site_name }}</span>
         </a>
+
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
             <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="collapse navbar-collapse" id="mainNav">
-            <ul class="navbar-nav me-auto">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a class="nav-link" href="{{ url_for('article.index') }}">Trang chu</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('article.list_articles') }}">Tin tuc</a></li>
-                {% if current_user %}
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('admin.dashboard') }}">Quan tri</a></li>
-                {% endif %}
-            </ul>
-            <ul class="navbar-nav ms-auto align-items-lg-center">
-                {% if current_user %}
+                {% for c in nav_categories %}
                 <li class="nav-item">
-                    <span class="navbar-text me-3">
-                        <i class="bi bi-person-circle"></i> {{ current_user.get('full_name') or current_user.get('username') }}
-                    </span>
+                    <a class="nav-link" href="{{ url_for('article.list_articles', category=c) }}">{{ c }}</a>
                 </li>
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.profile') }}">Tai khoan</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.logout') }}">Dang xuat</a></li>
+                {% endfor %}
+            </ul>
+
+            <form class="search-box d-none d-lg-block me-3" method="get" action="{{ url_for('article.list_articles') }}">
+                <input type="text" name="q" placeholder="Tim kiem bai viet..." value="{{ keyword if keyword is defined else '' }}">
+                <button type="submit" aria-label="Tim kiem"><i class="bi bi-search"></i></button>
+            </form>
+
+            <ul class="navbar-nav align-items-lg-center">
+                {% if current_user %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" data-bs-toggle="dropdown">
+                        <i class="bi bi-person-circle fs-5"></i>
+                        <span class="d-none d-xl-inline">{{ current_user.get('full_name') or current_user.get('username') }}</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end shadow border-0" style="border-radius:10px">
+                        <li><a class="dropdown-item" href="{{ url_for('auth.profile') }}"><i class="bi bi-person me-2"></i>Tai khoan</a></li>
+                        {% if current_user.get('role') in ('admin', 'editor') %}
+                        <li><a class="dropdown-item" href="{{ url_for('admin.dashboard') }}"><i class="bi bi-speedometer2 me-2"></i>Quan tri</a></li>
+                        {% endif %}
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-danger" href="{{ url_for('auth.logout') }}"><i class="bi bi-box-arrow-right me-2"></i>Dang xuat</a></li>
+                    </ul>
+                </li>
                 {% else %}
                 <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}">Dang nhap</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.register') }}">Dang ky</a></li>
+                <li class="nav-item ms-lg-2">
+                    <a class="btn btn-accent" href="{{ url_for('auth.register') }}">Dang ky</a>
+                </li>
                 {% endif %}
             </ul>
         </div>
     </div>
 </nav>
 
-<main class="container py-4">
+<main class="{% block main_class %}container py-4{% endblock %}">
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category, message in messages %}
@@ -57,9 +100,46 @@
     {% block content %}{% endblock %}
 </main>
 
-<footer class="bg-dark text-white text-center py-3 mt-5">
+<!-- ============ CHAN TRANG ============ -->
+<footer class="footer-site">
     <div class="container">
-        <small>{{ site_name }} &mdash; Do an cuoi ky mon Du lieu NoSQL (De tai 06: Cache-Aside &amp; Session Management)</small>
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <a class="navbar-brand text-white mb-3" href="{{ url_for('article.index') }}">
+                    <span class="brand-mark"><i class="bi bi-broadcast"></i></span>
+                    <span>{{ site_name }}</span>
+                </a>
+                <p style="max-width:330px">Chuyen cong nghe, kinh te, the thao, khoa hoc, xa hoi va doi song - cap nhat moi ngay.</p>
+            </div>
+            <div class="col-6 col-lg-2">
+                <h5>Chuyen muc</h5>
+                <ul>
+                    {% for c in nav_categories %}
+                    <li><a href="{{ url_for('article.list_articles', category=c) }}">{{ c }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-6 col-lg-2">
+                <h5>Trang</h5>
+                <ul>
+                    <li><a href="{{ url_for('article.index') }}">Trang chu</a></li>
+                    <li><a href="{{ url_for('article.list_articles') }}">Tin tuc</a></li>
+                    <li><a href="{{ url_for('article.list_articles', sort='views') }}">Xem nhieu nhat</a></li>
+                    <li><a href="{{ url_for('auth.login') }}">Dang nhap</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-4">
+                <h5>Lien he</h5>
+                <ul>
+                    <li><i class="bi bi-geo-alt me-2"></i>Ho Chi Minh, Viet Nam</li>
+                    <li><i class="bi bi-envelope me-2"></i>banbienwap@tinnucnosql.vn</li>
+                    <li><i class="bi bi-telephone me-2"></i>(028) 3 8 24 68 90</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom text-center">
+            &copy; 2026 {{ site_name }} - Do an cuoi ky mon Du lieu NoSQL (De tai 06). Du an dung de hoc tap.
+        </div>
     </div>
 </footer>
 

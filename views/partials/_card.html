@@ -1,0 +1,15 @@
+{# The bai viet dung chung - trang chu, danh sach, lien quan #}
+<div class="card-news">
+    <a class="thumb" href="{{ url_for('article.article_detail', article_id=a._id) }}">
+        <img src="{{ a.image }}" alt="{{ a.title }}" loading="lazy">
+        <span class="chip">{{ a.category }}</span>
+    </a>
+    <div class="body">
+        <h3><a href="{{ url_for('article.article_detail', article_id=a._id) }}">{{ a.title }}</a></h3>
+        <p class="desc">{{ a.summary or (a.content[:110]) }}</p>
+        <div class="meta">
+            <span><i class="bi bi-clock me-1"></i>{{ a.created_at }}</span>
+            <span><i class="bi bi-eye me-1"></i>{{ a.views }}</span>
+        </div>
+    </div>
+</div>

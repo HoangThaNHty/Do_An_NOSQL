@@ -1,63 +1,72 @@
-{% extends "base.html" %}
-{% block title %}{% if article %}Sua bai viet{% else %}Them bai viet{% endif %} - {{ site_name }}{% endblock %}
+{% extends "admin_base.html" %}
+{% block title %}{% if article %}Sua bai viet{% else %}Them bai viet{% endif %} - Quan tri{% endblock %}
 
-{% block content %}
-<h1 class="h3 mb-4">
-    <i class="bi bi-{% if article %}pencil-square{% else %}plus-circle{% endif %}"></i>
-    {% if article %}Sua bai viet{% else %}Them bai viet moi{% endif %}
-</h1>
+{% block admin_content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 mb-0">
+        {% if article %}<i class="bi bi-pencil-square me-2"></i>Sua bai viet{% else %}<i class="bi bi-plus-circle me-2"></i>Them bai viet{% endif %}
+    </h1>
+    <a class="btn btn-outline-secondary" href="{{ url_for('admin.articles') }}"><i class="bi bi-arrow-left me-1"></i>Quay lai</a>
+</div>
 
-<div class="card shadow-sm">
-    <div class="card-body">
+<div class="table-site">
+    <div class="p-4">
         <form method="post">
             <div class="row g-3">
                 <div class="col-md-8">
-                    <label class="form-label">Tieu de *</label>
-                    <input type="text" name="title" class="form-control" required
-                           value="{{ article.title if article else '' }}">
+                    <label class="form-label" for="title">Tieu de *</label>
+                    <input type="text" class="form-control" id="title" name="title" required
+                           value="{{ article.title if article else '' }}" placeholder="Tieu de bai viet">
                 </div>
                 <div class="col-md-4">
-                    <label class="form-label">Chuyen muc</label>
-                    <select name="category" class="form-select">
+                    <label class="form-label" for="category">Chuyen muc</label>
+                    <select class="form-select" id="category" name="category">
                         {% for c in categories %}
                         <option value="{{ c }}" {% if article and article.category == c %}selected{% endif %}>{{ c }}</option>
                         {% endfor %}
                     </select>
                 </div>
+
                 <div class="col-12">
-                    <label class="form-label">Tom tat</label>
-                    <textarea name="summary" class="form-control" rows="2">{{ article.summary if article else '' }}</textarea>
+                    <label class="form-label" for="summary">Tom tat</label>
+                    <textarea class="form-control" id="summary" name="summary" rows="2"
+                              placeholder="Tóm tắt ngắn gọn hiển thị trên thẻ bài viết">{{ article.summary if article else '' }}</textarea>
                 </div>
+
                 <div class="col-12">
-                    <label class="form-label">Noi dung *</label>
-                    <textarea name="content" class="form-control" rows="10" required>{{ article.content if article else '' }}</textarea>
+                    <label class="form-label" for="content">Noi dung *</label>
+                    <textarea class="form-control" id="content" name="content" rows="12" required
+                              placeholder="Nội dung bài viết (mỗi đoạn cách nhau bằng dòng trống)">{{ article.content if article else '' }}</textarea>
                 </div>
+
                 <div class="col-md-8">
-                    <label class="form-label">Duong dan hinh anh</label>
-                    <input type="text" name="image" class="form-control" placeholder="/static/images/news_01.jpg"
-                           value="{{ article.image if article else '' }}">
-                    <div class="form-text">Anh mau nam trong <code>static/images/</code> (sinh bang script seed).</div>
+                    <label class="form-label" for="image">Duong dan hinh anh</label>
+                    <input type="text" class="form-control" id="image" name="image"
+                           placeholder="/static/images/news_001.jpg" value="{{ article.image if article else '' }}">
+                    <div class="form-text">Anh nam trong thu muc <code>static/images/</code> (tai ve tu Openverse boi <code>data/fetch_images.py</code>).</div>
                 </div>
                 <div class="col-md-4">
-                    <label class="form-label">Trang thai</label>
-                    <select name="status" class="form-select">
+                    <label class="form-label" for="status">Trang thai</label>
+                    <select class="form-select" id="status" name="status">
                         <option value="published" {% if not article or article.status == 'published' %}selected{% endif %}>Hien thi</option>
                         <option value="draft" {% if article and article.status == 'draft' %}selected{% endif %}>Nhap</option>
                     </select>
                 </div>
+
                 <div class="col-12">
-                    <label class="form-label">The (cach nhau bang dau phay)</label>
-                    <input type="text" name="tags" class="form-control"
-                           value="{{ article.tags | join(', ') if article and article.tags else '' }}">
+                    <label class="form-label" for="tags">The</label>
+                    <input type="text" class="form-control" id="tags" name="tags"
+                           placeholder="cach nhau bang dau phay" value="{{ article.tags | join(', ') if article and article.tags else '' }}">
                 </div>
             </div>
-            <hr>
-            <div class="d-flex gap-2">
-                <button class="btn btn-primary" type="submit">Luu thay doi</button>
+
+            <hr class="my-4">
+            <div class="d-flex align-items-center gap-2">
+                <button class="btn btn-accent" type="submit"><i class="bi bi-check-lg me-1"></i>Luu thay doi</button>
                 <a class="btn btn-outline-secondary" href="{{ url_for('admin.articles') }}">Huy</a>
                 {% if article %}
-                <span class="ms-auto text-muted small align-self-center">
-                    Luu xong -&gt; cache cu se bi xoa ngay (Cache Invalidation)
+                <span class="ms-auto small text-muted">
+                    <i class="bi bi-info-circle me-1"></i>Luu xong -&gt; cache cu cua bai viet se bi xoa ngay (Cache Invalidation)
                 </span>
                 {% endif %}
             </div>

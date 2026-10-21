@@ -1,73 +1,117 @@
 {% extends "base.html" %}
-{% block title %}Danh sach bai viet - {{ site_name }}{% endblock %}
+{% block title %}{% if active_category != 'all' %}{{ active_category }} - {% endif %}Tin tuc - {{ site_name }}{% endblock %}
 
 {% block content %}
-<h1 class="h3 mb-3">Tin tuc</h1>
-
-<form class="row g-2 mb-4" method="get" action="{{ url_for('article.list_articles') }}">
-    <div class="col-md-5">
-        <input type="text" name="q" class="form-control" placeholder="Tim kiem tieu de, noi dung, the..." value="{{ keyword }}">
-    </div>
-    <div class="col-md-3">
-        <select name="category" class="form-select">
-            <option value="all">Tat ca chuyen muc</option>
-            {% for c in categories %}
-            <option value="{{ c }}" {% if active_category == c %}selected{% endif %}>{{ c }}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <div class="col-md-2">
-        <select name="sort" class="form-select">
-            <option value="newest" {% if sort == 'newest' %}selected{% endif %}>Moi nhat</option>
-            <option value="oldest" {% if sort == 'oldest' %}selected{% endif %}>Cu nhat</option>
-            <option value="views" {% if sort == 'views' %}selected{% endif %}>Xem nhieu nhat</option>
-            <option value="title" {% if sort == 'title' %}selected{% endif %}>A - Z</option>
-        </select>
-    </div>
-    <div class="col-md-2 d-grid">
-        <button class="btn btn-primary" type="submit"><i class="bi bi-search"></i> Loc</button>
-    </div>
-</form>
-
-<div class="d-flex justify-content-between align-items-center mb-3">
-    <span class="text-muted">Tim thay <strong>{{ result.total }}</strong> bai viet</span>
-    <span class="badge text-bg-info">Nguon du lieu: {{ source }}</span>
-</div>
-
 <div class="row g-4">
-    {% for a in articles %}
-    <div class="col-md-6 col-lg-4">
-        <div class="card h-100 shadow-sm">
-            <a href="{{ url_for('article.article_detail', article_id=a._id) }}">
-                <img src="{{ a.image }}" class="card-img-top" alt="{{ a.title }}" style="height:180px;object-fit:cover">
-            </a>
-            <div class="card-body d-flex flex-column">
-                <span class="badge text-bg-secondary align-self-start mb-2">{{ a.category }}</span>
-                <h5 class="card-title">
-                    <a class="text-decoration-none text-dark" href="{{ url_for('article.article_detail', article_id=a._id) }}">{{ a.title }}</a>
-                </h5>
-                <p class="card-text text-muted small">{{ (a.summary or a.content)[:120] }}...</p>
-                <div class="mt-auto d-flex justify-content-between text-muted small">
-                    <span>{{ a.author_name }}</span>
-                    <span><i class="bi bi-eye"></i> {{ a.views }}</span>
+    <!-- ============ COT CHINH ============ -->
+    <div class="col-lg-8">
+        <div class="d-flex flex-wrap justify-content-between align-items-end mb-3">
+            <div>
+                <h1 class="h3 mb-1">
+                    {% if keyword %}Kiem tra: "{{ keyword }}"{% elif active_category != 'all' %}{{ active_category }}{% else %}Tin tuc{% endif %}
+                </h1>
+                <span class="text-muted small">Tim thay <strong>{{ result.total }}</strong> bai viet</span>
+            </div>
+        </div>
+
+        <!-- LOC + SAP XEP -->
+        <form class="row g-2 mb-4" method="get" action="{{ url_for('article.list_articles') }}">
+            <div class="col-md-5">
+                <input type="text" name="q" class="form-control" placeholder="Tim kiem tieu de, noi dung, the..." value="{{ keyword }}">
+            </div>
+            <div class="col-md-3">
+                <select name="category" class="form-select">
+                    <option value="all">Tat ca chuyen muc</option>
+                    {% for c in categories %}
+                    <option value="{{ c }}" {% if active_category == c %}selected{% endif %}>{{ c }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <select name="sort" class="form-select">
+                    <option value="newest" {% if sort == 'newest' %}selected{% endif %}>Moi nhat</option>
+                    <option value="oldest" {% if sort == 'oldest' %}selected{% endif %}>Cu nhat</option>
+                    <option value="views" {% if sort == 'views' %}selected{% endif %}>Xem nhieu</option>
+                    <option value="title" {% if sort == 'title' %}selected{% endif %}>A - Z</option>
+                </select>
+            </div>
+            <div class="col-md-2 d-grid">
+                <button class="btn btn-accent" type="submit"><i class="bi bi-funnel me-1"></i>Lọc</button>
+            </div>
+        </form>
+
+        <div class="row g-4">
+            {% for a in articles %}
+            <div class="col-sm-6">
+                {% include "partials/_card.html" %}
+            </div>
+            {% else %}
+            <div class="col-12">
+                <div class="widget"><div class="widget-body text-center text-muted py-5">
+                    Khong tim thay bai viet nao khop yeu cau. Hay thu tu khoa khac.
+                </div></div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- PHAN TRANG -->
+        <nav class="mt-4">
+            <ul class="pagination justify-content-center">
+                <li class="page-item {% if not result.has_prev %}disabled{% endif %}">
+                    <a class="page-link" href="{{ url_for('article.list_articles', page=result.page-1, q=keyword, category=active_category, sort=sort) }}"><i class="bi bi-chevron-left"></i></a>
+                </li>
+                {% for p in range(1, result.total_pages + 1) %}
+                    {% if p >= result.page - 2 and p <= result.page + 2 %}
+                    <li class="page-item {% if p == result.page %}active{% endif %}">
+                        <a class="page-link" href="{{ url_for('article.list_articles', page=p, q=keyword, category=active_category, sort=sort) }}">{{ p }}</a>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+                <li class="page-item {% if not result.has_next %}disabled{% endif %}">
+                    <a class="page-link" href="{{ url_for('article.list_articles', page=result.page+1, q=keyword, category=active_category, sort=sort) }}"><i class="bi bi-chevron-right"></i></a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="col-lg-4">
+        <div class="widget">
+            <div class="widget-head"><i class="bi bi-fire"></i>Xem nhieu nhat</div>
+            <div class="widget-body">
+                <ul class="widget-list">
+                    {% for a in popular %}
+                    <li>
+                        <a href="{{ url_for('article.article_detail', article_id=a._id) }}">
+                            <span class="rank {% if loop.index <= 3 %}top{% endif %}">{{ loop.index }}</span>{{ a.title }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+
+        <div class="widget">
+            <div class="widget-head"><i class="bi bi-folder2-open"></i>Chuyen muc</div>
+            <div class="widget-body">
+                <div class="d-flex flex-wrap gap-2">
+                    {% for c in categories %}
+                    <a class="tag-pill" href="{{ url_for('article.list_articles', category=c) }}">{{ c }}</a>
+                    {% endfor %}
                 </div>
             </div>
         </div>
-    </div>
-    {% else %}
-    <div class="col-12"><p class="text-muted">Khong tim thay bai viet nao khop yeu cau.</p></div>
-    {% endfor %}
-</div>
 
-<nav class="mt-4">
-    <ul class="pagination justify-content-center">
-        <li class="page-item {% if not result.has_prev %}disabled{% endif %}">
-            <a class="page-link" href="{{ url_for('article.list_articles', page=result.page-1, q=keyword, category=active_category, sort=sort) }}">Truoc</a>
-        </li>
-        <li class="page-item active"><span class="page-link">{{ result.page }} / {{ result.total_pages }}</span></li>
-        <li class="page-item {% if not result.has_next %}disabled{% endif %}">
-            <a class="page-link" href="{{ url_for('article.list_articles', page=result.page+1, q=keyword, category=active_category, sort=sort) }}">Sau</a>
-        </li>
-    </ul>
-</nav>
+        <div class="widget" style="background:var(--navy);border:0">
+            <div class="widget-body p-4" style="color:#cbd8e8">
+                <h5 class="text-white mb-2">Theo doi tin tuc</h5>
+                <p class="small mb-3">Nhan tin tuc moi nhat vao email cua ban.</p>
+                <div class="input-group">
+                    <input type="email" class="form-control" placeholder="Email cua ban">
+                    <button class="btn btn-accent">Dang ky</button>
+                </div>
+            </div>
+        </div>
+    </aside>
+</div>
 {% endblock %}

@@ -1,0 +1,111 @@
+{% extends "admin_base.html" %}
+{% block title %}Cache & Session - Quan tri{% endblock %}
+
+{% block admin_content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="h3 mb-1"><i class="bi bi-speedometer2 me-2"></i>Bang dieu khien Cache &amp; Session</h1>
+        <span class="text-muted small">Khu vuc danh cho GV: hien thi trang thai Redis theo thoi gian thuc.</span>
+    </div>
+    <div class="d-flex gap-2">
+        <button class="btn btn-outline-danger" id="btn-reset"><i class="bi bi-arrow-counterclockwise me-1"></i>Reset Hit/Miss</button>
+    </div>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="label">Cache Hit</div>
+            <div class="value text-success" id="live-hits">{{ cache_stats.hits }}</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="label">Cache Miss</div>
+            <div class="value text-danger" id="live-misses">{{ cache_stats.misses }}</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="label">Ty le Hit</div>
+            <div class="value text-primary">{{ hit_rate }}%</div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card">
+            <div class="label">Key tren Redis</div>
+            <div class="value">{{ cache_stats.total_keys }}</div>
+            <div class="small text-muted">Bo nho: {{ cache_stats.dbsize }}</div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-7">
+        <div class="table-site">
+            <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
+                <strong><i class="bi bi-key me-2 text-primary"></i>Danh sach key Redis</strong>
+                <span class="badge text-bg-light text-dark border">{{ keys | length }} key</span>
+            </div>
+            <div class="table-responsive" style="max-height:520px;overflow-y:auto">
+                <table class="table mb-0 align-middle">
+                    <thead><tr><th>Key</th><th>Kieu du lieu</th><th class="text-center">TTL (giay)</th></tr></thead>
+                    <tbody>
+                    {% for item in keys %}
+                        <tr>
+                            <td class="font-monospace small">{{ item.key }}</td>
+                            <td><span class="badge text-bg-secondary">{{ item.type }}</span></td>
+                            <td class="text-center">
+                                {% if item.ttl == -1 %}
+                                    <span class="text-muted">khong co</span>
+                                {% elif item.ttl == -2 %}
+                                    <span class="text-muted">khong ton tai</span>
+                                {% else %}
+                                    <span class="badge text-bg-warning text-dark">{{ item.ttl }}</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-5">
+        <div class="table-site">
+            <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
+                <strong><i class="bi bi-people me-2 text-primary"></i>Phien dang nhap (Hash)</strong>
+                <span class="badge text-bg-light text-dark border">{{ sessions | length }} phien</span>
+            </div>
+            <div class="table-responsive" style="max-height:520px;overflow-y:auto">
+                <table class="table mb-0 align-middle">
+                    <thead><tr><th>Nguoi dung</th><th>Vai tro</th><th class="text-center">TTL</th></tr></thead>
+                    <tbody>
+                    {% for s in sessions %}
+                        <tr>
+                            <td>
+                                <div class="fw-semibold small">{{ s.username }}</div>
+                                <div class="text-muted small">{{ s.login_at }}</div>
+                            </td>
+                            <td><span class="badge text-bg-primary">{{ s.role }}</span></td>
+                            <td class="text-center"><span class="badge text-bg-warning text-dark">{{ s.ttl }}</span></td>
+                        </tr>
+                    {% else %}
+                        <tr><td colspan="3" class="text-center text-muted py-5">Chua co phien dang nhap nao.</td></tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById("btn-reset").addEventListener("click", function () {
+    fetch("/api/cache/reset", {method: "POST"}).then(function () { location.reload(); });
+});
+</script>
+{% endblock %}

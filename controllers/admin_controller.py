@@ -37,7 +37,44 @@ def dashboard():
         total_users=len(auth_service.list_users()),
         total_sessions=session_service.count_sessions(),
         cache_stats=stats,
+        popular=article_service.popular(5),
         categories=article_service.categories(),
+    )
+
+
+@admin_bp.get("/cache")
+@admin_required
+def cache_dashboard():
+    """
+    Bang dieu khien Cache & Session - noi trinh bay bang chung cho GV:
+    so lan Cache Hit/Miss, danh sach key Redis kem TTL, phien dang nhap.
+    """
+    cache = current_app.extensions["cache_service"]
+    session_service = current_app.extensions["session_service"]
+    redis_client = current_app.extensions["redis"]
+
+    stats = cache.get_stats()
+    total = stats["hits"] + stats["misses"]
+    hit_rate = round(stats["hits"] / total * 100, 2) if total else 0.0
+
+    keys = []
+    for key in redis_client.keys("*"):
+        key_str = key.decode("utf-8") if isinstance(key, bytes) else key
+        keys.append(
+            {
+                "key": key_str,
+                "type": redis_client.type(key).decode("utf-8"),
+                "ttl": redis_client.ttl(key),
+            }
+        )
+    keys.sort(key=lambda item: item["key"])
+
+    return render_template(
+        "admin_cache.html",
+        cache_stats=stats,
+        hit_rate=hit_rate,
+        keys=keys,
+        sessions=session_service.list_sessions(),
     )
 
 

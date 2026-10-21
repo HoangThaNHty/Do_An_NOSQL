@@ -1,0 +1,726 @@
+- generic [active] [ref=f70e1]:
+  - generic [ref=f70e3]:
+    - generic [ref=f70e4]: Tin tuc cap nhat lien tuc | Thu tu, ngay 21/10/2026
+    - generic [ref=f70e6]:
+      - link "Moi nhat" [ref=f70e7] [cursor=pointer]:
+        - /url: /articles?sort=newest
+      - text: "|"
+      - link "Xem nhieu nhat" [ref=f70e8] [cursor=pointer]:
+        - /url: /articles?sort=views
+  - navigation [ref=f70e9]:
+    - generic [ref=f70e10]:
+      - link " Tin Tuc NoSQL" [ref=f70e11] [cursor=pointer]:
+        - /url: /
+        - generic [ref=f70e12]: 
+        - generic [ref=f70e14]: Tin Tuc NoSQL
+      - generic [ref=f70e15]:
+        - list [ref=f70e16]:
+          - listitem [ref=f70e17]:
+            - link "Trang chu" [ref=f70e18] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=f70e19]:
+            - link "Cong nghe" [ref=f70e20] [cursor=pointer]:
+              - /url: /articles?category=Cong+nghe
+          - listitem [ref=f70e21]:
+            - link "Kinh te" [ref=f70e22] [cursor=pointer]:
+              - /url: /articles?category=Kinh+te
+          - listitem [ref=f70e23]:
+            - link "The thao" [ref=f70e24] [cursor=pointer]:
+              - /url: /articles?category=The+thao
+          - listitem [ref=f70e25]:
+            - link "Khoa hoc" [ref=f70e26] [cursor=pointer]:
+              - /url: /articles?category=Khoa+hoc
+          - listitem [ref=f70e27]:
+            - link "Xa hoi" [ref=f70e28] [cursor=pointer]:
+              - /url: /articles?category=Xa+hoi
+          - listitem [ref=f70e29]:
+            - link "Doi song" [ref=f70e30] [cursor=pointer]:
+              - /url: /articles?category=Doi+song
+        - generic [ref=f70e31]:
+          - textbox "Tim kiem bai viet..." [ref=f70e32]
+          - button "Tim kiem" [ref=f70e33] [cursor=pointer]:
+            - generic [ref=f70e34]: 
+        - list [ref=f70e35]:
+          - listitem [ref=f70e36]:
+            - link "Dang nhap" [ref=f70e37] [cursor=pointer]:
+              - /url: /login
+          - listitem [ref=f70e38]:
+            - link "Dang ky" [ref=f70e39] [cursor=pointer]:
+              - /url: /register
+  - main [ref=f70e40]:
+    - generic [ref=f70e41]:
+      - link "Nghi thuc va ky thuat thuoc moi trong dieu tri Khoa hoc Nghi thuc va ky thuat thuoc moi trong dieu tri Ket qua kiem chung cho thay huong nghien dang dua ra nhung buoc tien ro ret.  To So Bien Tap |  21/10/2026 07:26 |  35 luot xem" [ref=f70e42] [cursor=pointer]:
+        - /url: /articles/6ad86937f87e69ace1dca28b
+        - img "Nghi thuc va ky thuat thuoc moi trong dieu tri" [ref=f70e43]
+        - generic [ref=f70e44]:
+          - generic [ref=f70e45]: Khoa hoc
+          - heading "Nghi thuc va ky thuat thuoc moi trong dieu tri" [level=2] [ref=f70e46]
+          - paragraph [ref=f70e47]: Ket qua kiem chung cho thay huong nghien dang dua ra nhung buoc tien ro ret.
+          - generic [ref=f70e48]:
+            - generic [ref=f70e49]: 
+            - text: To So Bien Tap |
+            - generic [ref=f70e50]: 
+            - text: 21/10/2026 07:26 |
+            - generic [ref=f70e51]: 
+            - text: 35 luot xem
+      - generic [ref=f70e52]:
+        - link "Chuyen gia danh gia suc manh cua doi tuyen thu te The thao Chuyen gia danh gia suc manh cua doi tuyen thu te  42 luot xem" [ref=f70e53] [cursor=pointer]:
+          - /url: /articles/6ad86937f87e69ace1dca28a
+          - img "Chuyen gia danh gia suc manh cua doi tuyen thu te" [ref=f70e54]
+          - generic [ref=f70e55]:
+            - generic [ref=f70e56]: The thao
+            - heading "Chuyen gia danh gia suc manh cua doi tuyen thu te" [level=5] [ref=f70e57]
+            - generic [ref=f70e58]:
+              - generic [ref=f70e59]: 
+              - text: 42 luot xem
+        - link "Vai tro cua du lieu lon trong quyet dinh kinh doanh Kinh te Vai tro cua du lieu lon trong quyet dinh kinh doanh  49 luot xem" [ref=f70e60] [cursor=pointer]:
+          - /url: /articles/6ad86937f87e69ace1dca289
+          - img "Vai tro cua du lieu lon trong quyet dinh kinh doanh" [ref=f70e61]
+          - generic [ref=f70e62]:
+            - generic [ref=f70e63]: Kinh te
+            - heading "Vai tro cua du lieu lon trong quyet dinh kinh doanh" [level=5] [ref=f70e64]
+            - generic [ref=f70e65]:
+              - generic [ref=f70e66]: 
+              - text: 49 luot xem
+        - link "Phat trien API an toan theo chuan RESTful Cong nghe Phat trien API an toan theo chuan RESTful  56 luot xem" [ref=f70e67] [cursor=pointer]:
+          - /url: /articles/6ad86937f87e69ace1dca288
+          - img "Phat trien API an toan theo chuan RESTful" [ref=f70e68]
+          - generic [ref=f70e69]:
+            - generic [ref=f70e70]: Cong nghe
+            - heading "Phat trien API an toan theo chuan RESTful" [level=5] [ref=f70e71]
+            - generic [ref=f70e72]:
+              - generic [ref=f70e73]: 
+              - text: 56 luot xem
+        - link "Cach giup tre em canh trong thoi gian nghi he Doi song Cach giup tre em canh trong thoi gian nghi he  63 luot xem" [ref=f70e74] [cursor=pointer]:
+          - /url: /articles/6ad86937f87e69ace1dca287
+          - img "Cach giup tre em canh trong thoi gian nghi he" [ref=f70e75]
+          - generic [ref=f70e76]:
+            - generic [ref=f70e77]: Doi song
+            - heading "Cach giup tre em canh trong thoi gian nghi he" [level=5] [ref=f70e78]
+            - generic [ref=f70e79]:
+              - generic [ref=f70e80]: 
+              - text: 63 luot xem
+    - generic [ref=f70e81]:
+      - generic [ref=f70e82]:
+        - heading "Cong nghe" [level=2] [ref=f70e83]
+        - link "Xem tat ca " [ref=f70e84] [cursor=pointer]:
+          - /url: /articles?category=Cong+nghe
+          - text: Xem tat ca
+          - generic [ref=f70e85]: 
+      - generic [ref=f70e86]:
+        - generic [ref=f70e88]:
+          - link "Phat trien API an toan theo chuan RESTful Cong nghe" [ref=f70e89] [cursor=pointer]:
+            - /url: /articles/6ad86937f87e69ace1dca288
+            - img "Phat trien API an toan theo chuan RESTful" [ref=f70e90]
+            - generic [ref=f70e91]: Cong nghe
+          - generic [ref=f70e92]:
+            - heading [level=3] [ref=f70e93]:
+              - link "Phat trien API an toan theo chuan RESTful" [ref=f70e94] [cursor=pointer]:
+                - /url: /articles/6ad86937f87e69ace1dca288
+            - paragraph [ref=f70e95]: Nhieu thay doi dang duoc ghi nhan va cac chuyen gia nhan dinh danh giá se ra sao.
+            - generic [ref=f70e96]:
+              - generic [ref=f70e97]:
+                - generic [ref=f70e98]: 
+                - text: 21/10/2026 07:26
+              - generic [ref=f70e99]:
+                - generic [ref=f70e100]: 
+                - text: "56"
+        - generic [ref=f70e102]:
+          - link "Dich vu cloud so sanh giua AWS, Azure va Google Cloud Cong nghe" [ref=f70e103] [cursor=pointer]:
+            - /url: /articles/6ad86937f87e69ace1dca282
+            - img "Dich vu cloud so sanh giua AWS, Azure va Google Cloud" [ref=f70e104]
+            - generic [ref=f70e105]: Cong nghe
+          - generic [ref=f70e106]:
+            - heading [level=3] [ref=f70e107]:
+              - link "Dich vu cloud so sanh giua AWS, Azure va Google Cloud" [ref=f70e108] [cursor=pointer]:
+                - /url: /articles/6ad86937f87e69ace1dca282
+            - paragraph [ref=f70e109]: Nhieu thay doi dang duoc ghi nhan va cac chuyen gia nhan dinh danh giá se ra sao.
+            - generic [ref=f70e110]:
+              - generic [ref=f70e111]:
+                - generic [ref=f70e112]: 
+                - text: 21/10/2026 07:26
+              - generic [ref=f70e113]:
+                - generic [ref=f70e114]: 
+                - text: "98"
+        - generic [ref=f70e116]:
+          - 'link "MERN stack: su dung cong nghe nao trong du an thuc te Cong nghe" [ref=f70e117] [cursor=pointer]':
+            - /url: /articles/6ad86937f87e69ace1dca27c
+            - 'img "MERN stack: su dung cong nghe nao trong du an thuc te" [ref=f70e118]'
+            - generic [ref=f70e119]: Cong nghe
+          - generic [ref=f70e120]:
+            - heading [level=3] [ref=f70e121]:
+              - 'link "MERN stack: su dung cong nghe nao trong du an thuc te" [ref=f70e122] [cursor=pointer]':
+                - /url: /articles/6ad86937f87e69ace1dca27c
+            - paragraph [ref=f70e123]: Cong ty va co quan chuc nang lien quan da ban hanh huong dan moi truoc doi.
+            - generic [ref=f70e124]:
+              - generic [ref=f70e125]:
+                - generic [ref=f70e126]: 
+                - text: 21/10/2026 07:26
+              - generic [ref=f70e127]:
+                - generic [ref=f70e128]: 
+                - text: "0"
+        - generic [ref=f70e130]:
+          - link "Hieu nhat ve index trong MongoDB de truy van nhanh hon Cong nghe" [ref=f70e131] [cursor=pointer]:
+            - /url: /articles/6ad86937f87e69ace1dca276
+            - img "Hieu nhat ve index trong MongoDB de truy van nhanh hon" [ref=f70e132]
+            - generic [ref=f70e133]: Cong nghe
+          - generic [ref=f70e134]:
+            - heading [level=3] [ref=f70e135]:
+              - link "Hieu nhat ve index trong MongoDB de truy van nhanh hon" [ref=f70e136] [cursor=pointer]:
+                - /url: /articles/6ad86937f87e69ace1dca276
+            - paragraph [ref=f70e137]: Cong ty va co quan chuc nang lien quan da ban hanh huong dan moi truoc doi.
+            - generic [ref=f70e138]:
+              - generic [ref=f70e139]:
+                - generic [ref=f70e140]: 
+                - text: 21/10/2026 07:26
+              - generic [ref=f70e141]:
+                - generic [ref=f70e142]: 
+                - text: "0"
+    - generic [ref=f70e143]:
+      - generic [ref=f70e144]:
+        - heading "Doi song" [level=2] [ref=f70e145]
+        - link "Xem tat ca " [ref=f70e146] [cursor=pointer]:
+          - /url: /articles?category=Doi+song
+          - text: Xem tat ca
+          - generic [ref=f70e147]: 
+      - generic [ref=f70e148]:
+        - generic [ref=f70e150]:
+          - link "Cach giup tre em canh trong thoi gian nghi he Doi song" [ref=f70e151] [cursor=pointer]:
+            - /url: /articles/6ad86937f87e69ace1dca287
+            - img "Cach giup tre em canh trong thoi gian nghi he" [ref=f70e152]
+            - generic [ref=f70e153]: Doi song
+          - generic [ref=f70e154]:
+            - heading [level=3] [ref=f70e155]:
+              - link "Cach giup tre em canh trong thoi gian nghi he" [ref=f70e156] [cursor=pointer]:
+                - /url: /articles/6ad86937f87e69ace1dca287
+            - paragraph [ref=f70e157]: Cong ty va co quan chuc nang lien quan da ban hanh huong dan moi truoc doi.
+            - generic [ref=f70e158]:
+              - generic [ref=f70e159]:
+                - generic [ref=f70e160]: 
+                - text: 21/10/2026 07:26
+              - generic [ref=f70e161]:
+                - generic [ref=f70e162]: 
+                - text: "63"
+        - generic [ref=f70e164]:
+          - link "Biet bo sung thoi gian cho ban than sau ngay lam viec Doi song" [ref=f70e165] [cursor=pointer]:
+            - /url: /articles/6ad86937f87e69ace1dca281
+            - img "Biet bo sung thoi gian cho ban than sau ngay lam viec" [ref=f70e166]
+            - generic [ref=f70e167]: Doi song
+          - generic [ref=f70e168]:
+            - heading [level=3] [ref=f70e169]:
+              - link "Biet bo sung thoi gian cho ban than sau ngay lam viec" [ref=f70e170] [cursor=pointer]:
+                - /url: /articles/6ad86937f87e69ace1dca281
+            - paragraph [ref=f70e171]: Bai viet phan tich nhin va thay doi dang gay chuyen nganh trong thoi gian gan day.
+            - generic [ref=f70e172]:
+              - generic [ref=f70e173]:
+                - generic [ref=f70e174]: 
+                - text: 21/10/2026 07:26
+              - generic [ref=f70e175]:
+                - generic [ref=f70e176]: 
+                - text: "105"
+        - generic [ref=f70e178]:
+          - link "Xu huong cham soc suc khoe theo moi hinh Doi song" [ref=f70e179] [cursor=pointer]:
+            - /url: /articles/6ad86937f87e69ace1dca27b
+            - img "Xu huong cham soc suc khoe theo moi hinh" [ref=f70e180]
+            - generic [ref=f70e181]: Doi song
+          - generic [ref=f70e182]:
+            - heading [level=3] [ref=f70e183]:
+              - link "Xu huong cham soc suc khoe theo moi hinh" [ref=f70e184] [cursor=pointer]:
+                - /url: /articles/6ad86937f87e69ace1dca27b
+            - paragraph [ref=f70e185]: Bai viet tong hop cac thong tin dang duoc quan tam trong cộng dong.
+            - generic [ref=f70e186]:
+              - generic [ref=f70e187]:
+                - generic [ref=f70e188]: 
+                - text: 21/10/2026 07:26
+              - generic [ref=f70e189]:
+                - generic [ref=f70e190]: 
+                - text: "0"
+        - generic [ref=f70e192]:
+          - link "Cach chuan bi mon an gia dinh trong 20 phut Doi song" [ref=f70e193] [cursor=pointer]:
+            - /url: /articles/6ad86937f87e69ace1dca275
+            - img "Cach chuan bi mon an gia dinh trong 20 phut" [ref=f70e194]
+            - generic [ref=f70e195]: Doi song
+          - generic [ref=f70e196]:
+            - heading [level=3] [ref=f70e197]:
+              - link "Cach chuan bi mon an gia dinh trong 20 phut" [ref=f70e198] [cursor=pointer]:
+                - /url: /articles/6ad86937f87e69ace1dca275
+            - paragraph [ref=f70e199]: Bai viet phan tich nhin va thay doi dang gay chuyen nganh trong thoi gian gan day.
+            - generic [ref=f70e200]:
+              - generic [ref=f70e201]:
+                - generic [ref=f70e202]: 
+                - text: 21/10/2026 07:26
+              - generic [ref=f70e203]:
+                - generic [ref=f70e204]: 
+                - text: "0"
+    - generic [ref=f70e205]:
+      - generic [ref=f70e206]:
+        - heading "Khoa hoc" [level=2] [ref=f70e207]
+        - link "Xem tat ca " [ref=f70e208] [cursor=pointer]:
+          - /url: /articles?category=Khoa+hoc
+          - text: Xem tat ca
+          - generic [ref=f70e209]: 
+      - generic [ref=f70e210]:
+        - generic [ref=f70e212]:
+          - link "Nghi thuc va ky thuat thuoc moi trong dieu tri Khoa hoc" [ref=f70e213] [cursor=pointer]:
+            - /url: /articles/6ad86937f87e69ace1dca28b
+            - img "Nghi thuc va ky thuat thuoc moi trong dieu tri" [ref=f70e214]
+            - generic [ref=f70e215]: Khoa hoc
+          - generic [ref=f70e216]:
+            - heading [level=3] [ref=f70e217]:
+              - link "Nghi thuc va ky thuat thuoc moi trong dieu tri" [ref=f70e218] [cursor=pointer]:
+                - /url: /articles/6ad86937f87e69ace1dca28b
+            - paragraph [ref=f70e219]: Ket qua kiem chung cho thay huong nghien dang dua ra nhung buoc tien ro ret.
+            - generic [ref=f70e220]:
+              - generic [ref=f70e221]:
+                - generic [ref=f70e222]: 
+                - text: 21/10/2026 07:26
+              - generic [ref=f70e223]:
+                - generic [ref=f70e224]: 
+                - text: "35"
+        - generic [ref=f70e226]:
+          - link "Nghien cuu moi ve nguon nang luong tai tao Khoa hoc" [ref=f70e227] [cursor=pointer]:
+            - /url: /articles/6ad86937f87e69ace1dca285
+            - img "Nghien cuu moi ve nguon nang luong tai tao" [ref=f70e228]
+            - generic [ref=f70e229]: Khoa hoc
+          - generic [ref=f70e230]:
+            - heading [level=3] [ref=f70e231]:
+              - link "Nghien cuu moi ve nguon nang luong tai tao" [ref=f70e232] [cursor=pointer]:
+                - /url: /articles/6ad86937f87e69ace1dca285
+            - paragraph [ref=f70e233]: So lieu moi nhat cho thay muc do phat trien dang duoc nang cao nhanh chong.
+            - generic [ref=f70e234]:
+              - generic [ref=f70e235]:
+                - generic [ref=f70e236]: 
+                - text: 21/10/2026 07:26
+              - generic [ref=f70e237]:
+                - generic [ref=f70e238]: 
+                - text: "77"
+        - generic [ref=f70e240]:
+          - 'link "Khoa hoc du lieu: ket noi xa hoi va cong nghe Khoa hoc" [ref=f70e241] [cursor=pointer]':
+            - /url: /articles/6ad86937f87e69ace1dca27f
+            - 'img "Khoa hoc du lieu: ket noi xa hoi va cong nghe" [ref=f70e242]'
+            - generic [ref=f70e243]: Khoa hoc
+          - generic [ref=f70e244]:
+            - heading [level=3] [ref=f70e245]:
+              - 'link "Khoa hoc du lieu: ket noi xa hoi va cong nghe" [ref=f70e246] [cursor=pointer]':
+                - /url: /articles/6ad86937f87e69ace1dca27f
+            - paragraph [ref=f70e247]: So lieu moi nhat cho thay muc do phat trien dang duoc nang cao nhanh chong.
+            - generic [ref=f70e248]:
+              - generic [ref=f70e249]:
+                - generic [ref=f70e250]: 
+                - text: 21/10/2026 07:26
+              - generic [ref=f70e251]:
+                - generic [ref=f70e252]: 
+                - text: "126"
+        - generic [ref=f70e254]:
+          - link "Nghien cuu moi ve vat lieu de chan phong dien tu Khoa hoc" [ref=f70e255] [cursor=pointer]:
+            - /url: /articles/6ad86937f87e69ace1dca279
+            - img "Nghien cuu moi ve vat lieu de chan phong dien tu" [ref=f70e256]
+            - generic [ref=f70e257]: Khoa hoc
+          - generic [ref=f70e258]:
+            - heading [level=3] [ref=f70e259]:
+              - link "Nghien cuu moi ve vat lieu de chan phong dien tu" [ref=f70e260] [cursor=pointer]:
+                - /url: /articles/6ad86937f87e69ace1dca279
+            - paragraph [ref=f70e261]: Cong ty va co quan chuc nang lien quan da ban hanh huong dan moi truoc doi.
+            - generic [ref=f70e262]:
+              - generic [ref=f70e263]:
+                - generic [ref=f70e264]: 
+                - text: 21/10/2026 07:26
+              - generic [ref=f70e265]:
+                - generic [ref=f70e266]: 
+                - text: "0"
+    - generic [ref=f70e267]:
+      - generic [ref=f70e268]:
+        - heading "Kinh te" [level=2] [ref=f70e269]
+        - link "Xem tat ca " [ref=f70e270] [cursor=pointer]:
+          - /url: /articles?category=Kinh+te
+          - text: Xem tat ca
+          - generic [ref=f70e271]: 
+      - generic [ref=f70e272]:
+        - generic [ref=f70e274]:
+          - link "Vai tro cua du lieu lon trong quyet dinh kinh doanh Kinh te" [ref=f70e275] [cursor=pointer]:
+            - /url: /articles/6ad86937f87e69ace1dca289
+            - img "Vai tro cua du lieu lon trong quyet dinh kinh doanh" [ref=f70e276]
+            - generic [ref=f70e277]: Kinh te
+          - generic [ref=f70e278]:
+            - heading [level=3] [ref=f70e279]:
+              - link "Vai tro cua du lieu lon trong quyet dinh kinh doanh" [ref=f70e280] [cursor=pointer]:
+                - /url: /articles/6ad86937f87e69ace1dca289
+            - paragraph [ref=f70e281]: Nhieu thay doi dang duoc ghi nhan va cac chuyen gia nhan dinh danh giá se ra sao.
+            - generic [ref=f70e282]:
+              - generic [ref=f70e283]:
+                - generic [ref=f70e284]: 
+                - text: 21/10/2026 07:26
+              - generic [ref=f70e285]:
+                - generic [ref=f70e286]: 
+                - text: "49"
+        - generic [ref=f70e288]:
+          - link "Xu huong ban kinh doanh theo mo hinh chia se tai nguyen Kinh te" [ref=f70e289] [cursor=pointer]:
+            - /url: /articles/6ad86937f87e69ace1dca283
+            - img "Xu huong ban kinh doanh theo mo hinh chia se tai nguyen" [ref=f70e290]
+            - generic [ref=f70e291]: Kinh te
+          - generic [ref=f70e292]:
+            - heading [level=3] [ref=f70e293]:
+              - link "Xu huong ban kinh doanh theo mo hinh chia se tai nguyen" [ref=f70e294] [cursor=pointer]:
+                - /url: /articles/6ad86937f87e69ace1dca283
+            - paragraph [ref=f70e295]: Cong ty va co quan chuc nang lien quan da ban hanh huong dan moi truoc doi.
+            - generic [ref=f70e296]:
+              - generic [ref=f70e297]:
+                - generic [ref=f70e298]: 
+                - text: 21/10/2026 07:26
+              - generic [ref=f70e299]:
+                - generic [ref=f70e300]: 
+                - text: "91"
+        - generic [ref=f70e302]:
+          - link "Hop tac kinh doanh chia se loi nhuan song song Kinh te" [ref=f70e303] [cursor=pointer]:
+            - /url: /articles/6ad86937f87e69ace1dca27d
+            - img "Hop tac kinh doanh chia se loi nhuan song song" [ref=f70e304]
+            - generic [ref=f70e305]: Kinh te
+          - generic [ref=f70e306]:
+            - heading [level=3] [ref=f70e307]:
+              - link "Hop tac kinh doanh chia se loi nhuan song song" [ref=f70e308] [cursor=pointer]:
+                - /url: /articles/6ad86937f87e69ace1dca27d
+            - paragraph [ref=f70e309]: Nhieu thay doi dang duoc ghi nhan va cac chuyen gia nhan dinh danh giá se ra sao.
+            - generic [ref=f70e310]:
+              - generic [ref=f70e311]:
+                - generic [ref=f70e312]: 
+                - text: 21/10/2026 07:26
+              - generic [ref=f70e313]:
+                - generic [ref=f70e314]: 
+                - text: "133"
+        - generic [ref=f70e316]:
+          - 'link "Chi phi von: doanh nghia nao dang dauu tu Kinh te" [ref=f70e317] [cursor=pointer]':
+            - /url: /articles/6ad86937f87e69ace1dca277
+            - 'img "Chi phi von: doanh nghia nao dang dauu tu" [ref=f70e318]'
+            - generic [ref=f70e319]: Kinh te
+          - generic [ref=f70e320]:
+            - heading [level=3] [ref=f70e321]:
+              - 'link "Chi phi von: doanh nghia nao dang dauu tu" [ref=f70e322] [cursor=pointer]':
+                - /url: /articles/6ad86937f87e69ace1dca277
+            - paragraph [ref=f70e323]: Cong ty va co quan chuc nang lien quan da ban hanh huong dan moi truoc doi.
+            - generic [ref=f70e324]:
+              - generic [ref=f70e325]:
+                - generic [ref=f70e326]: 
+                - text: 21/10/2026 07:26
+              - generic [ref=f70e327]:
+                - generic [ref=f70e328]: 
+                - text: "0"
+    - generic [ref=f70e329]:
+      - generic [ref=f70e330]:
+        - heading "The thao" [level=2] [ref=f70e331]
+        - link "Xem tat ca " [ref=f70e332] [cursor=pointer]:
+          - /url: /articles?category=The+thao
+          - text: Xem tat ca
+          - generic [ref=f70e333]: 
+      - generic [ref=f70e334]:
+        - generic [ref=f70e336]:
+          - link "Chuyen gia danh gia suc manh cua doi tuyen thu te The thao" [ref=f70e337] [cursor=pointer]:
+            - /url: /articles/6ad86937f87e69ace1dca28a
+            - img "Chuyen gia danh gia suc manh cua doi tuyen thu te" [ref=f70e338]
+            - generic [ref=f70e339]: The thao
+          - generic [ref=f70e340]:
+            - heading [level=3] [ref=f70e341]:
+              - link "Chuyen gia danh gia suc manh cua doi tuyen thu te" [ref=f70e342] [cursor=pointer]:
+                - /url: /articles/6ad86937f87e69ace1dca28a
+            - paragraph [ref=f70e343]: Ket qua kiem chung cho thay huong nghien dang dua ra nhung buoc tien ro ret.
+            - generic [ref=f70e344]:
+              - generic [ref=f70e345]:
+                - generic [ref=f70e346]: 
+                - text: 21/10/2026 07:26
+              - generic [ref=f70e347]:
+                - generic [ref=f70e348]: 
+                - text: "42"
+        - generic [ref=f70e350]:
+          - 'link "Nghi thuc the thao bo phan: bai hoc tu the gioi The thao" [ref=f70e351] [cursor=pointer]':
+            - /url: /articles/6ad86937f87e69ace1dca284
+            - 'img "Nghi thuc the thao bo phan: bai hoc tu the gioi" [ref=f70e352]'
+            - generic [ref=f70e353]: The thao
+          - generic [ref=f70e354]:
+            - heading [level=3] [ref=f70e355]:
+              - 'link "Nghi thuc the thao bo phan: bai hoc tu the gioi" [ref=f70e356] [cursor=pointer]':
+                - /url: /articles/6ad86937f87e69ace1dca284
+            - paragraph [ref=f70e357]: Nhieu thay doi dang duoc ghi nhan va cac chuyen gia nhan dinh danh giá se ra sao.
+            - generic [ref=f70e358]:
+              - generic [ref=f70e359]:
+                - generic [ref=f70e360]: 
+                - text: 21/10/2026 07:26
+              - generic [ref=f70e361]:
+                - generic [ref=f70e362]: 
+                - text: "84"
+        - generic [ref=f70e364]:
+          - link "Ky luc moi cua nen the thao trong nu The thao" [ref=f70e365] [cursor=pointer]:
+            - /url: /articles/6ad86937f87e69ace1dca27e
+            - img "Ky luc moi cua nen the thao trong nu" [ref=f70e366]
+            - generic [ref=f70e367]: The thao
+          - generic [ref=f70e368]:
+            - heading [level=3] [ref=f70e369]:
+              - link "Ky luc moi cua nen the thao trong nu" [ref=f70e370] [cursor=pointer]:
+                - /url: /articles/6ad86937f87e69ace1dca27e
+            - paragraph [ref=f70e371]: So lieu moi nhat cho thay muc do phat trien dang duoc nang cao nhanh chong.
+            - generic [ref=f70e372]:
+              - generic [ref=f70e373]:
+                - generic [ref=f70e374]: 
+                - text: 21/10/2026 07:26
+              - generic [ref=f70e375]:
+                - generic [ref=f70e376]: 
+                - text: "119"
+        - generic [ref=f70e378]:
+          - link "Chuyen gia binhluan cua tran chung ket si Viet Nam The thao" [ref=f70e379] [cursor=pointer]:
+            - /url: /articles/6ad86937f87e69ace1dca278
+            - img "Chuyen gia binhluan cua tran chung ket si Viet Nam" [ref=f70e380]
+            - generic [ref=f70e381]: The thao
+          - generic [ref=f70e382]:
+            - heading [level=3] [ref=f70e383]:
+              - link "Chuyen gia binhluan cua tran chung ket si Viet Nam" [ref=f70e384] [cursor=pointer]:
+                - /url: /articles/6ad86937f87e69ace1dca278
+            - paragraph [ref=f70e385]: Nhieu thay doi dang duoc ghi nhan va cac chuyen gia nhan dinh danh giá se ra sao.
+            - generic [ref=f70e386]:
+              - generic [ref=f70e387]:
+                - generic [ref=f70e388]: 
+                - text: 21/10/2026 07:26
+              - generic [ref=f70e389]:
+                - generic [ref=f70e390]: 
+                - text: "0"
+    - generic [ref=f70e391]:
+      - generic [ref=f70e392]:
+        - heading "Xa hoi" [level=2] [ref=f70e393]
+        - link "Xem tat ca " [ref=f70e394] [cursor=pointer]:
+          - /url: /articles?category=Xa+hoi
+          - text: Xem tat ca
+          - generic [ref=f70e395]: 
+      - generic [ref=f70e396]:
+        - generic [ref=f70e398]:
+          - link "Buc tranh chung ve muc do hoi nhap cua nguoi dan Xa hoi" [ref=f70e399] [cursor=pointer]:
+            - /url: /articles/6ad86937f87e69ace1dca286
+            - img "Buc tranh chung ve muc do hoi nhap cua nguoi dan" [ref=f70e400]
+            - generic [ref=f70e401]: Xa hoi
+          - generic [ref=f70e402]:
+            - heading [level=3] [ref=f70e403]:
+              - link "Buc tranh chung ve muc do hoi nhap cua nguoi dan" [ref=f70e404] [cursor=pointer]:
+                - /url: /articles/6ad86937f87e69ace1dca286
+            - paragraph [ref=f70e405]: Ket qua kiem chung cho thay huong nghien dang dua ra nhung buoc tien ro ret.
+            - generic [ref=f70e406]:
+              - generic [ref=f70e407]:
+                - generic [ref=f70e408]: 
+                - text: 21/10/2026 07:26
+              - generic [ref=f70e409]:
+                - generic [ref=f70e410]: 
+                - text: "70"
+        - generic [ref=f70e412]:
+          - link "Diem moi cua phong cach nghiep vu cong cong Xa hoi" [ref=f70e413] [cursor=pointer]:
+            - /url: /articles/6ad86937f87e69ace1dca280
+            - img "Diem moi cua phong cach nghiep vu cong cong" [ref=f70e414]
+            - generic [ref=f70e415]: Xa hoi
+          - generic [ref=f70e416]:
+            - heading [level=3] [ref=f70e417]:
+              - link "Diem moi cua phong cach nghiep vu cong cong" [ref=f70e418] [cursor=pointer]:
+                - /url: /articles/6ad86937f87e69ace1dca280
+            - paragraph [ref=f70e419]: Cong ty va co quan chuc nang lien quan da ban hanh huong dan moi truoc doi.
+            - generic [ref=f70e420]:
+              - generic [ref=f70e421]:
+                - generic [ref=f70e422]: 
+                - text: 21/10/2026 07:26
+              - generic [ref=f70e423]:
+                - generic [ref=f70e424]: 
+                - text: "112"
+        - generic [ref=f70e426]:
+          - link "Vai tro cua cong cong truc tuyen trong thoi gian gian cach Xa hoi" [ref=f70e427] [cursor=pointer]:
+            - /url: /articles/6ad86937f87e69ace1dca27a
+            - img "Vai tro cua cong cong truc tuyen trong thoi gian gian cach" [ref=f70e428]
+            - generic [ref=f70e429]: Xa hoi
+          - generic [ref=f70e430]:
+            - heading [level=3] [ref=f70e431]:
+              - link "Vai tro cua cong cong truc tuyen trong thoi gian gian cach" [ref=f70e432] [cursor=pointer]:
+                - /url: /articles/6ad86937f87e69ace1dca27a
+            - paragraph [ref=f70e433]: Cong ty va co quan chuc nang lien quan da ban hanh huong dan moi truoc doi.
+            - generic [ref=f70e434]:
+              - generic [ref=f70e435]:
+                - generic [ref=f70e436]: 
+                - text: 21/10/2026 07:26
+              - generic [ref=f70e437]:
+                - generic [ref=f70e438]: 
+                - text: "0"
+        - generic [ref=f70e440]:
+          - link "Nghien cuu ve muc thu nhap cua ho gia dinh tai TP.HCM Xa hoi" [ref=f70e441] [cursor=pointer]:
+            - /url: /articles/6ad86937f87e69ace1dca274
+            - img "Nghien cuu ve muc thu nhap cua ho gia dinh tai TP.HCM" [ref=f70e442]
+            - generic [ref=f70e443]: Xa hoi
+          - generic [ref=f70e444]:
+            - heading [level=3] [ref=f70e445]:
+              - link "Nghien cuu ve muc thu nhap cua ho gia dinh tai TP.HCM" [ref=f70e446] [cursor=pointer]:
+                - /url: /articles/6ad86937f87e69ace1dca274
+            - paragraph [ref=f70e447]: So lieu moi nhat cho thay muc do phat trien dang duoc nang cao nhanh chong.
+            - generic [ref=f70e448]:
+              - generic [ref=f70e449]:
+                - generic [ref=f70e450]: 
+                - text: 21/10/2026 07:26
+              - generic [ref=f70e451]:
+                - generic [ref=f70e452]: 
+                - text: "0"
+    - generic [ref=f70e453]:
+      - generic [ref=f70e454]:
+        - heading "Doc nhieu nhat" [level=2] [ref=f70e455]
+        - link "Xem tat ca " [ref=f70e456] [cursor=pointer]:
+          - /url: /articles?sort=views
+          - text: Xem tat ca
+          - generic [ref=f70e457]: 
+      - generic [ref=f70e458]:
+        - generic [ref=f70e460]:
+          - link "Buc tranh chung ve muc do hoi nhap cua nguoi dan Xa hoi" [ref=f70e461] [cursor=pointer]:
+            - /url: /articles/6ad86937f87e69ace1dca286
+            - img "Buc tranh chung ve muc do hoi nhap cua nguoi dan" [ref=f70e462]
+            - generic [ref=f70e463]: Xa hoi
+          - generic [ref=f70e464]:
+            - heading [level=3] [ref=f70e465]:
+              - link "Buc tranh chung ve muc do hoi nhap cua nguoi dan" [ref=f70e466] [cursor=pointer]:
+                - /url: /articles/6ad86937f87e69ace1dca286
+            - paragraph [ref=f70e467]: Ket qua kiem chung cho thay huong nghien dang dua ra nhung buoc tien ro ret.
+            - generic [ref=f70e468]:
+              - generic [ref=f70e469]:
+                - generic [ref=f70e470]: 
+                - text: 21/10/2026 07:26
+              - generic [ref=f70e471]:
+                - generic [ref=f70e472]: 
+                - text: "70"
+        - generic [ref=f70e474]:
+          - link "Nghien cuu moi ve nguon nang luong tai tao Khoa hoc" [ref=f70e475] [cursor=pointer]:
+            - /url: /articles/6ad86937f87e69ace1dca285
+            - img "Nghien cuu moi ve nguon nang luong tai tao" [ref=f70e476]
+            - generic [ref=f70e477]: Khoa hoc
+          - generic [ref=f70e478]:
+            - heading [level=3] [ref=f70e479]:
+              - link "Nghien cuu moi ve nguon nang luong tai tao" [ref=f70e480] [cursor=pointer]:
+                - /url: /articles/6ad86937f87e69ace1dca285
+            - paragraph [ref=f70e481]: So lieu moi nhat cho thay muc do phat trien dang duoc nang cao nhanh chong.
+            - generic [ref=f70e482]:
+              - generic [ref=f70e483]:
+                - generic [ref=f70e484]: 
+                - text: 21/10/2026 07:26
+              - generic [ref=f70e485]:
+                - generic [ref=f70e486]: 
+                - text: "77"
+        - generic [ref=f70e488]:
+          - 'link "Nghi thuc the thao bo phan: bai hoc tu the gioi The thao" [ref=f70e489] [cursor=pointer]':
+            - /url: /articles/6ad86937f87e69ace1dca284
+            - 'img "Nghi thuc the thao bo phan: bai hoc tu the gioi" [ref=f70e490]'
+            - generic [ref=f70e491]: The thao
+          - generic [ref=f70e492]:
+            - heading [level=3] [ref=f70e493]:
+              - 'link "Nghi thuc the thao bo phan: bai hoc tu the gioi" [ref=f70e494] [cursor=pointer]':
+                - /url: /articles/6ad86937f87e69ace1dca284
+            - paragraph [ref=f70e495]: Nhieu thay doi dang duoc ghi nhan va cac chuyen gia nhan dinh danh giá se ra sao.
+            - generic [ref=f70e496]:
+              - generic [ref=f70e497]:
+                - generic [ref=f70e498]: 
+                - text: 21/10/2026 07:26
+              - generic [ref=f70e499]:
+                - generic [ref=f70e500]: 
+                - text: "84"
+        - generic [ref=f70e502]:
+          - link "Xu huong ban kinh doanh theo mo hinh chia se tai nguyen Kinh te" [ref=f70e503] [cursor=pointer]:
+            - /url: /articles/6ad86937f87e69ace1dca283
+            - img "Xu huong ban kinh doanh theo mo hinh chia se tai nguyen" [ref=f70e504]
+            - generic [ref=f70e505]: Kinh te
+          - generic [ref=f70e506]:
+            - heading [level=3] [ref=f70e507]:
+              - link "Xu huong ban kinh doanh theo mo hinh chia se tai nguyen" [ref=f70e508] [cursor=pointer]:
+                - /url: /articles/6ad86937f87e69ace1dca283
+            - paragraph [ref=f70e509]: Cong ty va co quan chuc nang lien quan da ban hanh huong dan moi truoc doi.
+            - generic [ref=f70e510]:
+              - generic [ref=f70e511]:
+                - generic [ref=f70e512]: 
+                - text: 21/10/2026 07:26
+              - generic [ref=f70e513]:
+                - generic [ref=f70e514]: 
+                - text: "91"
+        - generic [ref=f70e516]:
+          - link "Dich vu cloud so sanh giua AWS, Azure va Google Cloud Cong nghe" [ref=f70e517] [cursor=pointer]:
+            - /url: /articles/6ad86937f87e69ace1dca282
+            - img "Dich vu cloud so sanh giua AWS, Azure va Google Cloud" [ref=f70e518]
+            - generic [ref=f70e519]: Cong nghe
+          - generic [ref=f70e520]:
+            - heading [level=3] [ref=f70e521]:
+              - link "Dich vu cloud so sanh giua AWS, Azure va Google Cloud" [ref=f70e522] [cursor=pointer]:
+                - /url: /articles/6ad86937f87e69ace1dca282
+            - paragraph [ref=f70e523]: Nhieu thay doi dang duoc ghi nhan va cac chuyen gia nhan dinh danh giá se ra sao.
+            - generic [ref=f70e524]:
+              - generic [ref=f70e525]:
+                - generic [ref=f70e526]: 
+                - text: 21/10/2026 07:26
+              - generic [ref=f70e527]:
+                - generic [ref=f70e528]: 
+                - text: "98"
+        - generic [ref=f70e530]:
+          - link "Biet bo sung thoi gian cho ban than sau ngay lam viec Doi song" [ref=f70e531] [cursor=pointer]:
+            - /url: /articles/6ad86937f87e69ace1dca281
+            - img "Biet bo sung thoi gian cho ban than sau ngay lam viec" [ref=f70e532]
+            - generic [ref=f70e533]: Doi song
+          - generic [ref=f70e534]:
+            - heading [level=3] [ref=f70e535]:
+              - link "Biet bo sung thoi gian cho ban than sau ngay lam viec" [ref=f70e536] [cursor=pointer]:
+                - /url: /articles/6ad86937f87e69ace1dca281
+            - paragraph [ref=f70e537]: Bai viet phan tich nhin va thay doi dang gay chuyen nganh trong thoi gian gan day.
+            - generic [ref=f70e538]:
+              - generic [ref=f70e539]:
+                - generic [ref=f70e540]: 
+                - text: 21/10/2026 07:26
+              - generic [ref=f70e541]:
+                - generic [ref=f70e542]: 
+                - text: "105"
+  - contentinfo [ref=f70e543]:
+    - generic [ref=f70e544]:
+      - generic [ref=f70e545]:
+        - generic [ref=f70e546]:
+          - link " Tin Tuc NoSQL" [ref=f70e547] [cursor=pointer]:
+            - /url: /
+            - generic [ref=f70e548]: 
+            - text: Tin Tuc NoSQL
+          - paragraph [ref=f70e550]: Chuyen cong nghe, kinh te, the thao, khoa hoc, xa hoi va doi song - cap nhat moi ngay.
+        - generic [ref=f70e551]:
+          - heading "Chuyen muc" [level=5] [ref=f70e552]
+          - list [ref=f70e553]:
+            - listitem [ref=f70e554]:
+              - link "Cong nghe" [ref=f70e555] [cursor=pointer]:
+                - /url: /articles?category=Cong+nghe
+            - listitem [ref=f70e556]:
+              - link "Kinh te" [ref=f70e557] [cursor=pointer]:
+                - /url: /articles?category=Kinh+te
+            - listitem [ref=f70e558]:
+              - link "The thao" [ref=f70e559] [cursor=pointer]:
+                - /url: /articles?category=The+thao
+            - listitem [ref=f70e560]:
+              - link "Khoa hoc" [ref=f70e561] [cursor=pointer]:
+                - /url: /articles?category=Khoa+hoc
+            - listitem [ref=f70e562]:
+              - link "Xa hoi" [ref=f70e563] [cursor=pointer]:
+                - /url: /articles?category=Xa+hoi
+            - listitem [ref=f70e564]:
+              - link "Doi song" [ref=f70e565] [cursor=pointer]:
+                - /url: /articles?category=Doi+song
+        - generic [ref=f70e566]:
+          - heading "Trang" [level=5] [ref=f70e567]
+          - list [ref=f70e568]:
+            - listitem [ref=f70e569]:
+              - link "Trang chu" [ref=f70e570] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=f70e571]:
+              - link "Tin tuc" [ref=f70e572] [cursor=pointer]:
+                - /url: /articles
+            - listitem [ref=f70e573]:
+              - link "Xem nhieu nhat" [ref=f70e574] [cursor=pointer]:
+                - /url: /articles?sort=views
+            - listitem [ref=f70e575]:
+              - link "Dang nhap" [ref=f70e576] [cursor=pointer]:
+                - /url: /login
+        - generic [ref=f70e577]:
+          - heading "Lien he" [level=5] [ref=f70e578]
+          - list [ref=f70e579]:
+            - listitem [ref=f70e580]:
+              - generic [ref=f70e581]: 
+              - text: Ho Chi Minh, Viet Nam
+            - listitem [ref=f70e582]:
+              - generic [ref=f70e583]: 
+              - text: banbienwap@tinnucnosql.vn
+            - listitem [ref=f70e584]:
+              - generic [ref=f70e585]: 
+              - text: (028) 3 8 24 68 90
+      - generic [ref=f70e586]: © 2026 Tin Tuc NoSQL - Do an cuoi ky mon Du lieu NoSQL (De tai 06). Du an dung de hoc tap.

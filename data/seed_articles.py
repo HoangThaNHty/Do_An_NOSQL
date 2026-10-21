@@ -13,6 +13,7 @@ Chay:  python data/seed_articles.py  [--reset]
 """
 
 import argparse
+import json
 import random
 import sys
 from pathlib import Path
@@ -327,12 +328,47 @@ def _interleave_by_category(titles_by_category):
 
 def _real_images(images_dir: Path):
     """
-    Danh sach anh THAT da tai ve (data/fetch_images.py) trong thu muc static/images.
-    Neu chua co -> tra ve danh sach rong va se dung anh sinh bang Pillow.
+    Anh THAT da tai ve (data/fetch_images.py), nhom theo chuyen muc.
+    Dung file credits.json (ghi cung luc tai anh) de biet anh nao thuoc chuyen muc nao.
     """
     if not images_dir.exists():
-        return []
-    return sorted(f for f in images_dir.glob("*.jpg") if f.is_file())
+        return {}
+    credits_file = images_dir / "credits.json"
+    by_category = {}
+    if credits_file.exists():
+        try:
+            credits = json.loads(credits_file.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            credits = []
+        for item in credits:
+            name = Path(item.get("file", "")).name
+            category = item.get("category", "")
+            if name and category:
+                by_category.setdefault(category, []).append(name)
+    # Loai bo file khong con ton tai
+    for category in list(by_category):
+        by_category[category] = [
+            n for n in by_category[category] if (images_dir / n).exists()
+        ]
+        if not by_category[category]:
+            del by_category[category]
+    return by_category
+
+
+def _pick_image(by_category, category, index):
+    """
+    Chon anh phu hop voi chuyen muc cua bai viet.
+    - Uu tien anh cung chuyen muc (vong tron)
+    - Neu chuyen muc khong co anh -> dung anh bat ky (vong tron)
+    """
+    if by_category:
+        pool = by_category.get(category) or []
+        if not pool:
+            # gom tat ca anh lai 1 danh sach fallback
+            pool = [n for names in by_category.values() for n in names]
+        if pool:
+            return f"/static/images/{pool[index % len(pool)]}"
+    return None
 
 
 def seed_articles(db, upload_dir: Path, reset=False):
@@ -348,20 +384,21 @@ def seed_articles(db, upload_dir: Path, reset=False):
 
     real_images = _real_images(upload_dir)
     if real_images:
-        print(f"  Dung {len(real_images)} anh that da tai ve (xen ke cho 100 bai viet)")
+        total = sum(len(v) for v in real_images.values())
+        print(f"  Dung {total} anh that da tai ve, gan theo tung chuyen muc")
     else:
         print("  Khong co anh that - dung anh sinh bang Pillow")
 
     index = existing
     created = 0
+    per_category_counter = {}
     for category, title in _interleave_by_category(TITLES):
         if index >= TOTAL_ARTICLES:
             break
         index += 1
-        if real_images:
-            image_file = real_images[(index - 1) % len(real_images)]
-            image_path = f"/static/images/{image_file.name}"
-        else:
+        per_category_counter[category] = per_category_counter.get(category, 0) + 1
+        image_path = _pick_image(real_images, category, per_category_counter[category] - 1)
+        if not image_path:
             image_path = generate_image(index, title, category, upload_dir)
 
         paragraphs = random.sample(PARAGRAPHS, k=min(5, len(PARAGRAPHS)))

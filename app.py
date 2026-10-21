@@ -105,10 +105,12 @@ def create_app():
 
     @app.context_processor
     def inject_globals():
-        """Biến dùng chung cho mọi template."""
+        """Bien dung chung cho moi template."""
         return {
             "current_user": getattr(g, "current_user", None),
             "site_name": config.SITE_NAME,
+            # Danh muc dung o thanh dieu huong + chan trang
+            "nav_categories": article_model.CATEGORIES,
         }
 
     # ------------------------------------------------------------------

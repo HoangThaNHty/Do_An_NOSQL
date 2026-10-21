@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{# Khung chung cua trang quan tri: sidebar dieu huong + noi dung #}
+
+{% block main_class %}container{% endblock %}
+
+{% block content %}
+<div class="admin-shell">
+    <nav class="admin-nav">
+        <div class="title">Quan tri</div>
+        <a href="{{ url_for('admin.dashboard') }}" class="{% if request.endpoint == 'admin.dashboard' %}active{% endif %}">
+            <i class="bi bi-speedometer2"></i>Tong quan
+        </a>
+        <a href="{{ url_for('admin.articles') }}" class="{% if request.endpoint in ('admin.articles', 'admin.create_article', 'admin.edit_article') %}active{% endif %}">
+            <i class="bi bi-journal-text"></i>Bai viet
+        </a>
+        <a href="{{ url_for('admin.users') }}" class="{% if request.endpoint == 'admin.users' %}active{% endif %}">
+            <i class="bi bi-people"></i>Nguoi dung
+        </a>
+        <a href="{{ url_for('admin.cache_dashboard') }}" class="{% if request.endpoint == 'admin.cache_dashboard' %}active{% endif %}">
+            <i class="bi bi-hdd-stack"></i>Cache &amp; Session
+        </a>
+        <div class="sep"></div>
+        <a href="{{ url_for('article.index') }}"><i class="bi bi-house"></i>Ve trang chu</a>
+    </nav>
+
+    <div>
+        {% block admin_content %}{% endblock %}
+    </div>
+</div>
+{% endblock %}

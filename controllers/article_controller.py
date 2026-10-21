@@ -25,13 +25,30 @@ def _services():
 # ======================================================================
 @article_bp.get("/")
 def index():
-    """Trang chu - danh sach bai viet moi nhat."""
+    """
+    Trang chu - khoi HERO (1 bai noi bat + 4 bai phu) va cac block theo chuyen muc.
+    Du lieu lay 1 lan tu DB (30 bai moi nhat) roi nhom theo chuyen muc.
+    """
     article_service, _ = _services()
-    result, source = article_service.list_articles(page=1, per_page=9, sort="newest")
+    result, source = article_service.list_articles(page=1, per_page=30, sort="newest")
+    items = result["items"]
+
+    featured = items[0] if items else None
+    side_items = items[1:5]
+
+    # Nhom bai viet theo chuyen muc (bo 5 bai da len hero)
+    sections = []
+    for category in article_service.categories():
+        group = [a for a in items if a.get("category") == category]
+        if len(group) >= 3:
+            sections.append({"category": category, "articles": group[:4]})
+
     return render_template(
         "index.html",
-        articles=result["items"],
-        result=result,
+        articles=items,
+        featured=featured,
+        side_items=side_items,
+        sections=sections,
         source=source,
         categories=article_service.categories(),
         active_category="all",
@@ -69,6 +86,7 @@ def list_articles():
         active_category=category,
         keyword=keyword,
         sort=sort,
+        popular=article_service.popular(5),
     )
 
 
@@ -87,11 +105,6 @@ def article_detail(article_id):
     # Tang luot xem bang lenh INCR cua Redis
     article["views"] = article_service.increase_views(article_id)
 
-    # TTL con lai cua key cache (hien thi cho GV khi demo)
-    _, cache_service = _services()
-    cache_key = cache_service.article_key(article_id)
-    ttl = cache_service.ttl_of(cache_key)
-
     related, _ = article_service.list_articles(
         page=1, per_page=4, category=article.get("category")
     )
@@ -99,8 +112,7 @@ def article_detail(article_id):
         "article_detail.html",
         article=article,
         source=source,
-        cache_key=cache_key,
-        cache_ttl=ttl if ttl and ttl > 0 else 0,
+        categories=article_service.categories(),
         related=[a for a in related["items"] if a["_id"] != article_id][:3],
     )
 

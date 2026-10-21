@@ -1,36 +1,59 @@
 {% extends "base.html" %}
 {% block title %}Dang ky - {{ site_name }}{% endblock %}
+{% block main_class %}container{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card shadow-sm">
-            <div class="card-header bg-success text-white fw-bold"><i class="bi bi-person-plus"></i> Dang ky tai khoan</div>
-            <div class="card-body">
-                <form method="post" action="{{ url_for('auth.register') }}">
-                    <div class="mb-3">
-                        <label class="form-label">Ho va ten</label>
-                        <input type="text" name="full_name" class="form-control" value="{{ form.full_name if form else '' }}" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Ten dang nhap</label>
-                        <input type="text" name="username" class="form-control" value="{{ form.username if form else '' }}" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Email</label>
-                        <input type="email" name="email" class="form-control" value="{{ form.email if form else '' }}" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Mat khau</label>
-                        <input type="password" name="password" class="form-control" minlength="6" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Nhap lai mat khau</label>
-                        <input type="password" name="confirm_password" class="form-control" minlength="6" required>
-                    </div>
-                    <button class="btn btn-success w-100" type="submit">Dang ky</button>
-                </form>
+<div class="auth-wrap py-5">
+    <div class="auth-card">
+        <div class="auth-brand">
+            <div>
+                <div class="d-flex align-items-center gap-2 mb-4">
+                    <span class="brand-mark"><i class="bi bi-broadcast"></i></span>
+                    <span class="fw-bold fs-5">{{ site_name }}</span>
+                </div>
+                <h2>Tham gia<br>cộng đồng đọc tin.</h2>
+                <p>Tao tai khoan de tra doi binh luan va luu lai bai viet quan tâm.</p>
+                <ul>
+                    <li><i class="bi bi-check-circle-fill"></i><span>Dang ky trong vong 30 giay</span></li>
+                    <li><i class="bi bi-check-circle-fill"></i><span>Khong can xac nhan email</span></li>
+                    <li><i class="bi bi-check-circle-fill"></i><span>Mat khau duoc ma hoa bang scrypt</span></li>
+                </ul>
             </div>
+            <div class="small" style="color:#8fa6bf">&copy; 2026 {{ site_name }}</div>
+        </div>
+
+        <div class="auth-form">
+            <h3>Tao tai khoan</h3>
+            <p class="sub">Da co tai khoan? <a href="{{ url_for('auth.login') }}" style="color:var(--accent);font-weight:600">Dang nhap</a></p>
+
+            <form method="post" action="{{ url_for('auth.register') }}">
+                <div class="mb-3">
+                    <label class="form-label" for="full_name">Ho va ten</label>
+                    <input type="text" class="form-control" id="full_name" name="full_name"
+                           value="{{ form.full_name if form else '' }}" placeholder="Nguyen Van A" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="username">Ten dang nhap</label>
+                    <input type="text" class="form-control" id="username" name="username"
+                           value="{{ form.username if form else '' }}" placeholder="nguyenvana" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email"
+                           value="{{ form.email if form else '' }}" placeholder="email@uit.edu.vn" required>
+                </div>
+                <div class="row g-3 mb-4">
+                    <div class="col-sm-6">
+                        <label class="form-label" for="password">Mat khau</label>
+                        <input type="password" class="form-control" id="password" name="password" minlength="6" required>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="form-label" for="confirm_password">Nhap lai mat khau</label>
+                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" minlength="6" required>
+                    </div>
+                </div>
+                <button class="btn btn-accent w-100 py-2" type="submit">Tao tai khoan</button>
+            </form>
         </div>
     </div>
 </div>
