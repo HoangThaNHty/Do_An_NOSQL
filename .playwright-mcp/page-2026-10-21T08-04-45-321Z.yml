@@ -1,0 +1,531 @@
+- generic [active] [ref=f83e1]:
+  - generic [ref=f83e3]:
+    - generic [ref=f83e4]: Tin tuc cap nhat lien tuc | Thu tu, ngay 21/10/2026
+    - generic [ref=f83e6]:
+      - link "Moi nhat" [ref=f83e7] [cursor=pointer]:
+        - /url: /articles?sort=newest
+      - text: "|"
+      - link "Xem nhieu nhat" [ref=f83e8] [cursor=pointer]:
+        - /url: /articles?sort=views
+      - text: "|"
+      - link "Quan tri" [ref=f83e9] [cursor=pointer]:
+        - /url: /admin/
+  - navigation [ref=f83e10]:
+    - generic [ref=f83e11]:
+      - link " Tin Tuc NoSQL" [ref=f83e12] [cursor=pointer]:
+        - /url: /
+        - generic [ref=f83e13]: 
+        - generic [ref=f83e15]: Tin Tuc NoSQL
+      - generic [ref=f83e16]:
+        - list [ref=f83e17]:
+          - listitem [ref=f83e18]:
+            - link "Trang chu" [ref=f83e19] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=f83e20]:
+            - link "Cong nghe" [ref=f83e21] [cursor=pointer]:
+              - /url: /articles?category=Cong+nghe
+          - listitem [ref=f83e22]:
+            - link "Kinh te" [ref=f83e23] [cursor=pointer]:
+              - /url: /articles?category=Kinh+te
+          - listitem [ref=f83e24]:
+            - link "The thao" [ref=f83e25] [cursor=pointer]:
+              - /url: /articles?category=The+thao
+          - listitem [ref=f83e26]:
+            - link "Khoa hoc" [ref=f83e27] [cursor=pointer]:
+              - /url: /articles?category=Khoa+hoc
+          - listitem [ref=f83e28]:
+            - link "Xa hoi" [ref=f83e29] [cursor=pointer]:
+              - /url: /articles?category=Xa+hoi
+          - listitem [ref=f83e30]:
+            - link "Doi song" [ref=f83e31] [cursor=pointer]:
+              - /url: /articles?category=Doi+song
+        - generic [ref=f83e32]:
+          - textbox "Tim kiem bai viet..." [ref=f83e33]
+          - button "Tim kiem" [ref=f83e34] [cursor=pointer]:
+            - generic [ref=f83e35]: 
+        - list [ref=f83e36]:
+          - listitem [ref=f83e37]:
+            - link " SV1 - Data Architect" [ref=f83e38] [cursor=pointer]:
+              - /url: "#"
+              - generic [ref=f83e39]: 
+              - generic [ref=f83e40]: SV1 - Data Architect
+            - text:   
+  - main [ref=f83e41]:
+    - generic [ref=f83e42]:
+      - navigation [ref=f83e43]:
+        - generic [ref=f83e44]: Quan tri
+        - link " Tong quan" [ref=f83e45] [cursor=pointer]:
+          - /url: /admin/
+          - generic [ref=f83e46]: 
+          - text: Tong quan
+        - link " Bai viet" [ref=f83e47] [cursor=pointer]:
+          - /url: /admin/articles
+          - generic [ref=f83e48]: 
+          - text: Bai viet
+        - link " Nguoi dung" [ref=f83e49] [cursor=pointer]:
+          - /url: /admin/users
+          - generic [ref=f83e50]: 
+          - text: Nguoi dung
+        - link " Cache & Session" [ref=f83e51] [cursor=pointer]:
+          - /url: /admin/cache
+          - generic [ref=f83e52]: 
+          - text: Cache & Session
+        - link " Ve trang chu" [ref=f83e54] [cursor=pointer]:
+          - /url: /
+          - generic [ref=f83e55]: 
+          - text: Ve trang chu
+      - generic [ref=f83e56]:
+        - generic [ref=f83e57]:
+          - generic [ref=f83e58]:
+            - heading " Bang dieu khien Cache & Session" [level=1] [ref=f83e59]:
+              - generic [ref=f83e60]: 
+              - text: Bang dieu khien Cache & Session
+            - text: "Khu vuc danh cho GV: hien thi trang thai Redis theo thoi gian thuc."
+          - button " Reset Hit/Miss" [ref=f83e62] [cursor=pointer]:
+            - generic [ref=f83e63]: 
+            - text: Reset Hit/Miss
+        - generic [ref=f83e64]:
+          - generic [ref=f83e66]:
+            - generic [ref=f83e67]: Cache Hit
+            - generic [ref=f83e68]: "4"
+          - generic [ref=f83e70]:
+            - generic [ref=f83e71]: Cache Miss
+            - generic [ref=f83e72]: "3"
+          - generic [ref=f83e74]:
+            - generic [ref=f83e75]: Ty le Hit
+            - generic [ref=f83e76]: 57.14%
+          - generic [ref=f83e78]:
+            - generic [ref=f83e79]: Key tren Redis
+            - generic [ref=f83e80]: "55"
+            - generic [ref=f83e81]: "Bo nho: 1.15M"
+        - generic [ref=f83e82]:
+          - generic [ref=f83e84]:
+            - generic [ref=f83e85]:
+              - strong [ref=f83e86]:
+                - generic [ref=f83e87]: 
+                - text: Danh sach key Redis
+              - generic [ref=f83e88]: 55 key
+            - table [ref=f83e90]:
+              - rowgroup [ref=f83e91]:
+                - row [ref=f83e92]:
+                  - columnheader "Key" [ref=f83e93]
+                  - columnheader "Kieu du lieu" [ref=f83e94]
+                  - columnheader "TTL (giay)" [ref=f83e95]
+              - rowgroup [ref=f83e96]:
+                - row [ref=f83e97]:
+                  - cell "article:cache:6ad871a20974cf8b8e928b2b" [ref=f83e98]
+                  - cell "hash" [ref=f83e99]
+                  - cell "257" [ref=f83e101]
+                - row [ref=f83e103]:
+                  - cell "article:cache:6ad871a20974cf8b8e928b85" [ref=f83e104]
+                  - cell "hash" [ref=f83e105]
+                  - cell "179" [ref=f83e107]
+                - row [ref=f83e109]:
+                  - cell "article:cache:6ad871a20974cf8b8e928b86" [ref=f83e110]
+                  - cell "hash" [ref=f83e111]
+                  - cell "179" [ref=f83e113]
+                - row [ref=f83e115]:
+                  - cell "article:cache:6ad871a20974cf8b8e928b87" [ref=f83e116]
+                  - cell "hash" [ref=f83e117]
+                  - cell "179" [ref=f83e119]
+                - row [ref=f83e121]:
+                  - cell "article:cache:6ad871a20974cf8b8e928b88" [ref=f83e122]
+                  - cell "hash" [ref=f83e123]
+                  - cell "179" [ref=f83e125]
+                - row [ref=f83e127]:
+                  - cell "article:cache:6ad871a20974cf8b8e928b89" [ref=f83e128]
+                  - cell "hash" [ref=f83e129]
+                  - cell "179" [ref=f83e131]
+                - row [ref=f83e133]:
+                  - cell "article:cache:6ad871a20974cf8b8e928b8a" [ref=f83e134]
+                  - cell "hash" [ref=f83e135]
+                  - cell "179" [ref=f83e137]
+                - row [ref=f83e139]:
+                  - cell "article:cache:6ad871a20974cf8b8e928b8b" [ref=f83e140]
+                  - cell "hash" [ref=f83e141]
+                  - cell "179" [ref=f83e143]
+                - row [ref=f83e145]:
+                  - cell "article:cache:6ad871a20974cf8b8e928b8c" [ref=f83e146]
+                  - cell "hash" [ref=f83e147]
+                  - cell "179" [ref=f83e149]
+                - row [ref=f83e151]:
+                  - cell "article:cache:6ad871a20974cf8b8e928b8d" [ref=f83e152]
+                  - cell "hash" [ref=f83e153]
+                  - cell "179" [ref=f83e155]
+                - row [ref=f83e157]:
+                  - cell "article:cache:6ad871a20974cf8b8e928b8e" [ref=f83e158]
+                  - cell "hash" [ref=f83e159]
+                  - cell "179" [ref=f83e161]
+                - row [ref=f83e163]:
+                  - cell "article:cache:hot:6ad871a20974cf8b8e928b80" [ref=f83e164]
+                  - cell "hash" [ref=f83e165]
+                  - cell "1679" [ref=f83e167]
+                - row [ref=f83e169]:
+                  - cell "article:cache:hot:6ad871a20974cf8b8e928b81" [ref=f83e170]
+                  - cell "hash" [ref=f83e171]
+                  - cell "1679" [ref=f83e173]
+                - row [ref=f83e175]:
+                  - cell "article:cache:hot:6ad871a20974cf8b8e928b82" [ref=f83e176]
+                  - cell "hash" [ref=f83e177]
+                  - cell "1679" [ref=f83e179]
+                - row [ref=f83e181]:
+                  - cell "article:cache:hot:6ad871a20974cf8b8e928b83" [ref=f83e182]
+                  - cell "hash" [ref=f83e183]
+                  - cell "1679" [ref=f83e185]
+                - row [ref=f83e187]:
+                  - cell "article:cache:hot:6ad871a20974cf8b8e928b84" [ref=f83e188]
+                  - cell "hash" [ref=f83e189]
+                  - cell "1679" [ref=f83e191]
+                - row [ref=f83e193]:
+                  - cell "article:list:1:newest:all-all" [ref=f83e194]
+                  - cell "string" [ref=f83e195]
+                  - cell "28" [ref=f83e197]
+                - row [ref=f83e199]:
+                  - cell "article:views:6ad871a20974cf8b8e928b80" [ref=f83e200]
+                  - cell "string" [ref=f83e201]
+                  - cell "86279" [ref=f83e203]
+                - row [ref=f83e205]:
+                  - cell "article:views:6ad871a20974cf8b8e928b81" [ref=f83e206]
+                  - cell "string" [ref=f83e207]
+                  - cell "86279" [ref=f83e209]
+                - row [ref=f83e211]:
+                  - cell "article:views:6ad871a20974cf8b8e928b82" [ref=f83e212]
+                  - cell "string" [ref=f83e213]
+                  - cell "86279" [ref=f83e215]
+                - row [ref=f83e217]:
+                  - cell "article:views:6ad871a20974cf8b8e928b83" [ref=f83e218]
+                  - cell "string" [ref=f83e219]
+                  - cell "86279" [ref=f83e221]
+                - row [ref=f83e223]:
+                  - cell "article:views:6ad871a20974cf8b8e928b84" [ref=f83e224]
+                  - cell "string" [ref=f83e225]
+                  - cell "86279" [ref=f83e227]
+                - row [ref=f83e229]:
+                  - cell "article:views:6ad871a20974cf8b8e928b85" [ref=f83e230]
+                  - cell "string" [ref=f83e231]
+                  - cell "86279" [ref=f83e233]
+                - row [ref=f83e235]:
+                  - cell "article:views:6ad871a20974cf8b8e928b86" [ref=f83e236]
+                  - cell "string" [ref=f83e237]
+                  - cell "86279" [ref=f83e239]
+                - row [ref=f83e241]:
+                  - cell "article:views:6ad871a20974cf8b8e928b87" [ref=f83e242]
+                  - cell "string" [ref=f83e243]
+                  - cell "86279" [ref=f83e245]
+                - row [ref=f83e247]:
+                  - cell "article:views:6ad871a20974cf8b8e928b88" [ref=f83e248]
+                  - cell "string" [ref=f83e249]
+                  - cell "86279" [ref=f83e251]
+                - row [ref=f83e253]:
+                  - cell "article:views:6ad871a20974cf8b8e928b89" [ref=f83e254]
+                  - cell "string" [ref=f83e255]
+                  - cell "86279" [ref=f83e257]
+                - row [ref=f83e259]:
+                  - cell "article:views:6ad871a20974cf8b8e928b8a" [ref=f83e260]
+                  - cell "string" [ref=f83e261]
+                  - cell "86279" [ref=f83e263]
+                - row [ref=f83e265]:
+                  - cell "article:views:6ad871a20974cf8b8e928b8b" [ref=f83e266]
+                  - cell "string" [ref=f83e267]
+                  - cell "86279" [ref=f83e269]
+                - row [ref=f83e271]:
+                  - cell "article:views:6ad871a20974cf8b8e928b8c" [ref=f83e272]
+                  - cell "string" [ref=f83e273]
+                  - cell "86279" [ref=f83e275]
+                - row [ref=f83e277]:
+                  - cell "article:views:6ad871a20974cf8b8e928b8d" [ref=f83e278]
+                  - cell "string" [ref=f83e279]
+                  - cell "86302" [ref=f83e281]
+                - row [ref=f83e283]:
+                  - cell "article:views:6ad871a20974cf8b8e928b8e" [ref=f83e284]
+                  - cell "string" [ref=f83e285]
+                  - cell "86279" [ref=f83e287]
+                - row [ref=f83e289]:
+                  - cell "session:240eea3a7e121a48c4cebc5ea601674ab9f97104608876757b06d21c2bc3bca0" [ref=f83e290]
+                  - cell "hash" [ref=f83e291]
+                  - cell "479" [ref=f83e293]
+                - row [ref=f83e295]:
+                  - cell "session:2e2252e2c4e7846fde1dfe996b496f58849e749287d315b81a95eaedbf740aab" [ref=f83e296]
+                  - cell "hash" [ref=f83e297]
+                  - cell "1744" [ref=f83e299]
+                - row [ref=f83e301]:
+                  - cell "session:306cf230a474e14da425f177bee3b27f025a5e4bc35fb260948252c90ce59d06" [ref=f83e302]
+                  - cell "hash" [ref=f83e303]
+                  - cell "779" [ref=f83e305]
+                - row [ref=f83e307]:
+                  - cell "session:3d73f52634a14f8ac890733756338d60a235b38da464e4906a0e4287ef12d560" [ref=f83e308]
+                  - cell "hash" [ref=f83e309]
+                  - cell "1687" [ref=f83e311]
+                - row [ref=f83e313]:
+                  - cell "session:41871cc9ac8ed3e06fef3dca3ae59bc7544d68a198eb6d787651b608b0be7e94" [ref=f83e314]
+                  - cell "hash" [ref=f83e315]
+                  - cell "1689" [ref=f83e317]
+                - row [ref=f83e319]:
+                  - cell "session:4786fdf90b91c99c98d5539ae6565d88d5753fe4385b96404a37769fddf15224" [ref=f83e320]
+                  - cell "hash" [ref=f83e321]
+                  - cell "779" [ref=f83e323]
+                - row [ref=f83e325]:
+                  - cell "session:4e81de0607f406da69a7b5f7da73a7e84a96720de86f18cc0338f8aae4048724" [ref=f83e326]
+                  - cell "hash" [ref=f83e327]
+                  - cell "1742" [ref=f83e329]
+                - row [ref=f83e331]:
+                  - cell "session:69a6ebbd841d2605d5900b2e0441af04d927185088cc63cc2530aa2def46e76a" [ref=f83e332]
+                  - cell "hash" [ref=f83e333]
+                  - cell "1679" [ref=f83e335]
+                - row [ref=f83e337]:
+                  - cell "session:6d45e5e97b5a8c377f339ea7875266a03a34dfab02af27e3ed85b5cde0db4893" [ref=f83e338]
+                  - cell "hash" [ref=f83e339]
+                  - cell "1689" [ref=f83e341]
+                - row [ref=f83e343]:
+                  - cell "session:706029e877493a9dff6e8d3620dc3ac89b74d62937ab0b2379704f5376a00834" [ref=f83e344]
+                  - cell "hash" [ref=f83e345]
+                  - cell "1744" [ref=f83e347]
+                - row [ref=f83e349]:
+                  - cell "session:80a8d2dd7ff584c4450dde716bfa3d5c3808396d25de7cd541dff4a693f927a0" [ref=f83e350]
+                  - cell "hash" [ref=f83e351]
+                  - cell "479" [ref=f83e353]
+                - row [ref=f83e355]:
+                  - cell "session:85ca9fe6f81e04019831a813cd1f2f5e4df6454056ccc92bdac7d30fb5b325c9" [ref=f83e356]
+                  - cell "hash" [ref=f83e357]
+                  - cell "1679" [ref=f83e359]
+                - row [ref=f83e361]:
+                  - cell "session:99d59bda638690abaf9b90a371aecaa80147078d067ffd787cdcb5a8a1a29a7d" [ref=f83e362]
+                  - cell "hash" [ref=f83e363]
+                  - cell "1742" [ref=f83e365]
+                - row [ref=f83e367]:
+                  - cell "session:a6c0da9851e5bde7f91343dff8496c449dcd0a35a95ace37c6ee2d771fdeb4fe" [ref=f83e368]
+                  - cell "hash" [ref=f83e369]
+                  - cell "1679" [ref=f83e371]
+                - row [ref=f83e373]:
+                  - cell "session:b7bcf568a9a8cb06ddd907dc6f76f6656796b3f68a9d0910f734373c7df37247" [ref=f83e374]
+                  - cell "hash" [ref=f83e375]
+                  - cell "1744" [ref=f83e377]
+                - row [ref=f83e379]:
+                  - cell "session:cc0849cf20551691cae60e54b41e47b79102bf6c4e4fb6780ed4d862fec6572d" [ref=f83e380]
+                  - cell "hash" [ref=f83e381]
+                  - cell "179" [ref=f83e383]
+                - row [ref=f83e385]:
+                  - cell "session:db9bbf0779d1b8a5f7b2b66aac574bb24447fc2b37fb442a1fa662416cb577dd" [ref=f83e386]
+                  - cell "hash" [ref=f83e387]
+                  - cell "1689" [ref=f83e389]
+                - row [ref=f83e391]:
+                  - cell "session:e0a0d170baebb51568e9754fb8484abfa7fa2955e5deb10e886e448ccaa61670" [ref=f83e392]
+                  - cell "hash" [ref=f83e393]
+                  - cell "59" [ref=f83e395]
+                - row [ref=f83e397]:
+                  - cell "session:e543bcd914d7fe0b8d8903e37036d93340eed2adb5c90465c290cc6931d824ea" [ref=f83e398]
+                  - cell "hash" [ref=f83e399]
+                  - cell "1800" [ref=f83e401]
+                - row [ref=f83e403]:
+                  - cell "session:f0e01bdfe01dbbdc2a3b4859bcf6c33b5618a592d666d3fa02cfbbe9d0e01b44" [ref=f83e404]
+                  - cell "hash" [ref=f83e405]
+                  - cell "1687" [ref=f83e407]
+                - row [ref=f83e409]:
+                  - cell "session:f866ca01324ef09da311c65d64e7755efe60b0063e34971a3e315877cc545c9b" [ref=f83e410]
+                  - cell "hash" [ref=f83e411]
+                  - cell "179" [ref=f83e413]
+                - row [ref=f83e415]:
+                  - cell "stats:cache:hits" [ref=f83e416]
+                  - cell "string" [ref=f83e417]
+                  - cell "khong co" [ref=f83e419]
+                - row [ref=f83e420]:
+                  - cell "stats:cache:misses" [ref=f83e421]
+                  - cell "string" [ref=f83e422]
+                  - cell "khong co" [ref=f83e424]
+          - generic [ref=f83e426]:
+            - generic [ref=f83e427]:
+              - strong [ref=f83e428]:
+                - generic [ref=f83e429]: 
+                - text: Phien dang nhap (Hash)
+              - generic [ref=f83e430]: 21 phien
+            - table [ref=f83e432]:
+              - rowgroup [ref=f83e433]:
+                - row [ref=f83e434]:
+                  - columnheader "Nguoi dung" [ref=f83e435]
+                  - columnheader "Vai tro" [ref=f83e436]
+                  - columnheader "TTL" [ref=f83e437]
+              - rowgroup [ref=f83e438]:
+                - row [ref=f83e439]:
+                  - cell "bien_tap 2026-10-21 08:30:00" [ref=f83e440]:
+                    - generic [ref=f83e441]: bien_tap
+                    - generic [ref=f83e442]: 2026-10-21 08:30:00
+                  - cell "editor" [ref=f83e443]
+                  - cell "779" [ref=f83e445]
+                - row [ref=f83e447]:
+                  - cell "doc_giang_01 2026-10-21 08:30:00" [ref=f83e448]:
+                    - generic [ref=f83e449]: doc_giang_01
+                    - generic [ref=f83e450]: 2026-10-21 08:30:00
+                  - cell "admin" [ref=f83e451]
+                  - cell "779" [ref=f83e453]
+                - row [ref=f83e455]:
+                  - cell "reader_03 2026-10-21 08:30:00" [ref=f83e456]:
+                    - generic [ref=f83e457]: reader_03
+                    - generic [ref=f83e458]: 2026-10-21 08:30:00
+                  - cell "reader" [ref=f83e459]
+                  - cell "179" [ref=f83e461]
+                - row [ref=f83e463]:
+                  - cell "reader_01 2026-10-21 08:30:00" [ref=f83e464]:
+                    - generic [ref=f83e465]: reader_01
+                    - generic [ref=f83e466]: 2026-10-21 08:30:00
+                  - cell "reader" [ref=f83e467]
+                  - cell "479" [ref=f83e469]
+                - row [ref=f83e471]:
+                  - cell "sv3_editor 2026-10-21 08:30:00" [ref=f83e472]:
+                    - generic [ref=f83e473]: sv3_editor
+                    - generic [ref=f83e474]: 2026-10-21 08:30:00
+                  - cell "editor" [ref=f83e475]
+                  - cell "1679" [ref=f83e477]
+                - row [ref=f83e479]:
+                  - cell "reader_04 2026-10-21 08:30:00" [ref=f83e480]:
+                    - generic [ref=f83e481]: reader_04
+                    - generic [ref=f83e482]: 2026-10-21 08:30:00
+                  - cell "reader" [ref=f83e483]
+                  - cell "59" [ref=f83e485]
+                - row [ref=f83e487]:
+                  - cell "doc_giang_02 2026-10-21 08:30:00" [ref=f83e488]:
+                    - generic [ref=f83e489]: doc_giang_02
+                    - generic [ref=f83e490]: 2026-10-21 08:30:00
+                  - cell "admin" [ref=f83e491]
+                  - cell "479" [ref=f83e493]
+                - row [ref=f83e495]:
+                  - cell "reader_02 2026-10-21 08:30:00" [ref=f83e496]:
+                    - generic [ref=f83e497]: reader_02
+                    - generic [ref=f83e498]: 2026-10-21 08:30:00
+                  - cell "reader" [ref=f83e499]
+                  - cell "179" [ref=f83e501]
+                - row [ref=f83e503]:
+                  - cell "sv1_admin 2026-10-21 08:30:00" [ref=f83e504]:
+                    - generic [ref=f83e505]: sv1_admin
+                    - generic [ref=f83e506]: 2026-10-21 08:30:00
+                  - cell "admin" [ref=f83e507]
+                  - cell "1679" [ref=f83e509]
+                - row [ref=f83e511]:
+                  - cell "sv2_editor 2026-10-21 08:30:00" [ref=f83e512]:
+                    - generic [ref=f83e513]: sv2_editor
+                    - generic [ref=f83e514]: 2026-10-21 08:30:00
+                  - cell "editor" [ref=f83e515]
+                  - cell "1679" [ref=f83e517]
+                - row [ref=f83e519]:
+                  - cell "sv1_admin 2026-10-21 08:04:40" [ref=f83e520]:
+                    - generic [ref=f83e521]: sv1_admin
+                    - generic [ref=f83e522]: 2026-10-21 08:04:40
+                  - cell "admin" [ref=f83e523]
+                  - cell "1800" [ref=f83e525]
+                - row [ref=f83e527]:
+                  - cell "sv1_admin 2026-10-21 08:03:48" [ref=f83e528]:
+                    - generic [ref=f83e529]: sv1_admin
+                    - generic [ref=f83e530]: 2026-10-21 08:03:48
+                  - cell "admin" [ref=f83e531]
+                  - cell "1744" [ref=f83e533]
+                - row [ref=f83e535]:
+                  - cell "sv1_admin 2026-10-21 08:03:48" [ref=f83e536]:
+                    - generic [ref=f83e537]: sv1_admin
+                    - generic [ref=f83e538]: 2026-10-21 08:03:48
+                  - cell "admin" [ref=f83e539]
+                  - cell "1744" [ref=f83e541]
+                - row [ref=f83e543]:
+                  - cell "sv1_admin 2026-10-21 08:03:48" [ref=f83e544]:
+                    - generic [ref=f83e545]: sv1_admin
+                    - generic [ref=f83e546]: 2026-10-21 08:03:48
+                  - cell "admin" [ref=f83e547]
+                  - cell "1744" [ref=f83e549]
+                - row [ref=f83e551]:
+                  - cell "sv1_admin 2026-10-21 08:03:47" [ref=f83e552]:
+                    - generic [ref=f83e553]: sv1_admin
+                    - generic [ref=f83e554]: 2026-10-21 08:03:47
+                  - cell "admin" [ref=f83e555]
+                  - cell "1742" [ref=f83e557]
+                - row [ref=f83e559]:
+                  - cell "sv1_admin 2026-10-21 08:03:47" [ref=f83e560]:
+                    - generic [ref=f83e561]: sv1_admin
+                    - generic [ref=f83e562]: 2026-10-21 08:03:47
+                  - cell "admin" [ref=f83e563]
+                  - cell "1742" [ref=f83e565]
+                - row [ref=f83e567]:
+                  - cell "sv1_admin 2026-10-21 08:02:53" [ref=f83e568]:
+                    - generic [ref=f83e569]: sv1_admin
+                    - generic [ref=f83e570]: 2026-10-21 08:02:53
+                  - cell "admin" [ref=f83e571]
+                  - cell "1689" [ref=f83e573]
+                - row [ref=f83e575]:
+                  - cell "sv1_admin 2026-10-21 08:02:53" [ref=f83e576]:
+                    - generic [ref=f83e577]: sv1_admin
+                    - generic [ref=f83e578]: 2026-10-21 08:02:53
+                  - cell "admin" [ref=f83e579]
+                  - cell "1689" [ref=f83e581]
+                - row [ref=f83e583]:
+                  - cell "sv1_admin 2026-10-21 08:02:53" [ref=f83e584]:
+                    - generic [ref=f83e585]: sv1_admin
+                    - generic [ref=f83e586]: 2026-10-21 08:02:53
+                  - cell "admin" [ref=f83e587]
+                  - cell "1689" [ref=f83e589]
+                - row [ref=f83e591]:
+                  - cell "sv1_admin 2026-10-21 08:02:52" [ref=f83e592]:
+                    - generic [ref=f83e593]: sv1_admin
+                    - generic [ref=f83e594]: 2026-10-21 08:02:52
+                  - cell "admin" [ref=f83e595]
+                  - cell "1687" [ref=f83e597]
+                - row [ref=f83e599]:
+                  - cell "sv1_admin 2026-10-21 08:02:52" [ref=f83e600]:
+                    - generic [ref=f83e601]: sv1_admin
+                    - generic [ref=f83e602]: 2026-10-21 08:02:52
+                  - cell "admin" [ref=f83e603]
+                  - cell "1687" [ref=f83e605]
+  - contentinfo [ref=f83e607]:
+    - generic [ref=f83e608]:
+      - generic [ref=f83e609]:
+        - generic [ref=f83e610]:
+          - link " Tin Tuc NoSQL" [ref=f83e611] [cursor=pointer]:
+            - /url: /
+            - generic [ref=f83e612]: 
+            - text: Tin Tuc NoSQL
+          - paragraph [ref=f83e614]: Chuyen cong nghe, kinh te, the thao, khoa hoc, xa hoi va doi song - cap nhat moi ngay.
+        - generic [ref=f83e615]:
+          - heading "Chuyen muc" [level=5] [ref=f83e616]
+          - list [ref=f83e617]:
+            - listitem [ref=f83e618]:
+              - link "Cong nghe" [ref=f83e619] [cursor=pointer]:
+                - /url: /articles?category=Cong+nghe
+            - listitem [ref=f83e620]:
+              - link "Kinh te" [ref=f83e621] [cursor=pointer]:
+                - /url: /articles?category=Kinh+te
+            - listitem [ref=f83e622]:
+              - link "The thao" [ref=f83e623] [cursor=pointer]:
+                - /url: /articles?category=The+thao
+            - listitem [ref=f83e624]:
+              - link "Khoa hoc" [ref=f83e625] [cursor=pointer]:
+                - /url: /articles?category=Khoa+hoc
+            - listitem [ref=f83e626]:
+              - link "Xa hoi" [ref=f83e627] [cursor=pointer]:
+                - /url: /articles?category=Xa+hoi
+            - listitem [ref=f83e628]:
+              - link "Doi song" [ref=f83e629] [cursor=pointer]:
+                - /url: /articles?category=Doi+song
+        - generic [ref=f83e630]:
+          - heading "Trang" [level=5] [ref=f83e631]
+          - list [ref=f83e632]:
+            - listitem [ref=f83e633]:
+              - link "Trang chu" [ref=f83e634] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=f83e635]:
+              - link "Tin tuc" [ref=f83e636] [cursor=pointer]:
+                - /url: /articles
+            - listitem [ref=f83e637]:
+              - link "Xem nhieu nhat" [ref=f83e638] [cursor=pointer]:
+                - /url: /articles?sort=views
+            - listitem [ref=f83e639]:
+              - link "Dang nhap" [ref=f83e640] [cursor=pointer]:
+                - /url: /login
+        - generic [ref=f83e641]:
+          - heading "Lien he" [level=5] [ref=f83e642]
+          - list [ref=f83e643]:
+            - listitem [ref=f83e644]:
+              - generic [ref=f83e645]: 
+              - text: Ho Chi Minh, Viet Nam
+            - listitem [ref=f83e646]:
+              - generic [ref=f83e647]: 
+              - text: banbienwap@tinnucnosql.vn
+            - listitem [ref=f83e648]:
+              - generic [ref=f83e649]: 
+              - text: (028) 3 8 24 68 90
+      - generic [ref=f83e650]: © 2026 Tin Tuc NoSQL - Do an cuoi ky mon Du lieu NoSQL (De tai 06). Du an dung de hoc tap.

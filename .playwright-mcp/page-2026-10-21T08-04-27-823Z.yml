@@ -1,0 +1,152 @@
+- generic [ref=f80e1]:
+  - generic [ref=f80e3]:
+    - generic [ref=f80e4]: Tin tuc cap nhat lien tuc | Thu tu, ngay 21/10/2026
+    - generic [ref=f80e6]:
+      - link "Moi nhat" [ref=f80e7] [cursor=pointer]:
+        - /url: /articles?sort=newest
+      - text: "|"
+      - link "Xem nhieu nhat" [ref=f80e8] [cursor=pointer]:
+        - /url: /articles?sort=views
+  - navigation [ref=f80e9]:
+    - generic [ref=f80e10]:
+      - link " Tin Tuc NoSQL" [ref=f80e11] [cursor=pointer]:
+        - /url: /
+        - generic [ref=f80e12]: 
+        - generic [ref=f80e14]: Tin Tuc NoSQL
+      - generic [ref=f80e15]:
+        - list [ref=f80e16]:
+          - listitem [ref=f80e17]:
+            - link "Trang chu" [ref=f80e18] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=f80e19]:
+            - link "Cong nghe" [ref=f80e20] [cursor=pointer]:
+              - /url: /articles?category=Cong+nghe
+          - listitem [ref=f80e21]:
+            - link "Kinh te" [ref=f80e22] [cursor=pointer]:
+              - /url: /articles?category=Kinh+te
+          - listitem [ref=f80e23]:
+            - link "The thao" [ref=f80e24] [cursor=pointer]:
+              - /url: /articles?category=The+thao
+          - listitem [ref=f80e25]:
+            - link "Khoa hoc" [ref=f80e26] [cursor=pointer]:
+              - /url: /articles?category=Khoa+hoc
+          - listitem [ref=f80e27]:
+            - link "Xa hoi" [ref=f80e28] [cursor=pointer]:
+              - /url: /articles?category=Xa+hoi
+          - listitem [ref=f80e29]:
+            - link "Doi song" [ref=f80e30] [cursor=pointer]:
+              - /url: /articles?category=Doi+song
+        - generic [ref=f80e31]:
+          - textbox "Tim kiem bai viet..." [ref=f80e32]
+          - button "Tim kiem" [ref=f80e33] [cursor=pointer]:
+            - generic [ref=f80e34]: 
+        - list [ref=f80e35]:
+          - listitem [ref=f80e36]:
+            - link "Dang nhap" [ref=f80e37] [cursor=pointer]:
+              - /url: /login
+          - listitem [ref=f80e38]:
+            - link "Dang ky" [ref=f80e39] [cursor=pointer]:
+              - /url: /register
+  - main [ref=f80e40]:
+    - generic [ref=f80e42]:
+      - generic [ref=f80e43]:
+        - generic [ref=f80e44]:
+          - generic [ref=f80e45]:
+            - generic [ref=f80e46]: 
+            - generic [ref=f80e48]: Tin Tuc NoSQL
+          - heading "Doc tin tuc moi ngay, nhanh hon." [level=2] [ref=f80e49]: Doc tin tucmoi ngay, nhanh hon.
+          - paragraph [ref=f80e50]: Dang nhap de theo doi bai viet yeu thich va luu lai lich su doc.
+          - list [ref=f80e51]:
+            - listitem [ref=f80e52]:
+              - generic [ref=f80e53]: 
+              - generic [ref=f80e54]: 100 bai viet cap nhat moi truong day
+            - listitem [ref=f80e55]:
+              - generic [ref=f80e56]: 
+              - generic [ref=f80e57]: 6 chuyen muc da duyet
+            - listitem [ref=f80e58]:
+              - generic [ref=f80e59]: 
+              - generic [ref=f80e60]: Phien dang nhap duoc bao mat
+        - generic [ref=f80e61]: © 2026 Tin Tuc NoSQL
+      - generic [ref=f80e62]:
+        - heading "Dang nhap" [level=3] [ref=f80e63]
+        - paragraph [ref=f80e64]:
+          - text: Chua co tai khoan?
+          - link "Dang ky ngay" [ref=f80e65] [cursor=pointer]:
+            - /url: /register
+        - generic [ref=f80e66]:
+          - generic [ref=f80e67]:
+            - generic [ref=f80e68]: Email hoac ten dang nhap
+            - textbox "Email hoac ten dang nhap" [active] [ref=f80e69]:
+              - /placeholder: sv1_admin
+          - generic [ref=f80e70]:
+            - generic [ref=f80e71]: Mat khau
+            - textbox "Mat khau" [ref=f80e72]:
+              - /placeholder: ••••••
+          - button "Dang nhap" [ref=f80e73] [cursor=pointer]
+        - generic [ref=f80e74]: Tai khoan demo
+        - generic [ref=f80e75]:
+          - code [ref=f80e76]: sv1_admin
+          - text: ·
+          - code [ref=f80e77]: sv2_editor
+          - text: ·
+          - code [ref=f80e78]: sv3_editor
+          - text: "mat khau chung:"
+          - code [ref=f80e79]: "123456"
+  - contentinfo [ref=f80e80]:
+    - generic [ref=f80e81]:
+      - generic [ref=f80e82]:
+        - generic [ref=f80e83]:
+          - link " Tin Tuc NoSQL" [ref=f80e84] [cursor=pointer]:
+            - /url: /
+            - generic [ref=f80e85]: 
+            - text: Tin Tuc NoSQL
+          - paragraph [ref=f80e87]: Chuyen cong nghe, kinh te, the thao, khoa hoc, xa hoi va doi song - cap nhat moi ngay.
+        - generic [ref=f80e88]:
+          - heading "Chuyen muc" [level=5] [ref=f80e89]
+          - list [ref=f80e90]:
+            - listitem [ref=f80e91]:
+              - link "Cong nghe" [ref=f80e92] [cursor=pointer]:
+                - /url: /articles?category=Cong+nghe
+            - listitem [ref=f80e93]:
+              - link "Kinh te" [ref=f80e94] [cursor=pointer]:
+                - /url: /articles?category=Kinh+te
+            - listitem [ref=f80e95]:
+              - link "The thao" [ref=f80e96] [cursor=pointer]:
+                - /url: /articles?category=The+thao
+            - listitem [ref=f80e97]:
+              - link "Khoa hoc" [ref=f80e98] [cursor=pointer]:
+                - /url: /articles?category=Khoa+hoc
+            - listitem [ref=f80e99]:
+              - link "Xa hoi" [ref=f80e100] [cursor=pointer]:
+                - /url: /articles?category=Xa+hoi
+            - listitem [ref=f80e101]:
+              - link "Doi song" [ref=f80e102] [cursor=pointer]:
+                - /url: /articles?category=Doi+song
+        - generic [ref=f80e103]:
+          - heading "Trang" [level=5] [ref=f80e104]
+          - list [ref=f80e105]:
+            - listitem [ref=f80e106]:
+              - link "Trang chu" [ref=f80e107] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=f80e108]:
+              - link "Tin tuc" [ref=f80e109] [cursor=pointer]:
+                - /url: /articles
+            - listitem [ref=f80e110]:
+              - link "Xem nhieu nhat" [ref=f80e111] [cursor=pointer]:
+                - /url: /articles?sort=views
+            - listitem [ref=f80e112]:
+              - link "Dang nhap" [ref=f80e113] [cursor=pointer]:
+                - /url: /login
+        - generic [ref=f80e114]:
+          - heading "Lien he" [level=5] [ref=f80e115]
+          - list [ref=f80e116]:
+            - listitem [ref=f80e117]:
+              - generic [ref=f80e118]: 
+              - text: Ho Chi Minh, Viet Nam
+            - listitem [ref=f80e119]:
+              - generic [ref=f80e120]: 
+              - text: banbienwap@tinnucnosql.vn
+            - listitem [ref=f80e121]:
+              - generic [ref=f80e122]: 
+              - text: (028) 3 8 24 68 90
+      - generic [ref=f80e123]: © 2026 Tin Tuc NoSQL - Do an cuoi ky mon Du lieu NoSQL (De tai 06). Du an dung de hoc tap.
