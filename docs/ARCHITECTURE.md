@@ -58,7 +58,7 @@ Flask không phải framework MVC cứng như Rails/Spring, nên dự án tổ c
 |---|---|---|---|
 | **Presentation** | `views/` + `static/` + `controllers/` | Nhận request, render HTML, điều hướng | `Views/` + `wwwroot/` + `Controllers/` |
 | **Business Logic** | `services/` | Luật nghiệp vụ: Cache-Aside, TTL, Session, Invalidation | `Services/` |
-| **Data Access** | `models/` + `config.py` + `database/` | Định nghĩa dữ liệu, truy vấn, index, seed, backup | `Models/` + `Data/` + `appsettings.json` |
+| **Data Access** | `models/` + `config.py` + `data/` | Định nghĩa dữ liệu, truy vấn, index, seed, backup | `Models/` + `Data/` + `appsettings.json` |
 
 **Cách trả lời khi thầy hỏi "dự án bạn tổ chức theo mô hình gì?":**
 > *"Dự án tổ chức theo kiến trúc 3 tầng kết hợp mô hình MVC. Tầng Presentation gồm
@@ -271,7 +271,7 @@ Mỗi request → before_request trong app.py:
 | "Lượt xem đếm bằng cách nào?" | `cache_service.incr_views()` → `INCR article:views:<id>` (atomic) |
 | "Phân trang / lọc / sắp xếp ở đâu?" | `models/article.py::list_articles()` + index compound |
 | "Ảnh bài viết lưu kiểu gì?" | `data/seed_articles.py` (sinh bằng Pillow) + `static/images/`; DB lưu đường dẫn |
-| "Đo hiệu năng thế nào?" | `scripts/benchmark.py` + `scripts/plot_benchmark.py` |
+| "Đo hiệu năng thế nào?" | `data/benchmark.py` + `data/plot_benchmark.py` |
 | "Backup/Restore ra sao?" | `data/backup.py` / `data/restore.py` (kèm `mongodump`/`mongorestore`) |
 | "Có test không?" | `tests/` — chạy `python -m pytest tests/ -v` (20 test) |
 | "Bảo mật thế nào?" | Hash mật khẩu, cookie HttpOnly, biến môi trường trong `.env` không commit, escape regex khi tìm kiếm |
