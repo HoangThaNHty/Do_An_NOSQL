@@ -167,6 +167,23 @@ class CacheService:
         value = self.redis.get(self.views_key(article_id))
         return int(value) if value else 0
 
+    def get_views_many(self, article_ids):
+        """
+        Doc nhieu bo dem luot xem trong 1 lan round-trip (pipeline).
+        Dung khi hien thi danh sach bai viet de luot xem luon moi nhat.
+        """
+        ids = [str(i) for i in article_ids if i]
+        if not ids:
+            return {}
+        pipe = self.redis.pipeline()
+        for article_id in ids:
+            pipe.get(self.views_key(article_id))
+        values = pipe.execute()
+        return {
+            article_id: int(value) if value else 0
+            for article_id, value in zip(ids, values)
+        }
+
     # ==================================================================
     # 4. CACHE DANH SACH BAI VIET
     # ==================================================================

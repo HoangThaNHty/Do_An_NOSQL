@@ -1,0 +1,83 @@
+- generic [active] [ref=f8e1]:
+  - navigation [ref=f8e2]:
+    - generic [ref=f8e3]:
+      - link " Tin Tuc NoSQL" [ref=f8e4] [cursor=pointer]:
+        - /url: /
+        - generic [ref=f8e5]: 
+        - text: Tin Tuc NoSQL
+      - button [ref=f8e6] [cursor=pointer]
+      - text: 
+  - main [ref=f8e8]:
+    - navigation "breadcrumb" [ref=f8e9]:
+      - list [ref=f8e10]:
+        - listitem [ref=f8e11]:
+          - link "Trang chu" [ref=f8e12] [cursor=pointer]:
+            - /url: /
+        - listitem [ref=f8e13]:
+          - text: /
+          - link "Khoa hoc" [ref=f8e14] [cursor=pointer]:
+            - /url: /articles?category=Khoa+hoc
+        - listitem [ref=f8e15]: / Nghi thuc va ky thuat thuoc moi trong di
+    - generic [ref=f8e16]:
+      - generic [ref=f8e17]:
+        - generic [ref=f8e18]: 
+        - text: "Nguon du lieu cua lan xem nay:"
+        - strong [ref=f8e19]: REDIS CACHE (Cache Hit)
+      - generic [ref=f8e20]: "TTL cache:"
+    - generic [ref=f8e21]:
+      - article [ref=f8e23]:
+        - img "Nghi thuc va ky thuat thuoc moi trong dieu tri" [ref=f8e24]
+        - generic [ref=f8e25]:
+          - generic [ref=f8e26]: Khoa hoc
+          - heading "Nghi thuc va ky thuat thuoc moi trong dieu tri" [level=1] [ref=f8e27]
+          - paragraph [ref=f8e28]:
+            - generic [ref=f8e29]: 
+            - text: To So Bien Tap |
+            - generic [ref=f8e30]: 
+            - text: 2026-10-21 06:43:20.003000 |
+            - generic [ref=f8e31]: 
+            - strong [ref=f8e32]: "36"
+            - text: luot xem
+          - paragraph [ref=f8e33]: Ket qua kiem chung cho thay huong nghien dang dua ra nhung buoc tien ro ret.
+          - paragraph [ref=f8e34]: Ket qua cua dot kiem tra cho thay phan lon nhan dinh dung phuong an dang duoc trien khai co hieu qua. Tuy nhien, can bo sung them cac bai toan ve an toinh thong tin va bao dam chat luong du lieu.
+          - paragraph [ref=f8e35]: Song song, cac dau moi nghi thuc chuyen mon duoc to chuc va phat trien nang cao chat luong hoi dap.
+          - paragraph [ref=f8e36]: Trong boi canh ky thuat va kinh te dang bien doi nhanh, sucEp vao moi truong can duoc nhan dinh dung dac biet. Cac chuyen gia nhan dinh rang nhung thay doi nay khong chi den mot linh vuc ma con lan rong ra nhieu nganh khac nhau.
+          - paragraph [ref=f8e37]: Trong ngan han, cac don vi dang nang cao nang luc doi moi, chu dong dua san cong nghe vao hoat dong. Cach tiep can nay duoc ky vong tao ra nhung dot phat trien moi ve chat luong dich vu.
+          - paragraph [ref=f8e38]: Doi voi nguoi dan, thay doi dich trong thoi gian nganh nua cung khong kho nho. Nhieu gia phap da duoc de xuat va mot so mo hinh thu nghiem da nhan duoc su quan tam.
+      - generic [ref=f8e39]:
+        - generic [ref=f8e40]:
+          - generic [ref=f8e41]:
+            - generic [ref=f8e42]: 
+            - text: Bao cao cache
+          - generic [ref=f8e43]:
+            - paragraph [ref=f8e44]:
+              - text: Bai viet nay duoc doc theo luu v
+              - strong [ref=f8e45]: Cache-Aside
+              - text: ":"
+            - list [ref=f8e46]:
+              - listitem [ref=f8e47]:
+                - text: "Key:"
+                - code [ref=f8e48]: article:cache:6ad85f08a4c0e3f0410c1ba9
+              - listitem [ref=f8e49]:
+                - text: "Luot xem:"
+                - code [ref=f8e50]: article:views:6ad85f08a4c0e3f0410c1ba9
+                - text: (INCR)
+              - listitem [ref=f8e51]:
+                - text: "Du lieu lay tu:"
+                - strong [ref=f8e52]: Redis
+        - generic [ref=f8e53]:
+          - generic [ref=f8e54]:
+            - generic [ref=f8e55]: 
+            - text: Bai viet lien quan
+          - generic [ref=f8e56]:
+            - link "Khoa hoc Nghien cuu moi ve nguon nang luong tai tao" [ref=f8e57] [cursor=pointer]:
+              - /url: /articles/6ad85f07a4c0e3f0410c1ba3
+              - text: Khoa hocNghien cuu moi ve nguon nang luong tai tao
+            - 'link "Khoa hoc Khoa hoc du lieu: ket noi xa hoi va cong nghe" [ref=f8e58] [cursor=pointer]':
+              - /url: /articles/6ad85f07a4c0e3f0410c1b9d
+              - text: "Khoa hocKhoa hoc du lieu: ket noi xa hoi va cong nghe"
+            - link "Khoa hoc Nghien cuu moi ve vat lieu de chan phong dien tu" [ref=f8e59] [cursor=pointer]:
+              - /url: /articles/6ad85f07a4c0e3f0410c1b97
+              - text: Khoa hocNghien cuu moi ve vat lieu de chan phong dien tu
+  - contentinfo [ref=f8e60]:
+    - generic [ref=f8e61]: "Tin Tuc NoSQL — Do an cuoi ky mon Du lieu NoSQL (De tai 06: Cache-Aside & Session Management)"

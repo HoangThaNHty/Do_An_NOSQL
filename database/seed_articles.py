@@ -119,6 +119,7 @@ TITLES = {
         "Chuyen gia binhluan cua tran chung ket si Viet Nam",
         "Ky luc moi cua nen the thao trong nu",
         "Nghi thuc the thao bo phan: bai hoc tu the gioi",
+        "Chuyen gia danh gia suc manh cua doi tuyen thu te",
     ],
     "Khoa hoc": [
         "May tro khang tim ra loai phan tu moi trong bang cach",
@@ -135,6 +136,9 @@ TITLES = {
         "Cong nghe luu tru moi huong toi bang gia soi nhan thuc",
         "Vai tro cua may dien toan luong trong nghien cuu bien khi hau",
         "Nghien cuu moi ve vat lieu de chan phong dien tu",
+        "Khoa hoc du lieu: ket noi xa hoi va cong nghe",
+        "Nghien cuu moi ve nguon nang luong tai tao",
+        "Nghi thuc va ky thuat thuoc moi trong dieu tri",
     ],
     "Xa hoi": [
         "Ha noi phat hanh ke hoach giao thong moi nam 2026",
@@ -151,6 +155,9 @@ TITLES = {
         "Mo hinh kinh doanh chia se tai cong ty cong",
         "Nghien cuu ve muc thu nhap cua ho gia dinh tai TP.HCM",
         "Vai tro cua cong cong truc tuyen trong thoi gian gian cach",
+        "Diem moi cua phong cach nghiep vu cong cong",
+        "Buc tranh chung ve muc do hoi nhap cua nguoi dan",
+        "Trai nghiem cong cong khong phai moi dung nua ky so",
     ],
     "Doi song": [
         "Ngonh thuc an lienh giup tang nang luong buoi sang",
@@ -164,6 +171,11 @@ TITLES = {
         "Son do hien trong thoi gian lam viec",
         "Cach chon qua tet cho nguoi lam viec",
         "Thoii qu doc sach giup tang tap trung tot hon",
+        "Mon an nhanh cho nguoi lam viec nhiu dong viec",
+        "Cach chuan bi mon an gia dinh trong 20 phut",
+        "Xu huong cham soc suc khoe theo moi hinh",
+        "Biet bo sung thoi gian cho ban than sau ngay lam viec",
+        "Cach giup tre em canh trong thoi gian nghi he",
     ],
 }
 
@@ -247,28 +259,32 @@ def generate_image(index, title, category, out_dir: Path):
     draw.rectangle([60, 60, width - 60, height - 60], outline=(255, 255, 255), width=3)
 
     # Chu
-    font_cat = _font(44, bold=True)
-    font_no = _font(150, bold=True)
-    font_title = _font(38, bold=True)
+    font_cat = _font(40, bold=True)
+    font_no = _font(120, bold=True)
+    font_title = _font(40, bold=True)
 
-    draw.text((100, 110), category.upper(), font=font_cat, fill=(255, 255, 255))
-    draw.text((100, height - 260), f"#{index:03d}", font=font_no, fill=(255, 255, 255))
+    # Chu muc o goc tren trai
+    draw.text((100, 105), category.upper(), font=font_cat, fill=(255, 255, 255))
+    # So thu tu o goc tren phai
+    number_text = f"#{index:03d}"
+    num_w = draw.textlength(number_text, font=font_no)
+    draw.text((width - 100 - num_w, 90), number_text, font=font_no, fill=(255, 255, 255))
 
-    # Cat tieu de la 2 dong
+    # Tieu de: 2 dong o duoi
     words = title.split()
     line, lines = "", []
     for word in words:
-        if len(line + " " + word) > 38:
+        if len(line + " " + word) > 34:
             lines.append(line)
             line = word
         else:
             line = (line + " " + word).strip()
     if line:
         lines.append(line)
-    y = height - 150
+    y = height - 200
     for text_line in lines[:2]:
         draw.text((100, y), text_line, font=font_title, fill=(255, 255, 255))
-        y += 52
+        y += 56
 
     image.save(path, "JPEG", quality=82, optimize=True)
     return f"/static/uploads/{filename}"
@@ -293,6 +309,22 @@ def seed_users(db):
     return created
 
 
+def _interleave_by_category(titles_by_category):
+    """
+    Xen ke cac chuyen muc de trang chu (sap xep moi nhat) hien thi du
+    chuyen muc chu khong bi 1 chuyen muc lien tiep.
+    Moi chuyen muc chi giu toi da TOTAL_ARTICLES/so_chuyen_muc tieu de.
+    """
+    max_per_category = -(-TOTAL_ARTICLES // len(titles_by_category))  # lam tron len
+    buckets = {cat: list(titles)[:max_per_category] for cat, titles in titles_by_category.items()}
+    order = []
+    while any(buckets.values()):
+        for cat in buckets:
+            if buckets[cat]:
+                order.append((cat, buckets[cat].pop(0)))
+    return order
+
+
 def seed_articles(db, upload_dir: Path, reset=False):
     """Tao 100 bai viet hoan chinh + 100 anh."""
     if reset:
@@ -306,33 +338,32 @@ def seed_articles(db, upload_dir: Path, reset=False):
 
     index = existing
     created = 0
-    for category, titles in TITLES.items():
-        for title in titles:
-            index += 1
-            if index > TOTAL_ARTICLES:
-                break
-            image_path = generate_image(index, title, category, upload_dir)
+    for category, title in _interleave_by_category(TITLES):
+        if index >= TOTAL_ARTICLES:
+            break
+        index += 1
+        image_path = generate_image(index, title, category, upload_dir)
 
-            paragraphs = random.sample(PARAGRAPHS, k=min(5, len(PARAGRAPHS)))
-            content = "\n\n".join(paragraphs)
-            summary = random.choice(SUMMARIES)
-            tags = [w.lower() for w in title.split()[:4] if len(w) > 4]
+        paragraphs = random.sample(PARAGRAPHS, k=min(5, len(PARAGRAPHS)))
+        content = "\n\n".join(paragraphs)
+        summary = random.choice(SUMMARIES)
+        tags = [w.lower() for w in title.split()[:4] if len(w) > 4]
 
-            article_model.create_article(
-                db,
-                {
-                    "title": title,
-                    "summary": summary,
-                    "content": content,
-                    "image": image_path,
-                    "category": category,
-                    "tags": tags,
-                    "status": "published",
-                },
-                author_id=None,
-                author_name="To So Bien Tap",
-            )
-            created += 1
+        article_model.create_article(
+            db,
+            {
+                "title": title,
+                "summary": summary,
+                "content": content,
+                "image": image_path,
+                "category": category,
+                "tags": tags,
+                "status": "published",
+            },
+            author_id=None,
+            author_name="To So Bien Tap",
+        )
+        created += 1
     return created
 
 

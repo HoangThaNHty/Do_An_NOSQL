@@ -15,7 +15,7 @@
         <i class="bi bi-database"></i> Nguon du lieu cua lan xem nay:
         <strong>{% if source == 'cache' %}REDIS CACHE (Cache Hit){% else %}MONGODB (Cache Miss){% endif %}</strong>
     </span>
-    <span class="badge text-bg-dark">TTL cache: {{ config_ttl if config_ttl is defined else '' }}</span>
+    <span class="badge text-bg-dark">TTL con lai: {{ cache_ttl }}s</span>
 </div>
 
 <div class="row g-4">
@@ -51,9 +51,10 @@
             <div class="card-body small">
                 <p class="mb-2">Bai viet nay duoc doc theo luu v <strong>Cache-Aside</strong>:</p>
                 <ul class="mb-0">
-                    <li>Key: <code>article:cache:{{ article._id }}</code></li>
-                    <li>Luot xem: <code>article:views:{{ article._id }}</code> (INCR)</li>
-                    <li>Du lieu lay tu: <strong>{{ 'Redis' if source == 'cache' else 'MongoDB' }}</strong></li>
+                    <li>Key: <code>{{ cache_key }}</code></li>
+                    <li>TTL còn lại: <strong>{{ cache_ttl }} giây</strong></li>
+                    <li>Lượt xem: <code>article:views:{{ article._id }}</code> (INCR)</li>
+                    <li>Dữ liệu lấy từ: <strong>{{ 'Redis' if source == 'cache' else 'MongoDB' }}</strong></li>
                 </ul>
             </div>
         </div>

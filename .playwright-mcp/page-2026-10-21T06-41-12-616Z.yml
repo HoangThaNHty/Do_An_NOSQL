@@ -1,0 +1,178 @@
+- generic [active] [ref=f2e1]:
+  - navigation [ref=f2e2]:
+    - generic [ref=f2e3]:
+      - link " Tin Tuc NoSQL" [ref=f2e4] [cursor=pointer]:
+        - /url: /
+        - generic [ref=f2e5]: 
+        - text: Tin Tuc NoSQL
+      - button [ref=f2e6] [cursor=pointer]
+  - main [ref=f2e8]:
+    - generic [ref=f2e9]:
+      - heading "Tin tuc moi nhat" [level=1] [ref=f2e10]
+      - generic [ref=f2e11]: "Nguon du lieu: cache"
+    - generic [ref=f2e12]:
+      - generic [ref=f2e14]:
+        - link [ref=f2e15] [cursor=pointer]:
+          - /url: /articles/6ad85e43d9e7da8bd39cd0e1
+          - img "Thoii qu doc sach giup tang tap trung tot hon" [ref=f2e16]
+        - generic [ref=f2e17]:
+          - generic [ref=f2e18]: Doi song
+          - heading [level=5] [ref=f2e19]:
+            - link "Thoii qu doc sach giup tang tap trung tot hon" [ref=f2e20] [cursor=pointer]:
+              - /url: /articles/6ad85e43d9e7da8bd39cd0e1
+          - paragraph [ref=f2e21]: Ket qua kiem chung cho thay huong nghien dang dua ra nhung buoc tien ro ret....
+          - generic [ref=f2e22]:
+            - generic [ref=f2e23]:
+              - generic [ref=f2e24]: 
+              - text: 21/10/2026 06:40
+            - generic [ref=f2e25]:
+              - generic [ref=f2e26]: 
+              - text: "35"
+      - generic [ref=f2e28]:
+        - link [ref=f2e29] [cursor=pointer]:
+          - /url: /articles/6ad85e43d9e7da8bd39cd0e0
+          - img "Cach chon qua tet cho nguoi lam viec" [ref=f2e30]
+        - generic [ref=f2e31]:
+          - generic [ref=f2e32]: Doi song
+          - heading [level=5] [ref=f2e33]:
+            - link "Cach chon qua tet cho nguoi lam viec" [ref=f2e34] [cursor=pointer]:
+              - /url: /articles/6ad85e43d9e7da8bd39cd0e0
+          - paragraph [ref=f2e35]: Ket qua kiem chung cho thay huong nghien dang dua ra nhung buoc tien ro ret....
+          - generic [ref=f2e36]:
+            - generic [ref=f2e37]:
+              - generic [ref=f2e38]: 
+              - text: 21/10/2026 06:40
+            - generic [ref=f2e39]:
+              - generic [ref=f2e40]: 
+              - text: "42"
+      - generic [ref=f2e42]:
+        - link [ref=f2e43] [cursor=pointer]:
+          - /url: /articles/6ad85e43d9e7da8bd39cd0df
+          - img "Son do hien trong thoi gian lam viec" [ref=f2e44]
+        - generic [ref=f2e45]:
+          - generic [ref=f2e46]: Doi song
+          - heading [level=5] [ref=f2e47]:
+            - link "Son do hien trong thoi gian lam viec" [ref=f2e48] [cursor=pointer]:
+              - /url: /articles/6ad85e43d9e7da8bd39cd0df
+          - paragraph [ref=f2e49]: Nhieu thay doi dang duoc ghi nhan va cac chuyen gia nhan dinh danh giá se ra sao....
+          - generic [ref=f2e50]:
+            - generic [ref=f2e51]:
+              - generic [ref=f2e52]: 
+              - text: 21/10/2026 06:40
+            - generic [ref=f2e53]:
+              - generic [ref=f2e54]: 
+              - text: "49"
+      - generic [ref=f2e56]:
+        - link [ref=f2e57] [cursor=pointer]:
+          - /url: /articles/6ad85e43d9e7da8bd39cd0de
+          - img "Boi duong thoi khoang trong nhom viec cong so" [ref=f2e58]
+        - generic [ref=f2e59]:
+          - generic [ref=f2e60]: Doi song
+          - heading [level=5] [ref=f2e61]:
+            - link "Boi duong thoi khoang trong nhom viec cong so" [ref=f2e62] [cursor=pointer]:
+              - /url: /articles/6ad85e43d9e7da8bd39cd0de
+          - paragraph [ref=f2e63]: Nhieu thay doi dang duoc ghi nhan va cac chuyen gia nhan dinh danh giá se ra sao....
+          - generic [ref=f2e64]:
+            - generic [ref=f2e65]:
+              - generic [ref=f2e66]: 
+              - text: 21/10/2026 06:40
+            - generic [ref=f2e67]:
+              - generic [ref=f2e68]: 
+              - text: "56"
+      - generic [ref=f2e70]:
+        - link [ref=f2e71] [cursor=pointer]:
+          - /url: /articles/6ad85e43d9e7da8bd39cd0dd
+          - img "Cong nghe thong minh thay doi cach chung ta chon thuc an" [ref=f2e72]
+        - generic [ref=f2e73]:
+          - generic [ref=f2e74]: Doi song
+          - heading [level=5] [ref=f2e75]:
+            - link "Cong nghe thong minh thay doi cach chung ta chon thuc an" [ref=f2e76] [cursor=pointer]:
+              - /url: /articles/6ad85e43d9e7da8bd39cd0dd
+          - paragraph [ref=f2e77]: Cong ty va co quan chuc nang lien quan da ban hanh huong dan moi truoc doi....
+          - generic [ref=f2e78]:
+            - generic [ref=f2e79]:
+              - generic [ref=f2e80]: 
+              - text: 21/10/2026 06:40
+            - generic [ref=f2e81]:
+              - generic [ref=f2e82]: 
+              - text: "63"
+      - generic [ref=f2e84]:
+        - link [ref=f2e85] [cursor=pointer]:
+          - /url: /articles/6ad85e43d9e7da8bd39cd0dc
+          - img "Xu huong lam dep va bao hiem suc khoe trong 2026" [ref=f2e86]
+        - generic [ref=f2e87]:
+          - generic [ref=f2e88]: Doi song
+          - heading [level=5] [ref=f2e89]:
+            - link "Xu huong lam dep va bao hiem suc khoe trong 2026" [ref=f2e90] [cursor=pointer]:
+              - /url: /articles/6ad85e43d9e7da8bd39cd0dc
+          - paragraph [ref=f2e91]: Ket qua kiem chung cho thay huong nghien dang dua ra nhung buoc tien ro ret....
+          - generic [ref=f2e92]:
+            - generic [ref=f2e93]:
+              - generic [ref=f2e94]: 
+              - text: 21/10/2026 06:40
+            - generic [ref=f2e95]:
+              - generic [ref=f2e96]: 
+              - text: "70"
+      - generic [ref=f2e98]:
+        - link [ref=f2e99] [cursor=pointer]:
+          - /url: /articles/6ad85e43d9e7da8bd39cd0db
+          - img "Bua an dinh duong va cach tinh luong cho nguoi ngoi" [ref=f2e100]
+        - generic [ref=f2e101]:
+          - generic [ref=f2e102]: Doi song
+          - heading [level=5] [ref=f2e103]:
+            - link "Bua an dinh duong va cach tinh luong cho nguoi ngoi" [ref=f2e104] [cursor=pointer]:
+              - /url: /articles/6ad85e43d9e7da8bd39cd0db
+          - paragraph [ref=f2e105]: So lieu moi nhat cho thay muc do phat trien dang duoc nang cao nhanh chong....
+          - generic [ref=f2e106]:
+            - generic [ref=f2e107]:
+              - generic [ref=f2e108]: 
+              - text: 21/10/2026 06:40
+            - generic [ref=f2e109]:
+              - generic [ref=f2e110]: 
+              - text: "77"
+      - generic [ref=f2e112]:
+        - link [ref=f2e113] [cursor=pointer]:
+          - /url: /articles/6ad85e43d9e7da8bd39cd0da
+          - img "Du lich mua sam ket hop nghi duong tai mien Bac" [ref=f2e114]
+        - generic [ref=f2e115]:
+          - generic [ref=f2e116]: Doi song
+          - heading [level=5] [ref=f2e117]:
+            - link "Du lich mua sam ket hop nghi duong tai mien Bac" [ref=f2e118] [cursor=pointer]:
+              - /url: /articles/6ad85e43d9e7da8bd39cd0da
+          - paragraph [ref=f2e119]: Nhieu thay doi dang duoc ghi nhan va cac chuyen gia nhan dinh danh giá se ra sao....
+          - generic [ref=f2e120]:
+            - generic [ref=f2e121]:
+              - generic [ref=f2e122]: 
+              - text: 21/10/2026 06:40
+            - generic [ref=f2e123]:
+              - generic [ref=f2e124]: 
+              - text: "84"
+      - generic [ref=f2e126]:
+        - link [ref=f2e127] [cursor=pointer]:
+          - /url: /articles/6ad85e43d9e7da8bd39cd0d9
+          - img "Lam sao de chon nem giu ngon hieu kinh nghiem" [ref=f2e128]
+        - generic [ref=f2e129]:
+          - generic [ref=f2e130]: Doi song
+          - heading [level=5] [ref=f2e131]:
+            - link "Lam sao de chon nem giu ngon hieu kinh nghiem" [ref=f2e132] [cursor=pointer]:
+              - /url: /articles/6ad85e43d9e7da8bd39cd0d9
+          - paragraph [ref=f2e133]: Cong ty va co quan chuc nang lien quan da ban hanh huong dan moi truoc doi....
+          - generic [ref=f2e134]:
+            - generic [ref=f2e135]:
+              - generic [ref=f2e136]: 
+              - text: 21/10/2026 06:40
+            - generic [ref=f2e137]:
+              - generic [ref=f2e138]: 
+              - text: "91"
+    - navigation [ref=f2e139]:
+      - list [ref=f2e140]:
+        - listitem [ref=f2e141]:
+          - link "Trang sau":
+            - /url: /
+        - listitem [ref=f2e142]:
+          - generic [ref=f2e143]: Trang 1/12
+        - listitem [ref=f2e144]:
+          - link "Trang tiep" [ref=f2e145] [cursor=pointer]:
+            - /url: /articles?page=2
+  - contentinfo [ref=f2e146]:
+    - generic [ref=f2e147]: "Tin Tuc NoSQL — Do an cuoi ky mon Du lieu NoSQL (De tai 06: Cache-Aside & Session Management)"

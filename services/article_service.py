@@ -55,9 +55,21 @@ class ArticleService:
         :return: (dict_ket_qua, source)
         """
         loader = lambda: self._build_list(page, per_page, category, keyword, sort)
-        return self.cache.get_article_list(
+        data, source = self.cache.get_article_list(
             page, sort, loader, category=category or "all", keyword=keyword or ""
         )
+        # Luot xem luon lay MOI tu bo dem INCR (du danh sach da duoc cache)
+        self._enrich_views(data)
+        return data, source
+
+    def _enrich_views(self, result):
+        """Gan luot xem moi nhat (doc tu Redis) vao danh sach bai viet."""
+        if not result or not result.get("items"):
+            return
+        ids = [item.get("_id") for item in result["items"]]
+        views = self.cache.get_views_many(ids)
+        for item in result["items"]:
+            item["views"] = views.get(str(item.get("_id")), 0)
 
     def _build_list(self, page, per_page, category, keyword, sort):
         result = article_model.list_articles(
@@ -71,10 +83,9 @@ class ArticleService:
         items = []
         for doc in result["items"]:
             item = article_model.to_dict(doc)
-            # Luot xem hien thi lay tu Redis
-            item["views"] = self.cache.get_views(str(doc["_id"]))
             items.append(item)
         result["items"] = items
+        self._enrich_views(result)
         return result
 
     def search(self, keyword, category=None, sort="newest", page=1, per_page=9):
@@ -90,9 +101,9 @@ class ArticleService:
         items = []
         for doc in result["items"]:
             item = article_model.to_dict(doc)
-            item["views"] = self.cache.get_views(str(doc["_id"]))
             items.append(item)
         result["items"] = items
+        self._enrich_views(result)
         return result
 
     def increase_views(self, article_id):

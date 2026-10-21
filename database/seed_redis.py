@@ -73,10 +73,12 @@ def reset(r):
 
 def seed_cache(r, db):
     """Tao cache bai viet (Hash) - lay noi dung that tu MongoDB de cache that."""
-    articles = list(db["articles"].find().limit(21))
+    articles = list(db["articles"].find().limit(120))
     if not articles:
         print("  [!] MongoDB chua co bai viet nao. Chay seed_articles.py truoc.")
         return 0
+    # Bai moi nhat len dau de trang chu hien thi day du
+    articles.sort(key=lambda a: a.get("created_at") or 0, reverse=True)
 
     count = 0
     for index, article in enumerate(articles):
@@ -108,14 +110,14 @@ def seed_cache(r, db):
         r.expire(key, ttl)
         count += 1
 
-    # Bo dem luot xem (15 key) - tang bang INCR
-    for article in articles[:15]:
+    # Bo dem luot xem cho 15 bai viet moi nhat (tang bang lenh INCR khi xem)
+    for index, article in enumerate(articles[:15]):
         key = f"article:views:{article['_id']}"
-        r.set(key, random_int(20, 500), ex=config.TTL_VIEWS)
+        r.set(key, 35 + index * 7, ex=config.TTL_VIEWS)
         count += 1
 
-    # Cache danh sach (6 key, TTL 60s) - dung du lieu THAT tu MongoDB
-    for page in range(1, 7):
+    # Cache danh sach (3 key, TTL 60s) - dung du lieu THAT tu MongoDB
+    for page in range(1, 4):
         key = f"article:list:{page}:newest:all-all"
         result = article_model.list_articles(db, page=page, per_page=9, sort="newest")
         items = [article_model.to_dict(doc) for doc in result["items"]]

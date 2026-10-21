@@ -1,107 +1,107 @@
 {
   "article_detail": {
     "mongodb": {
-      "count": 150,
-      "min": 0.304,
-      "max": 0.947,
-      "avg": 0.412,
-      "median": 0.359,
-      "p95": 0.693,
-      "stdev": 0.126
+      "count": 120,
+      "min": 0.222,
+      "max": 2.006,
+      "avg": 0.531,
+      "median": 0.306,
+      "p95": 1.307,
+      "stdev": 0.413
     },
     "redis": {
-      "count": 150,
-      "min": 0.143,
-      "max": 0.468,
-      "avg": 0.168,
-      "median": 0.149,
-      "p95": 0.239,
-      "stdev": 0.048
+      "count": 120,
+      "min": 0.117,
+      "max": 0.728,
+      "avg": 0.205,
+      "median": 0.166,
+      "p95": 0.385,
+      "stdev": 0.102
     }
   },
   "article_list": {
     "mongodb": {
-      "count": 150,
-      "min": 1.441,
-      "max": 3.241,
-      "avg": 1.852,
-      "median": 1.784,
-      "p95": 2.411,
-      "stdev": 0.311
+      "count": 120,
+      "min": 1.103,
+      "max": 11.825,
+      "avg": 3.317,
+      "median": 3.109,
+      "p95": 7.046,
+      "stdev": 1.982
     },
     "redis": {
-      "count": 150,
-      "min": 0.114,
-      "max": 0.312,
-      "avg": 0.149,
-      "median": 0.125,
-      "p95": 0.234,
-      "stdev": 0.046
+      "count": 120,
+      "min": 0.127,
+      "max": 0.63,
+      "avg": 0.198,
+      "median": 0.16,
+      "p95": 0.366,
+      "stdev": 0.09
     }
   },
   "search": {
     "mongodb": {
-      "count": 150,
-      "min": 0.667,
-      "max": 1.582,
-      "avg": 0.908,
-      "median": 0.852,
-      "p95": 1.293,
-      "stdev": 0.187
+      "count": 120,
+      "min": 0.455,
+      "max": 2.57,
+      "avg": 1.099,
+      "median": 0.968,
+      "p95": 2.228,
+      "stdev": 0.57
     },
     "redis": {
-      "count": 150,
-      "min": 0.114,
-      "max": 0.474,
-      "avg": 0.161,
-      "median": 0.126,
-      "p95": 0.295,
-      "stdev": 0.068
+      "count": 120,
+      "min": 0.133,
+      "max": 1.158,
+      "avg": 0.27,
+      "median": 0.218,
+      "p95": 0.522,
+      "stdev": 0.149
     }
   },
   "article_detail_network": {
     "mongodb": {
       "count": 20,
-      "min": 50.856,
-      "max": 53.742,
-      "avg": 51.518,
-      "median": 51.225,
-      "p95": 53.376,
-      "stdev": 0.799
+      "min": 50.743,
+      "max": 52.815,
+      "avg": 51.616,
+      "median": 51.514,
+      "p95": 52.727,
+      "stdev": 0.559
     },
     "redis": {
       "count": 20,
-      "min": 0.183,
-      "max": 0.33,
-      "avg": 0.242,
-      "median": 0.253,
-      "p95": 0.314,
-      "stdev": 0.044
+      "min": 0.146,
+      "max": 0.756,
+      "avg": 0.295,
+      "median": 0.187,
+      "p95": 0.744,
+      "stdev": 0.201
     },
     "simulated_rtt_ms": 50
   },
   "http_request": {
     "mongodb": {
-      "count": 10,
-      "min": 5.666,
-      "max": 22.169,
-      "avg": 8.051,
-      "median": 6.219,
-      "p95": 8.196,
-      "stdev": 4.78
+      "count": 30,
+      "min": 7.754,
+      "max": 35.67,
+      "avg": 14.576,
+      "median": 11.858,
+      "p95": 25.258,
+      "stdev": 6.754
     },
     "redis": {
-      "count": 10,
-      "min": 4.357,
-      "max": 28.282,
-      "avg": 10.553,
-      "median": 6.261,
-      "p95": 15.995,
-      "stdev": 7.41
+      "count": 30,
+      "min": 5.108,
+      "max": 29.5,
+      "avg": 8.686,
+      "median": 7.653,
+      "p95": 10.365,
+      "stdev": 4.652
     }
   },
   "note": "Do o tren chay truc tiep trong cung mot may (bo qua do tre mang). Khi trien khai that tren may chu khac, do tre mang lam chenh lech lon hon.",
-  "n_requests": 150,
+  "n_requests": 120,
   "mongo_db": "nosql_news",
   "redis_version": "8.10.2"
 }

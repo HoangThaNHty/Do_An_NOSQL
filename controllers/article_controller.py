@@ -87,6 +87,11 @@ def article_detail(article_id):
     # Tang luot xem bang lenh INCR cua Redis
     article["views"] = article_service.increase_views(article_id)
 
+    # TTL con lai cua key cache (hien thi cho GV khi demo)
+    _, cache_service = _services()
+    cache_key = cache_service.article_key(article_id)
+    ttl = cache_service.ttl_of(cache_key)
+
     related, _ = article_service.list_articles(
         page=1, per_page=4, category=article.get("category")
     )
@@ -94,6 +99,8 @@ def article_detail(article_id):
         "article_detail.html",
         article=article,
         source=source,
+        cache_key=cache_key,
+        cache_ttl=ttl if ttl and ttl > 0 else 0,
         related=[a for a in related["items"] if a["_id"] != article_id][:3],
     )
 

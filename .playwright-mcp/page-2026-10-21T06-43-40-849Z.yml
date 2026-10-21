@@ -1,0 +1,29 @@
+- generic [ref=f4e1]:
+  - navigation [ref=f4e2]:
+    - generic [ref=f4e3]:
+      - link " Tin Tuc NoSQL" [ref=f4e4] [cursor=pointer]:
+        - /url: /
+        - generic [ref=f4e5]: 
+        - text: Tin Tuc NoSQL
+      - button [ref=f4e6] [cursor=pointer]
+  - main [ref=f4e8]:
+    - generic [ref=f4e11]:
+      - generic [ref=f4e12]:
+        - generic [ref=f4e13]: 
+        - text: Dang nhap
+      - generic [ref=f4e14]:
+        - generic [ref=f4e15]:
+          - generic [ref=f4e16]:
+            - generic [ref=f4e17]: Email hoac ten dang nhap
+            - textbox [active] [ref=f4e18]
+          - generic [ref=f4e19]:
+            - generic [ref=f4e20]: Mat khau
+            - textbox [ref=f4e21]
+          - button "Dang nhap" [ref=f4e22] [cursor=pointer]
+        - separator [ref=f4e23]
+        - paragraph [ref=f4e24]:
+          - text: Chua co tai khoan?
+          - link "Dang ky ngay" [ref=f4e25] [cursor=pointer]:
+            - /url: /register
+  - contentinfo [ref=f4e26]:
+    - generic [ref=f4e27]: "Tin Tuc NoSQL — Do an cuoi ky mon Du lieu NoSQL (De tai 06: Cache-Aside & Session Management)"
