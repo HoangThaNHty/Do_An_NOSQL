@@ -59,9 +59,11 @@ class Config:
     SIMULATED_DB_LATENCY_MS = int(os.getenv("SIMULATED_DB_LATENCY_MS", 0))
 
     # ---------------- Thu muc ----------------
-    UPLOAD_FOLDER = BASE_DIR / "static" / "uploads"
+    IMAGES_FOLDER = BASE_DIR / "static" / "images"
     STATIC_FOLDER = BASE_DIR / "static"
-    DATABASE_FOLDER = BASE_DIR / "database"
+    DATA_FOLDER = BASE_DIR / "data"
+    # ten cu (giu lai de khong phai doi ma cu)
+    UPLOAD_FOLDER = IMAGES_FOLDER
 
 
 config = Config()

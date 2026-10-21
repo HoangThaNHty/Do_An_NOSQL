@@ -194,7 +194,7 @@ EXPIRE session:<sid> 1800
 {
   "_id": ObjectId, "title": "…", "slug": "cong-nghe-ai-…",
   "summary": "…", "content": "…",
-  "image": "/static/uploads/news_001.jpg",   // ảnh thật trong DB gốc
+  "image": "/static/images/news_001.jpg",   // ảnh thật trong DB gốc
   "category": "Cong nghe|Kinh te|The thao|Khoa hoc|Xa hoi|Doi song",
   "tags": ["…"], "status": "published|draft",
   "author": ObjectId, "author_name": "…",
@@ -270,9 +270,9 @@ Mỗi request → before_request trong app.py:
 | "Mật khẩu lưu an toàn không?" | `models/user.py` / `services/auth_service.py` — `werkzeug.security.generate_password_hash` (scrypt) |
 | "Lượt xem đếm bằng cách nào?" | `cache_service.incr_views()` → `INCR article:views:<id>` (atomic) |
 | "Phân trang / lọc / sắp xếp ở đâu?" | `models/article.py::list_articles()` + index compound |
-| "Ảnh bài viết lưu kiểu gì?" | `database/seed_articles.py` (sinh bằng Pillow) + `static/uploads/`; DB lưu đường dẫn |
+| "Ảnh bài viết lưu kiểu gì?" | `data/seed_articles.py` (sinh bằng Pillow) + `static/images/`; DB lưu đường dẫn |
 | "Đo hiệu năng thế nào?" | `scripts/benchmark.py` + `scripts/plot_benchmark.py` |
-| "Backup/Restore ra sao?" | `database/backup.py` / `database/restore.py` (kèm `mongodump`/`mongorestore`) |
+| "Backup/Restore ra sao?" | `data/backup.py` / `data/restore.py` (kèm `mongodump`/`mongorestore`) |
 | "Có test không?" | `tests/` — chạy `python -m pytest tests/ -v` (20 test) |
 | "Bảo mật thế nào?" | Hash mật khẩu, cookie HttpOnly, biến môi trường trong `.env` không commit, escape regex khi tìm kiếm |
 

@@ -37,7 +37,7 @@ def sample_article():
         "title": "Bai viet kiem thu CRUD",
         "summary": "Tom tat bai viet kiem thu",
         "content": "Noi dung kiem thu CRUD tren MongoDB.",
-        "image": "/static/uploads/news_001.jpg",
+        "image": "/static/images/news_001.jpg",
         "category": "Cong nghe",
         "tags": ["kiem thu", "crud"],
         "status": "published",

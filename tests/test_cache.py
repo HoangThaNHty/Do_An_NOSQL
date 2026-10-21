@@ -53,7 +53,7 @@ SAMPLE = {
     "title": "Bai viet kiem thu cache",
     "summary": "Tom tat",
     "content": "Noi dung kiem thu cache",
-    "image": "/static/uploads/news_001.jpg",
+    "image": "/static/images/news_001.jpg",
     "category": "Cong nghe",
     "tags": ["cache"],
     "author_name": "Tester",

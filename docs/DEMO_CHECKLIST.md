@@ -87,7 +87,7 @@
 
 | | Thao tác | Kết quả mong đợi |
 |---|---|---|
-| 7.1 | `.venv\Scripts\python database\backup.py` | Tạo `database/exports/backup_<timestamp>/` gồm `mongo_users.json`, `mongo_articles.json`, `redis_keys.json` |
+| 7.1 | `.venv\Scripts\python database\backup.py` | Tạo `data/exports/backup_<timestamp>/` gồm `mongo_users.json`, `mongo_articles.json`, `redis_keys.json` |
 | 7.2 | Xóa thử 1 bài viết trong `/admin/articles` | Bài biến mất |
 | 7.3 | `.venv\Scripts\python database\restore.py --latest --drop` | Bài viết **quay lại** đầy đủ, Redis key cũng được khôi phục kèm TTL |
 

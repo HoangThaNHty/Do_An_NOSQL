@@ -19,8 +19,8 @@ appendonly.aof
 *.log
 
 # ===== Du lieu sinh tu dong (co the sinh lai bang script) =====
-database/exports/*.json
-database/exports/*.bson
+data/exports/*.json
+data/exports/*.bson
 
 # ===== IDE =====
 .vscode/
