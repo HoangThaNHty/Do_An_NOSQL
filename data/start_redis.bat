@@ -1,15 +1,33 @@
 @echo off
 REM ===================================================================
-REM  Bat Redis Server (De tai 06 - Cache-Aside + Session Management)
-REM  Dung khi may chua tu dong chay Redis (sau khi khoi dong lai may)
+REM  Bat Redis Server (De tai 06)
+REM  Redis 8.10.2 portable tai ve may, luu tai D:\Redis
+REM
+REM  Cach dung:  data\start_redis.bat
+REM  Kiem tra:   D:\Redis\redis-cli.exe ping   -> phai tra ve PONG
 REM ===================================================================
 cd /d D:\Redis
-start "Redis Server" /min redis-server.exe redis.conf
+
+REM Neu Redis da chay thi khong can bat lai
+"D:\Redis\redis-cli.exe" ping >nul 2>&1
+if not errorlevel 1 (
+    echo.
+    echo  Redis dang chay san ^(PONG^). Khong can bat lai.
+    goto :ketthuc
+)
+
 echo.
-echo  Redis dang khoi dong tren port 6379 ...
-timeout /t 3 >nul
-D:\Redis\redis-cli.exe ping
+echo  Dang bat Redis Server...
+powershell -NoProfile -Command "Start-Process -FilePath 'D:\Redis\redis-server.exe' -ArgumentList 'redis.conf' -WorkingDirectory 'D:\Redis' -WindowStyle Hidden"
+ping -n 4 127.0.0.1 >nul
+
+:D:\Redis\redis-cli.exe ping
+if errorlevel 1 (
+    echo  [!] Redis chua len. Thu chay: D:\Redis\redis-server.exe redis.conf
+) else (
+    echo  [OK] Redis da chay tren port 6379.
+)
+
+:ketthuc
 echo.
-echo  Neu thay PONG -> Redis da san sang.
-echo  Mo Redis Insight va ket noi localhost:6379 de xem giao dien.
-pause
+endlocal

@@ -23,7 +23,7 @@ sc query MongoDB | find "RUNNING" >nul
 if errorlevel 1 (
     echo      MongoDB dang dung - khoi dong...
     net start MongoDB >nul 2>&1
-    timeout /t 3 >nul
+    ping -n 4 127.0.0.1 >nul
 ) else (
     echo      MongoDB: Running ^(OK^)
 )
@@ -33,8 +33,9 @@ echo [2/5] Kiem tra Redis...
 "D:\Redis\redis-cli.exe" ping >nul 2>&1
 if errorlevel 1 (
     echo      Redis dang dung - khoi dong...
-    start "Redis Server" /min "D:\Redis\redis-server.exe" "D:\Redis\redis.conf"
-    timeout /t 3 >nul
+    powershell -NoProfile -Command "Start-Process -FilePath 'D:\Redis\redis-server.exe' -ArgumentList 'redis.conf' -WorkingDirectory 'D:\Redis' -WindowStyle Hidden"
+    ping -n 4 127.0.0.1 >nul
+    "D:\Redis\redis-cli.exe" ping
 ) else (
     echo      Redis: PONG ^(OK^)
 )
@@ -60,7 +61,7 @@ if exist "C:\Users\ASUS\AppData\Local\Programs\Redis Insight\Redis Insight.exe" 
 REM ---------- 5. Trinh duyet ----------
 echo [5/5] Mo trinh duyet...
 start "" "http://127.0.0.1:5000/"
-timeout /t 1 >nul
+ping -n 2 127.0.0.1 >nul
 start "" "http://127.0.0.1:5000/admin/cache"
 
 echo.
