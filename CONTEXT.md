@@ -84,7 +84,6 @@ D:\Do_AN_NOSQL\
 │   ├── cache_service.py    # ★ Cache-Aside, TTL/EXPIRE, invalidation, INCR views, get_views_many()
 │   ├── session_service.py  # ★ Redis Hash session + TTL + sliding expiration
 │   ├── auth_service.py     # đăng ký/đăng nhập, kiểm tra mật khẩu
-│   └── backup_service.py   # (nếu có) hỗ trợ backup/restore
 │
 ├── views/             (15) # VIEW — Jinja2
 │   ├── base.html           # topbar + navbar 6 chuyên mục + footer + badge role
@@ -99,7 +98,7 @@ D:\Do_AN_NOSQL\
 │   ├── css/style.css       # design system: token + component (navy #0F2A4A, orange #E8590C)
 │   ├── js/main.js
 │   ├── images/             # 30 ảnh .jpg thật (CC0/PDM) + CREDITS.md + credits.json
-│   ├── fonts/              # 16 file Be Vietnam Pro (.woff2) + fonts.css  → demo offline
+│   ├── fonts/              # 15 file Be Vietnam Pro (.woff2) + fonts.css → demo offline
 │   └── vendor/             # Bootstrap 5 + Bootstrap Icons (local)
 │
 ├── data/              (9 py + 3 bat)
@@ -250,7 +249,7 @@ Index: `idx_articles_slug` (unique), `idx_articles_category_created` (compound `
 
 ### 6 chuyên mục (thứ tự hiển thị)
 
-`Cong nghe` · `Kinh doanh` · `The thao` · `Giai tri` · `Suc khoe` · `Giao duc`
+`Cong nghe` · `Kinh te` · `The thao` · `Khoa hoc` · `Xa hoi` · `Doi song`
 (phân bổ 17/17/17/17/16/16 = 100 bài, đã xen kẽ khi seed để trang chủ đa dạng)
 
 ---
