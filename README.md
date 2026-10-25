@@ -43,16 +43,25 @@ py -3.13 -m venv .venv
 :: (3) Tạo file cấu hình .env (copy từ .env.example)
 copy .env.example .env
 
-:: (4) Nạp dữ liệu mẫu: 100 bài viết + 100 ảnh + 50 key Redis có TTL khác nhau
-.venv\Scripts\python database\seed_articles.py --reset
-.venv\Scripts\python database\seed_redis.py --reset
+:: (4) Nạp dữ liệu mẫu: 100 bài viết + 30 ảnh thật + 47 key Redis có TTL khác nhau
+.venv\Scripts\python data\seed_articles.py --reset
+.venv\Scripts\python data\seed_redis.py --reset
 
 :: (5) Chạy ứng dụng
 .venv\Scripts\python app.py
 ```
 👉 Mở trình duyệt: **http://127.0.0.1:5000**
 
-**Tài khoản demo** (mật khẩu `123456`): `sv1_admin` · `sv2_editor` · `sv3_editor`
+**Tài khoản demo** (mật khẩu `123456`):
+
+| Tài khoản | Role | Quyền |
+|---|---|---|
+| `admin` | admin | Toàn quyền (bài viết + người dùng + cache) |
+| `editor` | editor | Quản lý nội dung (không xem danh sách người dùng) |
+| `reader` | reader | Chỉ đọc tin tức |
+
+> Chi tiết phân quyền + kịch bản test từng role: **[`docs/DEMO_GUIDE.md`](docs/DEMO_GUIDE.md)**
+> Bàn giao toàn bộ trạng thái dự án cho AI/người mới: **[`CONTEXT.md`](CONTEXT.md)**
 
 ---
 
@@ -63,16 +72,19 @@ copy .env.example .env
 .venv\Scripts\python -m pytest tests/ -v
 
 :: Đo hiệu năng MongoDB vs Redis + vẽ biểu đồ
-.venv\Scripts\python scripts\benchmark.py --n 200 --http http://127.0.0.1:5000
-.venv\Scripts\python scripts\plot_benchmark.py
+.venv\Scripts\python data\benchmark.py --n 200 --http http://127.0.0.1:5000
+.venv\Scripts\python data\plot_benchmark.py
 
 :: Backup / Restore
-.venv\Scripts\python database\backup.py
-.venv\Scripts\python database\restore.py --latest --drop
+.venv\Scripts\python data\backup.py
+.venv\Scripts\python data\restore.py --latest --drop
 
 :: Bật/tắt mô phỏng độ trễ mạng khi demo (đọc DB gốc ~200ms)
 data\toggle_latency.bat on
 data\toggle_latency.bat off
+
+:: Kiểm tra phân quyền 3 role (9/9 OK)
+.venv\Scripts\python data\check_roles.py
 ```
 
 ---
@@ -88,7 +100,7 @@ views/            -> VIEW           (Jinja2 template + partials dùng chung)
 static/           -> CSS/JS/ảnh thật/font/vendor Bootstrap (không dùng CDN để demo offline)
 data/             -> seed, fetch ảnh, backup, restore, benchmark, plot, .bat
 tests/            -> pytest
-docs/             -> ARCHITECTURE.md, DEMO_CHECKLIST.md, figures/, screenshots/
+docs/             -> ARCHITECTURE.md, DEMO_CHECKLIST.md, DEMO_GUIDE.md, figures/, screenshots/
 ```
 
 Chi tiết đầy đủ + bảng "thầy hỏi → trả lời ở đâu": **[`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)**
@@ -122,7 +134,7 @@ Chi tiết đầy đủ + bảng "thầy hỏi → trả lời ở đâu": **[`d
 4. **Bộ đếm lượt xem bằng `INCR`** — thao tác nguyên tử, cập nhật thời gian thực.
 5. **Bộ đếm Cache Hit/Miss** — `stats:cache:hits` / `stats:cache:misses` để chứng minh
    cache thực sự hoạt động (hiển thị ngay trên trang quản trị).
-6. **Dummy data đúng định mức** — 100 bài viết có tiêu đề/nội dung/hình ảnh; 50 key Redis
+6. **Dummy data đúng định mức** — 100 bài viết có tiêu đề/nội dung/hình ảnh thật; 47 key Redis
    với TTL khác nhau (300s / 1800s / 60s / 1800s…).
 
 ---
