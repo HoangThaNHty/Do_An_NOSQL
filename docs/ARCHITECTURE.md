@@ -1,306 +1,70 @@
-# KIẾN TRÚC HỆ THỐNG — ĐỀ TÀI 06
-## Phân hệ Caching bài viết & Quản lý phiên (Session Management)
+# Kiến trúc hệ thống — Đề tài 06
 
-> Tài liệu này là **bản đồ tra cứu**: khi thầy giáo hỏi "phần này nằm ở đâu trong code",
-> tra bảng mục 7 là ra ngay. Dùng để ôn trước buổi bảo vệ.
+Cập nhật 27/10/2026. Phiên bản hiện tại có hai quyền: Quản trị viên và Độc giả.
 
----
+## Các tầng
 
-## 1. Tổng quan hệ thống
-
-```
-        ┌──────────────────────┐
-        │   Trình duyệt        │  HTML5 / CSS3 / Bootstrap 5 / JavaScript
-        │  (Chrome, F12)       │
-        └──────────┬───────────┘
-                   │ HTTP (GET/POST) + Cookie (session_id)
-                   ▼
-        ┌──────────────────────────────────────────────┐
-        │           Flask Application (app.py)          │
-        │  ┌────────────────────────────────────────┐  │
-        │  │ CONTROLLER  (controllers/)             │  │
-        │  │  article_controller / auth_controller  │  │
-        │  │  admin_controller / cache_controller   │  │
-        │  └───────────────────┬────────────────────┘  │
-        │                      ▼                       │
-        │  ┌────────────────────────────────────────┐  │
-        │  │ SERVICE  (services/)                   │  │
-        │  │  article_service  → cache_service      │  │
-        │  │  auth_service    → session_service     │  │
-        │  └──────────┬──────────────────────┬──────┘  │
-        │             ▼                      ▼         │
-        │  ┌──────────────────┐  ┌────────────────────┐ │
-        │  │ MODEL            │  │  MODEL (Redis)     │ │
-        │  │ (models/)        │  │  cache + session   │ │
-        │  │  article / user  │  │                    │ │
-        │  └────────┬─────────┘  └─────────┬──────────┘ │
-        └───────────┼──────────────────────┼────────────┘
-                    ▼                      ▼
-        ┌────────────────────┐   ┌──────────────────────┐
-        │  MongoDB (DB goc)  │   │  Redis               │
-        │  users, articles   │   │  cache + session     │
-        │  + MongoDB Compass │   │  + Redis Insight     │
-        └────────────────────┘   └──────────────────────┘
-```
-
-**Quy trình đọc một bài viết:**
-Browser → Controller → Service (`cache_service.get_article`) → **Redis trước** →
-nếu HIT thì trả về ngay; nếu MISS thì đọc MongoDB rồi ghi ngược lại Redis kèm TTL.
-
----
-
-## 2. Mô hình tổ chức code: Kiến trúc 3 tầng (Layered) kết hợp MVC
-
-Flask không phải framework MVC cứng như Rails/Spring, nên dự án tổ chức theo
-**kiến trúc 3 tầng** — tương đương cách ASP.NET Core tổ chức:
-
-| Tầng | Thư mục | Trách nhiệm | Đối chiếu ASP.NET Core |
-|---|---|---|---|
-| **Presentation** | `views/` + `static/` + `controllers/` | Nhận request, render HTML, điều hướng | `Views/` + `wwwroot/` + `Controllers/` |
-| **Business Logic** | `services/` | Luật nghiệp vụ: Cache-Aside, TTL, Session, Invalidation | `Services/` |
-| **Data Access** | `models/` + `config.py` + `data/` | Định nghĩa dữ liệu, truy vấn, index, seed, backup | `Models/` + `Data/` + `appsettings.json` |
-
-**Cách trả lời khi thầy hỏi "dự án bạn tổ chức theo mô hình gì?":**
-> *"Dự án tổ chức theo kiến trúc 3 tầng kết hợp mô hình MVC. Tầng Presentation gồm
-> Controller (Flask Blueprint) và View (Jinja2 template). Tầng Business Logic chứa các
-> Service, là nơi hiện thực hóa Cache-Aside và quản lý Session. Tầng Data Access chứa
-> Model định nghĩa dữ liệu và truy vấn MongoDB. Tách tầng như vậy giúp phần cache
-> không phụ thuộc trực tiếp vào giao diện, nên thay đổi giao diện không ảnh hưởng logic cache."*
-
----
-
-## 3. Cấu trúc thư mục và trách nhiệm từng file
-
-```
-D:\Do_AN_NOSQL\
-├── app.py                       # Điểm khởi chạy: App Factory, DI, middleware, /api/health
-├── config.py                    # Cấu hình: Mongo URI, Redis, TTL, biến môi trường
-├── requirements.txt             # Thư viện + phiên bản
-├── .env / .env.example          # Cấu hình thật (KHÔNG commit) / mẫu
-├── .gitignore / README.md
-│
-├── models/                      # MODEL — dữ liệu & truy vấn MongoDB
-│   ├── user.py                  #   Schema User, index email/username, hash mật khẩu
-│   └── article.py               #   Schema Article, index, CRUD, tìm kiếm/lọc/sắp xếp/phân trang
-│
-├── controllers/                 # CONTROLLER — nhận request, gọi service, trả kết quả
-│   ├── article_controller.py    #   Trang chủ, danh sách, chi tiết + API CRUD bài viết
-│   ├── auth_controller.py       #   Đăng ký / đăng nhập / đăng xuất / profile + API auth
-│   ├── admin_controller.py      #   Trang quản trị: thêm / sửa / xóa bài viết, danh sách user
-│   └── cache_controller.py      #   API theo dõi cache: stats, sessions, keys, invalidate
-│
-├── services/                    # BUSINESS LOGIC — trung tâm đề tài
-│   ├── article_service.py       #   Nghiệp vụ bài viết, gọi cache (Cache-Aside + Invalidation)
-│   ├── cache_service.py         # ★ Cache-Aside, TTL/EXPIRE, Cache Invalidation, INCR lượt xem
-│   ├── session_service.py       # ★ Session lưu dạng Hash trên Redis + EXPIRE, sliding expiration
-│   └── auth_service.py          #   Đăng ký, xác thực mật khẩu
-│
-├── views/                       # VIEW — Jinja2 template (phẳng, không subfolder)
-│   ├── base.html                #   Layout chung: navbar đổi theo trạng thái session, flash
-│   ├── index.html               #   Trang chủ
-│   ├── articles.html            #   Danh sách + tìm kiếm + lọc + sắp xếp + phân trang
-│   ├── article_detail.html      #   Chi tiết + hiển thị lượt xem + badge nguồn dữ liệu
-│   ├── login.html / register.html / profile.html
-│   ├── admin_dashboard.html     #   Thống kê: bài viết, user, session, key Redis, hit/miss
-│   ├── admin_articles.html      #   Bảng quản lý bài viết (sửa / xóa)
-│   ├── admin_article_form.html  #   Form thêm / sửa bài viết
-│   ├── admin_users.html         #   Danh sách người dùng
-│   └── 404.html
-│
-├── static/
-│   ├── css/style.css            # CSS riêng của dự án
-│   ├── js/main.js               # Xác nhận xóa, tự ẩn thông báo, cập nhật số liệu cache
-│   ├── images/                  # 30 ảnh thật (Openverse) dùng cho 100 bài viết (sinh bằng Pillow)
-│   └── vendor/                  # Bootstrap 5 + Icons (tải về local, demo không cần mạng)
-│
-├── data/                        # CÔNG CỤ DỮ LIỆU (nạp mẫu, sao lưu, đo hiệu năng)
-│   ├── seed_articles.py         # Tạo 3 user demo + 100 bài viết (dùng ảnh thật)
-│   ├── seed_redis.py            # Tạo 47 key Redis với TTL khác nhau (20–50 theo yêu cầu)
-│   ├── fetch_images.py          # Tải ảnh thật từ Openverse (CC0/PDM) + sinh CREDITS.md
-│   ├── build_fonts_css.py       # Sinh @font-face cục bộ cho font Be Vietnam Pro
-│   ├── backup.py                # Backup MongoDB (JSON) + Redis (key + TTL)
-│   ├── restore.py               # Khôi phục từ file backup
-│   ├── benchmark.py             # Đo thời gian MongoDB vs Redis (5 kịch bản)
-│   ├── plot_benchmark.py        # Vẽ biểu đồ matplotlib (Chương 8)
-│   ├── start_redis.bat          # Bật Redis server
-│   └── toggle_latency.bat       # Bật/tắt mô phỏng độ trễ mạng khi demo
-│
-├── tests/
-│   ├── test_article.py          # Test CRUD MongoDB, tìm kiếm, lọc, phân trang
-│   ├── test_cache.py            # Test Cache Hit/Miss, TTL, Invalidation, INCR
-│   └── test_session.py          # Test tạo/đọc/gia hạn/xóa session Hash
-│
-└── docs/
-    ├── ARCHITECTURE.md          # ← tài liệu này
-    ├── DEMO_CHECKLIST.md        # 8 bước demo theo kịch bản đề tài
-    └── figures/                 # Biểu đồ kết quả benchmark
-```
-
-### Quy tắc "tra cứu 5 giây" khi thầy hỏi
-
-| Thầy hỏi về | Trả lời ở file |
-|---|---|
-| Giao diện hiển thị | `views/` + `static/` |
-| Đường đi của một request | `controllers/` → `services/` → `models/` |
-| Luật cache / TTL / Invalidation / INCR | `services/cache_service.py` |
-| Session trên Redis | `services/session_service.py` |
-| Dữ liệu, index, truy vấn nâng cao | `models/article.py` |
-| Kết nối DB, TTL, cấu hình | `config.py` + `app.py` |
-| Dữ liệu mẫu, backup, đo hiệu năng | `data/` |
-| Đo hiệu năng, biểu đồ | `data/benchmark.py`, `data/plot_benchmark.py` |
-
----
-
-## 4. Quy ước Redis key (hợp đồng chung của nhóm)
-
-| Key | Kiểu dữ liệu | TTL | Ý nghĩa |
-|---|---|---|---|
-| `session:<session_id>` | **Hash** | 1800s | Phiên đăng nhập (HSET + EXPIRE) |
-| `article:cache:<id>` | **Hash** | 300s | Cache nội dung bài viết (Cache-Aside) |
-| `article:cache:hot:<id>` | **Hash** | 1800s | Bài "nóng" giữ cache lâu hơn |
-| `article:list:<page>:<sort>:<filter>` | **String** (JSON) | 60s | Cache danh sách bài viết |
-| `article:views:<id>` | **String** (counter) | 86400s | Bộ đếm lượt xem — tăng bằng **INCR** |
-| `stats:cache:hits` | String (counter) | — | Số lần Cache Hit |
-| `stats:cache:misses` | String (counter) | — | Số lần Cache Miss |
-
-**Cấu trúc Hash của Session:**
-
-```
-HSET session:<sid> user_id     <ObjectId>
-                   username    <tên đăng nhập>
-                   email       <email>
-                   full_name   <họ tên>
-                   role        admin|editor|reader
-                   login_at    2026-10-21 08:30:00
-                   ip          127.0.0.1
-                   user_agent  Mozilla/5.0 ...
-EXPIRE session:<sid> 1800
-```
-
----
-
-## 5. Mô hình dữ liệu MongoDB
-
-```jsonc
-// collection: users
-{
-  "_id": ObjectId, "username": "sv1_admin", "email": "sv1@uit.edu.vn",
-  "password_hash": "scrypt:16384:8:1$...",   // hash, KHÔNG lưu mật khẩu gốc
-  "full_name": "SV1 - Data Architect", "role": "admin|editor|reader",
-  "avatar": null, "created_at": ISODate, "last_login": ISODate
-}
-
-// collection: articles
-{
-  "_id": ObjectId, "title": "…", "slug": "cong-nghe-ai-…",
-  "summary": "…", "content": "…",
-  "image": "/static/images/news_001.jpg",   // ảnh thật trong DB gốc
-  "category": "Cong nghe|Kinh te|The thao|Khoa hoc|Xa hoi|Doi song",
-  "tags": ["…"], "status": "published|draft",
-  "author": ObjectId, "author_name": "…",
-  "views": 0,                                // giá trị khởi tạo; hiển thị lấy từ Redis
-  "created_at": ISODate, "updated_at": ISODate
-}
-```
-
-**Index đã tạo (để truy vấn nâng cao chạy nhanh):**
-
-| Collection | Index | Dùng cho |
+| Tầng | Vị trí | Trách nhiệm |
 |---|---|---|
-| users | email (unique), username (unique), role | Đăng nhập, quản lý user |
-| articles | slug (unique) | Tìm theo slug |
-| articles | category + created_at (compound) | Lọc chuyên mục + sắp xếp mới nhất |
-| articles | author, created_at | Truy vấn theo tác giả, phân trang |
+| Giao diện | views/, static/ | Jinja2, Bootstrap 5, CSS và JavaScript cục bộ |
+| Điều phối | controllers/ | Nhận request, kiểm tra quyền, gọi service, trả HTML/JSON |
+| Nghiệp vụ | services/ | Cache-Aside, invalidation, xác thực, phiên và lượt xem |
+| Dữ liệu | models/ | Truy vấn MongoDB, chỉ mục, chuyển đổi dữ liệu |
+| Khởi tạo | app.py, config.py | Kết nối MongoDB/Redis, dependency injection, middleware |
 
----
+MongoDB lưu users/articles. Redis lưu cache bài, cache danh sách, phiên đăng nhập, lượt xem, Hit/Miss và Set bài đọc sau. Không gọi Redis là nguồn lưu bền vững của nội dung bài.
 
-## 6. Ba luồng xử lý quan trọng (để giải thích khi bị hỏi)
+## Luồng chính
 
-### Luồng A — Đọc bài viết (Cache-Aside) — `services/cache_service.py::get_article`
+Đọc bài: Controller → ArticleService → HGETALL Redis. Nếu miss, gọi MongoDB rồi HSET + EXPIRE. Trang chi tiết công khai chỉ trả bài đã xuất bản. GET trang HTML tăng lượt xem; GET API chỉ đọc không tăng.
 
-```
-GET /articles/<id>
- └─ controllers/article_controller.py
-     └─ services/article_service.py::get_detail
-         └─ services/cache_service.py::get_article(id, loader)
-             ├─ HGETALL article:cache:<id>
-             │    ├─ có dữ liệu → CACHE HIT  → INCR stats:cache:hits → trả về
-             │    └─ không có   → CACHE MISS → INCR stats:cache:misses
-             │         └─ loader() → MongoDB find_one
-             │         └─ HSET article:cache:<id> + EXPIRE 300
-             └─ INCR article:views:<id>  (bộ đếm lượt xem)
-```
+Sửa/xóa: cập nhật MongoDB → xóa cache thường, cache hot và cache danh sách. Tạo mới cũng xóa cache danh sách. Bản nháp xuất hiện trong quản trị nhưng không xuất hiện ở trang đọc công khai.
 
-### Luồng B — Sửa bài viết (Cache Invalidation) — `services/article_service.py::update`
+Đăng nhập: kiểm tra mật khẩu băm scrypt → token ngẫu nhiên → HSET session → EXPIRE → cookie HttpOnly, SameSite=Lax. Mỗi request có phiên hợp lệ gia hạn cả Redis TTL lẫn thời hạn cookie. Đăng xuất xóa Hash và cookie.
 
-```
-PUT /api/articles/<id>  (hoặc form trong /admin/articles/edit/<id>)
- └─ controllers → services/article_service.py::update
-     ├─ MongoDB update_one        (DB gốc được cập nhật trước)
-     └─ services/cache_service.py::invalidate_article(id)
-          └─ DEL article:cache:<id>  +  DEL article:cache:hot:<id>  + xóa cache list
-```
+Xem nhiều nhất: đọc lượt xem Redis theo lô, xếp hạng trước khi phân trang. Trang chủ, sidebar và danh sách dùng cùng cách tính. Không sắp theo views của MongoDB. Bộ đếm Redis hết hạn theo TTL nên không phải tổng lượt xem vĩnh viễn.
 
-### Luồng C — Đăng nhập (Session Hash + TTL) — `services/session_service.py`
+Bài liên quan: cùng chuyên mục, published, loại trừ bài đang đọc, tối đa ba bài.
 
-```
-POST /login
- └─ controllers/auth_controller.py
-     ├─ services/auth_service.py::authenticate  (so sánh password_hash)
-     └─ services/session_service.py::create_session(user)
-          ├─ session_id = token_hex(32)
-          ├─ HSET session:<sid> user_id … user_agent
-          ├─ EXPIRE session:<sid> 1800
-          └─ Set-Cookie session_id=<sid> (HttpOnly, SameSite=Lax)
+## Key Redis
 
-Mỗi request → before_request trong app.py:
-     đọc cookie → EXISTS session:<sid>? → HGETALL → g.current_user → EXPIRE (gia hạn TTL)
-```
+| Mẫu | Kiểu | TTL mặc định |
+|---|---|---|
+| article:cache:<id> | Hash | 300 giây |
+| article:cache:hot:<id> | Hash | 1800 giây; chuẩn bị cho demo, luồng đọc thường dùng cache thường |
+| article:list:v2:<page>:<per_page>:<sort>:<filters> | String JSON | 60 giây |
+| article:views:<id> | String counter | 86400 giây, gia hạn mỗi lượt xem |
+| session:<sid> | Hash | 1800 giây, gia hạn khi hoạt động |
+| user:saved:<user_id> | Set | Không TTL; logout không xóa |
+| lock:<cache-key> | String token | PX 10000 ms |
+| meta:article-list-version | String counter | Không TTL |
+| stats:cache:hits / stats:cache:misses / lock_waits / lock_timeouts | String counter | Không TTL |
 
----
+## Quyền
 
-## 7. Bảng "thầy hỏi → trả lời ở đâu"
+Khách được đọc/tìm kiếm. Độc giả được thêm trang cá nhân, lưu/bỏ lưu bài đọc sau và đăng xuất. Chỉ Quản trị viên được CRUD bài, xem người dùng và theo dõi/thay đổi cache, xem các phiên khác. Đăng ký công khai luôn tạo Độc giả.
 
-| Câu hỏi của thầy | Trả lời ở đâu / nội dung cần nói |
-|---|---|
-| "Cache-Aside hoạt động thế nào?" | `services/cache_service.py` hàm `get_article()` — đọc Redis trước, miss thì đọc MongoDB rồi ghi ngược kèm TTL |
-| "TTL đặt ở đâu, bao lâu?" | `config.py` (TTL_ARTICLE_CACHE=300, TTL_SESSION=1800) |
-| "Sửa bài viết thì cache xử lý sao?" | `services/article_service.py::update` → `cache_service.invalidate_article()` (DEL key) |
-| "Session lưu gì trên Redis?" | `services/session_service.py` — Hash `session:<sid>` + EXPIRE |
-| "Mật khẩu lưu an toàn không?" | `models/user.py` / `services/auth_service.py` — `werkzeug.security.generate_password_hash` (scrypt) |
-| "Lượt xem đếm bằng cách nào?" | `cache_service.incr_views()` → `INCR article:views:<id>` (atomic) |
-| "Phân trang / lọc / sắp xếp ở đâu?" | `models/article.py::list_articles()` + index compound |
-| "Ảnh bài viết lưu kiểu gì?" | `data/seed_articles.py` (sinh bằng Pillow) + `static/images/`; DB lưu đường dẫn |
-| "Đo hiệu năng thế nào?" | `data/benchmark.py` + `data/plot_benchmark.py` |
-| "Backup/Restore ra sao?" | `data/backup.py` / `data/restore.py` (kèm `mongodump`/`mongorestore`) |
-| "Có test không?" | `tests/` — chạy `python -m pytest tests/ -v` (20 test) |
-| "Bảo mật thế nào?" | Hash mật khẩu, cookie HttpOnly, biến môi trường trong `.env` không commit, escape regex khi tìm kiếm |
+## Dữ liệu và chỉ mục
 
----
+articles có tiêu đề, slug, tóm tắt, nội dung, ảnh, alt, chú thích ảnh, chuyên mục, tags, trạng thái, tác giả và thời gian. users có username/email duy nhất, password_hash, tên hiển thị, role, thời gian tạo/đăng nhập.
 
-## 8. Cách chạy lại từ đầu
+Chỉ mục articles: slug unique; category + created_at; author; created_at. Chỉ mục users: username/email unique và role. Tìm kiếm gần đúng chuẩn hóa dấu, so khớp từ và chấm điểm chủ đề bằng Python trên tập bài đã lọc; **không có text index hoặc vector search**.
 
-```bat
-:: 1) Bật MongoDB (đã có sẵn service Windows) và Redis
-data\start_redis.bat
+100 bài kiến thức tiếng Việt được quản lý trong data/article_catalog.py, dùng 25 ảnh thuộc kho 30 ảnh mở đã có. Nguồn ảnh: static/images/CREDITS.md. Tài nguyên chạy offline.
 
-:: 2) Tạo môi trường Python và cài thư viện
-py -3.13 -m venv .venv
-.venv\Scripts\python -m pip install -r requirements.txt
+Backup/restore dùng Extended JSON cho MongoDB và dữ liệu + TTL cho Redis, không phải mongodump/mongorestore. Các file sao lưu nằm trong data/exports/ và được gitignore.
 
-:: 3) Nạp dữ liệu mẫu
-.venv\Scripts\python database\seed_articles.py --reset
-.venv\Scripts\python database\seed_redis.py --reset
+Kiểm thử: [TESTING.md](TESTING.md). Cài đặt: [README.md](../README.md). Đóng góp: [CONTRIBUTING.md](CONTRIBUTING.md).
 
-:: 4) Chạy ứng dụng
-.venv\Scripts\python app.py      →  http://127.0.0.1:5000
+Gợi ý tìm kiếm: GET /api/articles/suggestions?q=, chỉ trả bài published, tối đa năm kết quả. UI hỗ trợ debounce, hủy request cũ và bàn phím. Khóa và benchmark đã có trong phiên bản hiện tại; xem PERFORMANCE_REPORT.md cho bằng chứng và giới hạn.
 
-:: 5) Kiểm thử
-.venv\Scripts\python -m pytest tests/ -v
+## Khóa nạp cache
 
-:: 6) Đo hiệu năng + vẽ biểu đồ
-.venv\Scripts\python scripts\benchmark.py --n 200 --http http://127.0.0.1:5000
-.venv\Scripts\python scripts\plot_benchmark.py
-```
+Hash bài và String danh sách đều dùng khóa lock:<cache-key>. SET NX PX có lease10s; chờ tối đa khoảng2s, poll20ms. Lua xác nhận token khi ghi cache và nhả khóa; chủ mất lease không ghi đè hay xóa khóa của người khác. Danh sách dùng generation counter meta:article-list-version để chống publish bản cũ sau invalidation. Quá hạn chờ trả503 có Retry-After. Xem tests/test_cache_lock.py và docs/PERFORMANCE_REPORT.md.
 
-Tài khoản demo: `sv1_admin` / `sv2_editor` / `sv3_editor` — mật khẩu `123456`.
+Cache Hash bổ sung metadata slug/author/seed_version, giữ schema và kiểu giống API khi MISS. Test so sánh toàn bộ payload MISS/HIT.
+
+
+## Đọc sau
+
+SavedService dùng Set user:saved:<uid> riêng theo ID trong session. SADD/SREM/SISMEMBER/SMEMBERS; không TTL, không có thứ tự/thời điểm lưu. Lấy danh sách truy vấn MongoDB bằng $in và status=published, sort ngày đăng trước phân trang. Bài xóa/ẩn không hiện nhưng tham chiếu có thể còn. Set không có bản sao MongoDB; cần persistence/eviction/backup phù hợp nếu muốn giữ dữ liệu qua sự cố.

@@ -1,6 +1,6 @@
 [
   {
-    "file": "/static/uploads/news_001.jpg",
+    "file": "/static/images/news_001.jpg",
     "category": "Cong nghe",
     "title": "Free computer server room image",
     "creator": null,
@@ -10,7 +10,7 @@
     "height": 675
   },
   {
-    "file": "/static/uploads/news_002.jpg",
+    "file": "/static/images/news_002.jpg",
     "category": "Cong nghe",
     "title": "Code Coding",
     "creator": "Lorenzo Cafaro",
@@ -20,7 +20,7 @@
     "height": 675
   },
   {
-    "file": "/static/uploads/news_003.jpg",
+    "file": "/static/images/news_003.jpg",
     "category": "Cong nghe",
     "title": "Programming Code",
     "creator": "One Idea LLC",
@@ -30,7 +30,7 @@
     "height": 675
   },
   {
-    "file": "/static/uploads/news_004.jpg",
+    "file": "/static/images/news_004.jpg",
     "category": "Cong nghe",
     "title": "Changing Images of Man",
     "creator": "₡ґǘșϯγ Ɗᶏ Ⱪᶅṏⱳդ",
@@ -40,7 +40,7 @@
     "height": 675
   },
   {
-    "file": "/static/uploads/news_005.jpg",
+    "file": "/static/images/news_005.jpg",
     "category": "Cong nghe",
     "title": "Economist app",
     "creator": "freestocks.org",
@@ -50,7 +50,7 @@
     "height": 675
   },
   {
-    "file": "/static/uploads/news_006.jpg",
+    "file": "/static/images/news_006.jpg",
     "category": "Kinh te",
     "title": "N.Y. Stock Exchange Bernard Gotfryd",
     "creator": "libraryofcongress",
@@ -60,7 +60,7 @@
     "height": 675
   },
   {
-    "file": "/static/uploads/news_007.jpg",
+    "file": "/static/images/news_007.jpg",
     "category": "Kinh te",
     "title": "Gold market NY Stock Exchange",
     "creator": "libraryofcongress",
@@ -70,7 +70,7 @@
     "height": 675
   },
   {
-    "file": "/static/uploads/news_008.jpg",
+    "file": "/static/images/news_008.jpg",
     "category": "Kinh te",
     "title": "Commodity exchange New York Bernard",
     "creator": "libraryofcongress",
@@ -80,7 +80,7 @@
     "height": 675
   },
   {
-    "file": "/static/uploads/news_009.jpg",
+    "file": "/static/images/news_009.jpg",
     "category": "Kinh te",
     "title": "'Hermes' Container ship.",
     "creator": "Bernard Spragg",
@@ -90,7 +90,7 @@
     "height": 675
   },
   {
-    "file": "/static/uploads/news_010.jpg",
+    "file": "/static/images/news_010.jpg",
     "category": "Kinh te",
     "title": "Port Lyttleton. NZ",
     "creator": "Bernard Spragg",
@@ -100,7 +100,7 @@
     "height": 675
   },
   {
-    "file": "/static/uploads/news_011.jpg",
+    "file": "/static/images/news_011.jpg",
     "category": "The thao",
     "title": "American Football Stadium crowd, location",
     "creator": null,
@@ -110,7 +110,7 @@
     "height": 675
   },
   {
-    "file": "/static/uploads/news_012.jpg",
+    "file": "/static/images/news_012.jpg",
     "category": "The thao",
     "title": "Football stadium, crowd audience. View",
     "creator": null,
@@ -120,7 +120,7 @@
     "height": 675
   },
   {
-    "file": "/static/uploads/news_013.jpg",
+    "file": "/static/images/news_013.jpg",
     "category": "The thao",
     "title": "Crowded School Football Stadium",
     "creator": "Image Catalog",
@@ -130,7 +130,7 @@
     "height": 675
   },
   {
-    "file": "/static/uploads/news_014.jpg",
+    "file": "/static/images/news_014.jpg",
     "category": "The thao",
     "title": "Metlife Stadium, NYC, 12/2011",
     "creator": "Tomas Forgac",
@@ -140,7 +140,7 @@
     "height": 675
   },
   {
-    "file": "/static/uploads/news_015.jpg",
+    "file": "/static/images/news_015.jpg",
     "category": "The thao",
     "title": "North Melbourne vs Collingwood Escort Cup Grand Final at VFL Park",
     "creator": "Monash Public Library Service",
@@ -150,7 +150,7 @@
     "height": 675
   },
   {
-    "file": "/static/uploads/news_016.jpg",
+    "file": "/static/images/news_016.jpg",
     "category": "Khoa hoc",
     "title": "Released to Public: Hubble: Magnificant Details in a Dusty Spiral, 1999 (NASA, PR99-25)",
     "creator": "pingnews.com",
@@ -160,7 +160,7 @@
     "height": 675
   },
   {
-    "file": "/static/uploads/news_017.jpg",
+    "file": "/static/images/news_017.jpg",
     "category": "Khoa hoc",
     "title": "The Red, Orange and Blue of the Cave Nebula region.",
     "creator": "kees scherer",
@@ -170,7 +170,7 @@
     "height": 675
   },
   {
-    "file": "/static/uploads/news_018.jpg",
+    "file": "/static/images/news_018.jpg",
     "category": "Khoa hoc",
     "title": "NASA,S flying observatory SOFIA.",
     "creator": "Bernard Spragg",
@@ -180,7 +180,7 @@
     "height": 675
   },
   {
-    "file": "/static/uploads/news_019.jpg",
+    "file": "/static/images/news_019.jpg",
     "category": "Khoa hoc",
     "title": "NGC 6357 - Cosmic ‘Winter’ Wonderland",
     "creator": "aeroman3",
@@ -190,7 +190,7 @@
     "height": 675
   },
   {
-    "file": "/static/uploads/news_020.jpg",
+    "file": "/static/images/news_020.jpg",
     "category": "Khoa hoc",
     "title": "From Farm to Observatory - iPhone 6",
     "creator": "jody.claborn",
@@ -200,7 +200,7 @@
     "height": 675
   },
   {
-    "file": "/static/uploads/news_021.jpg",
+    "file": "/static/images/news_021.jpg",
     "category": "Xa hoi",
     "title": "IMG_7298",
     "creator": "valerius94",
@@ -210,7 +210,7 @@
     "height": 675
   },
   {
-    "file": "/static/uploads/news_022.jpg",
+    "file": "/static/images/news_022.jpg",
     "category": "Xa hoi",
     "title": "Sợ",
     "creator": "valerius94",
@@ -220,7 +220,7 @@
     "height": 675
   },
   {
-    "file": "/static/uploads/news_026.jpg",
+    "file": "/static/images/news_026.jpg",
     "category": "Xa hoi",
     "title": "3 LIFE LESSONS I’VE LEARNED LIVING IN HANOI FOR 8 MONTHS",
     "creator": "Eric Seneca Kim",
@@ -230,7 +230,7 @@
     "height": 675
   },
   {
-    "file": "/static/uploads/news_027.jpg",
+    "file": "/static/images/news_027.jpg",
     "category": "Xa hoi",
     "title": "Saigon street",
     "creator": "Gary Lee Todd, Ph.D.",
@@ -240,7 +240,7 @@
     "height": 675
   },
   {
-    "file": "/static/uploads/news_028.jpg",
+    "file": "/static/images/news_028.jpg",
     "category": "Xa hoi",
     "title": "Street scene near my hotel",
     "creator": "Gary Lee Todd, Ph.D.",
@@ -250,7 +250,7 @@
     "height": 675
   },
   {
-    "file": "/static/uploads/news_029.jpg",
+    "file": "/static/images/news_029.jpg",
     "category": "Doi song",
     "title": "20130308-FNS-LSC-0384",
     "creator": "USDAgov",
@@ -260,7 +260,7 @@
     "height": 675
   },
   {
-    "file": "/static/uploads/news_030.jpg",
+    "file": "/static/images/news_030.jpg",
     "category": "Doi song",
     "title": "20130308-FNS-LSC-0413",
     "creator": "USDAgov",
@@ -270,7 +270,7 @@
     "height": 675
   },
   {
-    "file": "/static/uploads/news_031.jpg",
+    "file": "/static/images/news_031.jpg",
     "category": "Doi song",
     "title": "A lamb's lettuce salad",
     "creator": "freestocks.org",
@@ -280,7 +280,7 @@
     "height": 675
   },
   {
-    "file": "/static/uploads/news_032.jpg",
+    "file": "/static/images/news_032.jpg",
     "category": "Doi song",
     "title": "20120414-DM-LSC-2796",
     "creator": "USDAgov",
@@ -290,7 +290,7 @@
     "height": 675
   },
   {
-    "file": "/static/uploads/news_033.jpg",
+    "file": "/static/images/news_033.jpg",
     "category": "Doi song",
     "title": "Caesar Salad on a white wooden table in the beach cafe, Bali island.",
     "creator": "Artem Beliaikin",

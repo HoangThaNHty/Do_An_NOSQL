@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Dang nhap - {{ site_name }}{% endblock %}
+{% block title %}Đăng nhập - {{ site_name }}{% endblock %}
 {% block main_class %}container{% endblock %}
 
 {% block content %}
@@ -12,40 +12,30 @@
                     <span class="brand-mark"><i class="bi bi-broadcast"></i></span>
                     <span class="fw-bold fs-5">{{ site_name }}</span>
                 </div>
-                <h2>Doc tin tuc<br>moi ngay, nhanh hon.</h2>
-                <p>Dang nhap de theo doi bai viet yeu thich va luu lai lich su doc.</p>
-                <ul>
-                    <li><i class="bi bi-check-circle-fill"></i><span>100 bai viet cap nhat moi truong day</span></li>
-                    <li><i class="bi bi-check-circle-fill"></i><span>6 chuyen muc da duyet</span></li>
-                    <li><i class="bi bi-check-circle-fill"></i><span>Phien dang nhap duoc bao mat</span></li>
-                </ul>
+                <h2>Chào mừng bạn<br>trở lại</h2>
+                <p>Đăng nhập vào tài khoản Điểm Tin của bạn.</p>
+                <p class="mt-4"><i class="bi bi-bookmark me-2"></i>Lưu những bài viết bạn quan tâm để đọc sau, bất cứ khi nào đăng nhập lại.</p>
             </div>
             <div class="small" style="color:#8fa6bf">&copy; 2026 {{ site_name }}</div>
         </div>
 
         <!-- FORM -->
         <div class="auth-form">
-            <h3>Dang nhap</h3>
-            <p class="sub">Chua co tai khoan? <a href="{{ url_for('auth.register') }}" style="color:var(--accent);font-weight:600">Dang ky ngay</a></p>
+            <h3>Đăng nhập</h3>
+            <p class="sub">Chưa có tài khoản? <a href="{{ url_for('auth.register') }}" style="color:var(--accent);font-weight:600">Đăng ký ngay</a></p>
 
-            <form method="post" action="{{ url_for('auth.login') }}">
+            <form method="post" action="{{ url_for('auth.login', next=request.args.get('next', '')) }}">
                 <div class="mb-3">
-                    <label class="form-label" for="identifier">Email hoac ten dang nhap</label>
+                    <label class="form-label" for="identifier">Email hoặc tên đăng nhập</label>
                     <input type="text" class="form-control" id="identifier" name="identifier"
-                           value="{{ identifier }}" placeholder="sv1_admin" required autofocus>
+                           value="{{ identifier }}" placeholder="Email hoặc tên đăng nhập" autocomplete="username" required autofocus>
                 </div>
                 <div class="mb-4">
-                    <label class="form-label" for="password">Mat khau</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="••••••" required>
+                    <label class="form-label" for="password">Mật khẩu</label>
+                    <input type="password" class="form-control" id="password" name="password" autocomplete="current-password" placeholder="••••••" required>
                 </div>
-                <button class="btn btn-accent w-100 py-2" type="submit">Dang nhap</button>
+                <button class="btn btn-accent w-100 py-2" type="submit">Đăng nhập</button>
             </form>
-
-            <div class="divider-text my-4">Tai khoan demo</div>
-            <div class="small text-muted text-center">
-                <code>sv1_admin</code> &nbsp;·&nbsp; <code>sv2_editor</code> &nbsp;·&nbsp; <code>sv3_editor</code>
-                <br>mat khau chung: <code>123456</code>
-            </div>
         </div>
     </div>
 </div>

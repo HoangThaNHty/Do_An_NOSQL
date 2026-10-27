@@ -21,6 +21,7 @@ appendonly.aof
 # ===== Du lieu sinh tu dong (co the sinh lai bang script) =====
 data/exports/*.json
 data/exports/*.bson
+data/exports/
 
 # ===== IDE =====
 .vscode/
@@ -30,3 +31,44 @@ data/exports/*.bson
 # ===== OS =====
 Thumbs.db
 desktop.ini
+.artifacts/
+
+# Local browser traces and generated presentation workbooks
+/.playwright-mcp/
+/.chart-data-*/
+
+# Local reports/reference files, not runtime source
+/deliverables/
+/tools/report/
+/*.docx
+/*.pdf
+/*.pptx
+/CONTEXT.md
+
+# Personal launchers and one-off migration/asset generation scripts
+/data/*.bat
+/data/build_fonts_css.py
+/data/fetch_images.py
+/data/expand_article_content.py
+/data/refresh_demo_content.py
+/data/simplify_roles.py
+
+# Internal drafts and historical browser artifacts
+/docs/screenshots/
+/docs/TEAM_PLAN.md
+/docs/TEAM_CODE_MAP.md
+/docs/DELIVERY_REPORT.md
+/docs/DEMO_DISCUSSION.md
+/docs/DEMO_CHECKLIST.md
+/docs/QA_REPORT.md
+/docs/SEARCH_QA.md
+/docs/REQUIREMENTS_REVIEW.md
+/docs/qa-results.json
+/docs/search-qa-results.json
+
+.env.*
+!.env.example
+*.pem
+*.key
+compose.override.yml
+compose.override.yaml

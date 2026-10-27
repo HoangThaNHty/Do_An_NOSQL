@@ -96,6 +96,23 @@ h1, h2, h3, h4, h5, h6, .navbar-brand { font-weight: 700; letter-spacing: -.01em
 .navbar-site .nav-link.active { color: var(--accent); font-weight: 600; }
 
 .search-box { position: relative; }
+.search-input-wrap { position: relative; }
+.search-suggestions {
+    position: absolute; top: calc(100% + 7px); left: 0; width: 430px;
+    max-width: min(430px, calc(100vw - 40px)); z-index: 1080;
+    background: #fff; border: 1px solid var(--line); border-radius: 12px;
+    box-shadow: var(--shadow-lg); max-height: min(480px, 65vh); overflow-y: auto;
+}
+.search-box .search-suggestions { left: auto; right: 0; }
+.search-suggestions[hidden] { display: none; }
+.search-suggestion-status { padding: 12px 14px; font-size: 12px; color: var(--muted); border-bottom: 1px solid var(--line); }
+.search-suggestion-item { display: flex; gap: 11px; padding: 12px 14px; color: var(--ink); align-items: center; }
+.search-suggestion-item:hover, .search-suggestion-item[aria-selected="true"] { background: var(--accent-soft); color: var(--navy); }
+.search-suggestion-item img { width: 64px; height: 47px; object-fit: cover; border-radius: 6px; flex: none; }
+.search-suggestion-item span { min-width: 0; }
+.search-suggestion-item small { display: block; font-size: 11px; color: var(--accent-dark); margin-bottom: 3px; }
+.search-suggestion-item strong { display: block; font-size: 13px; line-height: 1.45; }
+.search-suggestion-all { display: block; padding: 12px 14px; border-top: 1px solid var(--line); font-size: 13px; color: var(--accent-dark); font-weight: 600; }
 .search-box input {
     border: 1px solid var(--line); border-radius: 999px;
     padding: 8px 40px 8px 16px; font-size: 14px; width: 210px;
@@ -271,7 +288,9 @@ h1, h2, h3, h4, h5, h6, .navbar-brand { font-weight: 700; letter-spacing: -.01em
 }
 
 /* ======================= TRANG QUAN TRI ======================= */
-.admin-shell { display: grid; grid-template-columns: 232px 1fr; gap: 24px; margin-top: 26px; }
+.admin-shell { display: grid; grid-template-columns: 232px minmax(0, 1fr); gap: 24px; margin-top: 26px; }
+.admin-shell > div { min-width: 0; }
+.admin-shell .table-responsive > table { min-width: 760px; }
 .admin-nav {
     background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
     padding: 14px; height: fit-content; position: sticky; top: 88px;
@@ -301,7 +320,7 @@ h1, h2, h3, h4, h5, h6, .navbar-brand { font-weight: 700; letter-spacing: -.01em
 .table-site tbody tr:hover { background: #fbfcfe; }
 .thumb-xs { width: 72px; height: 46px; object-fit: cover; border-radius: 6px; }
 
-.pagination { gap: 6px; }
+.pagination { gap: 6px; flex-wrap: wrap; }
 .page-link { border-radius: 8px !important; border-color: var(--line); color: var(--navy); font-size: 14px; }
 .page-item.active .page-link { background: var(--navy); border-color: var(--navy); }
 
@@ -366,10 +385,14 @@ code { background: #f1f5f9; color: var(--accent-dark); border-radius: 5px; paddi
 .link-all:hover { color: var(--navy); }
 
 @media (max-width: 991.98px) {
+    .search-box input, .search-box input:focus { width: 100%; }
+    .search-box .search-suggestions { left: 0; right: auto; width: 100%; }
     .hero { grid-template-columns: 1fr; }
     .hero-feature { min-height: 320px; }
+    .hero-feature::after { background: linear-gradient(180deg, rgba(10, 30, 54, .48), rgba(10, 30, 54, .94)); }
     .admin-shell { grid-template-columns: 1fr; }
     .admin-nav { position: static; }
     .auth-card { grid-template-columns: 1fr; }
     .auth-brand { display: none; }
 }
+.saved-entry .card-news { height: auto; flex: 1; }

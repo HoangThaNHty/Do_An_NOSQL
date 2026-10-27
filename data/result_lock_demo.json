@@ -1,0 +1,14 @@
+{
+  "recorded_at": "2026-10-26T10:15:20.108331+07:00",
+  "workers": 12,
+  "loader_calls": 1,
+  "database_responses": 1,
+  "cache_responses": 11,
+  "waits": 11,
+  "timeouts": 0,
+  "lock_pttl_observed_ms": 9997,
+  "lock_removed_afterwards": true,
+  "simulated_work_ms": 1000,
+  "wall_time_ms": 1042.682,
+  "note": "Delay mô phỏng để quan sát; không phải số đo hiệu năng MongoDB."
+}

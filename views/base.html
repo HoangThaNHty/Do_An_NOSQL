@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
     <title>{% block title %}{{ site_name }}{% endblock %}</title>
-    <meta name="description" content="Tin tuc truc tiep - cong nghe, kinh te, the thao, khoa hoc, xa hoi va doi song.">
+    <meta name="description" content="Tin tức và kiến thức về công nghệ, kinh tế, thể thao, khoa học, xã hội và đời sống.">
     <link rel="stylesheet" href="{{ url_for('static', filename='fonts/fonts.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap-icons/font/bootstrap-icons.min.css') }}">
@@ -16,17 +17,17 @@
 <div class="topbar d-none d-md-block">
     <div class="container d-flex justify-content-between align-items-center">
         <div>
-            <span class="live-dot"></span>Tin tuc cap nhat lien tuc
+            <span class="live-dot"></span>Đọc thêm, hiểu hơn.
             <span class="topbar-sep">|</span>
-            <span id="today">Chu nhan</span>
+            <span id="today">Ngày hôm nay</span>
         </div>
         <div>
-            <a href="{{ url_for('article.list_articles', sort='newest') }}">Moi nhat</a>
+            <a href="{{ url_for('article.list_articles', sort='newest') }}">Mới nhất</a>
             <span class="topbar-sep">|</span>
-            <a href="{{ url_for('article.list_articles', sort='views') }}">Xem nhieu nhat</a>
-            {% if current_user and current_user.get('role') in ('admin', 'editor') %}
+            <a href="{{ url_for('article.list_articles', sort='views') }}">Xem nhiều nhất</a>
+            {% if current_user and current_user.get('role') == 'admin' %}
             <span class="topbar-sep">|</span>
-            <a href="{{ url_for('admin.dashboard') }}">Quan tri</a>
+            <a href="{{ url_for('admin.dashboard') }}">Quản trị</a>
             {% endif %}
         </div>
     </div>
@@ -46,7 +47,7 @@
 
         <div class="collapse navbar-collapse" id="mainNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('article.index') }}">Trang chu</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('article.index') }}">Trang chủ</a></li>
                 {% for c in nav_categories %}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url_for('article.list_articles', category=c) }}">{{ c }}</a>
@@ -54,9 +55,10 @@
                 {% endfor %}
             </ul>
 
-            <form class="search-box d-none d-lg-block me-3" method="get" action="{{ url_for('article.list_articles') }}">
-                <input type="text" name="q" placeholder="Tim kiem bai viet..." value="{{ keyword if keyword is defined else '' }}">
-                <button type="submit" aria-label="Tim kiem"><i class="bi bi-search"></i></button>
+            <form class="search-box me-lg-3 mb-3 mb-lg-0" method="get" action="{{ url_for('article.list_articles') }}">
+                <input type="text" name="q" data-live-search placeholder="Tìm kiếm bài viết..." value="{{ keyword if keyword is defined else '' }}">
+                <input type="hidden" name="sort" value="relevance">
+                <button type="submit" aria-label="Tìm kiếm"><i class="bi bi-search"></i></button>
             </form>
 
             <ul class="navbar-nav align-items-lg-center">
@@ -65,29 +67,30 @@
                     <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" data-bs-toggle="dropdown">
                         <i class="bi bi-person-circle fs-5"></i>
                         <span class="d-none d-xl-inline">{{ current_user.get('full_name') or current_user.get('username') }}</span>
-                        <span class="badge text-bg-primary d-none d-lg-inline">{{ current_user.get('role') }}</span>
+                        <span class="badge text-bg-primary d-none d-lg-inline">{{ role_labels.get(current_user.get('role'), "Độc giả") }}</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end shadow border-0" style="border-radius:10px">
                         <li class="px-3 py-2">
                             <div class="fw-semibold">{{ current_user.get('full_name') or current_user.get('username') }}</div>
                             <div class="small text-muted">
                                 @{{ current_user.get('email') }} &middot;
-                                <span class="badge text-bg-primary">{{ current_user.get('role') }}</span>
+                                <span class="badge text-bg-primary">{{ role_labels.get(current_user.get('role'), "Độc giả") }}</span>
                             </div>
                         </li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="{{ url_for('auth.profile') }}"><i class="bi bi-person me-2"></i>Tai khoan</a></li>
-                        {% if current_user.get('role') in ('admin', 'editor') %}
-                        <li><a class="dropdown-item" href="{{ url_for('admin.dashboard') }}"><i class="bi bi-speedometer2 me-2"></i>Quan tri</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('auth.profile') }}"><i class="bi bi-person me-2"></i>Tài khoản</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('saved.index') }}"><i class="bi bi-bookmark me-2"></i>Bài đã lưu</a></li>
+                        {% if current_user.get('role') == 'admin' %}
+                        <li><a class="dropdown-item" href="{{ url_for('admin.dashboard') }}"><i class="bi bi-speedometer2 me-2"></i>Quản trị</a></li>
                         {% endif %}
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item text-danger" href="{{ url_for('auth.logout') }}"><i class="bi bi-box-arrow-right me-2"></i>Dang xuat</a></li>
+                        <li><a class="dropdown-item text-danger" href="{{ url_for('auth.logout') }}"><i class="bi bi-box-arrow-right me-2"></i>Đăng xuất</a></li>
                     </ul>
                 </li>
                 {% else %}
-                <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}">Dang nhap</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}">Đăng nhập</a></li>
                 <li class="nav-item ms-lg-2">
-                    <a class="btn btn-accent" href="{{ url_for('auth.register') }}">Dang ky</a>
+                    <a class="btn btn-accent" href="{{ url_for('auth.register') }}">Đăng ký</a>
                 </li>
                 {% endif %}
             </ul>
@@ -118,10 +121,10 @@
                     <span class="brand-mark"><i class="bi bi-broadcast"></i></span>
                     <span>{{ site_name }}</span>
                 </a>
-                <p style="max-width:330px">Chuyen cong nghe, kinh te, the thao, khoa hoc, xa hoi va doi song - cap nhat moi ngay.</p>
+                <p style="max-width:330px">Khám phá công nghệ, kinh tế, thể thao, khoa học, xã hội và đời sống mỗi ngày.</p>
             </div>
             <div class="col-6 col-lg-2">
-                <h5>Chuyen muc</h5>
+                <h5>Chuyên mục</h5>
                 <ul>
                     {% for c in nav_categories %}
                     <li><a href="{{ url_for('article.list_articles', category=c) }}">{{ c }}</a></li>
@@ -131,29 +134,28 @@
             <div class="col-6 col-lg-2">
                 <h5>Trang</h5>
                 <ul>
-                    <li><a href="{{ url_for('article.index') }}">Trang chu</a></li>
-                    <li><a href="{{ url_for('article.list_articles') }}">Tin tuc</a></li>
-                    <li><a href="{{ url_for('article.list_articles', sort='views') }}">Xem nhieu nhat</a></li>
-                    <li><a href="{{ url_for('auth.login') }}">Dang nhap</a></li>
+                    <li><a href="{{ url_for('article.index') }}">Trang chủ</a></li>
+                    <li><a href="{{ url_for('article.list_articles') }}">Tin tức</a></li>
+                    <li><a href="{{ url_for('article.list_articles', sort='views') }}">Xem nhiều nhất</a></li>
+                    <li><a href="{{ url_for('auth.login') }}">Đăng nhập</a></li>
                 </ul>
             </div>
             <div class="col-lg-4">
-                <h5>Lien he</h5>
-                <ul>
-                    <li><i class="bi bi-geo-alt me-2"></i>Ho Chi Minh, Viet Nam</li>
-                    <li><i class="bi bi-envelope me-2"></i>banbienwap@tinnucnosql.vn</li>
-                    <li><i class="bi bi-telephone me-2"></i>(028) 3 8 24 68 90</li>
-                </ul>
+                <h5>Về Điểm Tin</h5>
+                <p>Đọc thêm, hiểu hơn. Khám phá những góc nhìn gần gũi từ đời sống đến công nghệ.</p>
+                <p class="small">Website minh họa phục vụ học tập.</p>
             </div>
         </div>
         <div class="footer-bottom text-center">
-            &copy; 2026 {{ site_name }} - Do an cuoi ky mon Du lieu NoSQL (De tai 06). Du an dung de hoc tap.
+            &copy; 2026 {{ site_name }} - Đồ án cuối kỳ môn Dữ liệu NoSQL (Đề tài 06). Dự án phục vụ học tập.
         </div>
     </div>
 </footer>
 
 <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+<script src="{{ url_for('static', filename='js/search.js') }}"></script>
+<script src="{{ url_for('static', filename='js/saved.js') }}"></script>
 {% block scripts %}{% endblock %}
 </body>
 </html>

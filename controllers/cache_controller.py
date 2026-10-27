@@ -2,14 +2,15 @@
 controllers/cache_controller.py - CONTROLLER THEO DOI CACHE / SESSION (phuc vu demo)
 
 Cac endpoint nay giup GV / nhom xem truc tiep trang thai Redis:
-    GET  /api/cache/stats      -> so lan Cache Hit / Miss, so key dang co
+    GET  /api/cache/stats      -> so lan Lượt trúng bộ nhớ đệm / Miss, so key dang co
     GET  /api/cache/sessions   -> danh sach phien dang nhap + TTL con lai
     GET  /api/cache/keys       -> danh sach key Redis (dung cho tab Browser cua RedisInsight)
     POST /api/cache/reset      -> dat lai bo dem Hit/Miss
-    POST /api/cache/invalidate -> xoa cache mot bai viet
+    POST /api/cache/invalidate -> xoa cache mot bài viết
 """
 
 from flask import Blueprint, current_app, jsonify, request
+from controllers import admin_api_required
 
 cache_bp = Blueprint("cache", __name__, url_prefix="/api/cache")
 
@@ -23,31 +24,35 @@ def _session_service():
 
 
 @cache_bp.get("/stats")
+@admin_api_required
 def stats():
-    """Thong ke Cache Hit / Miss + so key dang luu tren Redis."""
+    """Thong ke Lượt trúng bộ nhớ đệm / Miss + so key dang luu tren Redis."""
     cache = _cache()
     redis_client = current_app.extensions["redis"]
+    snapshot = cache.get_stats()
+    server = redis_client.info("server")
     return jsonify(
         {
             "success": True,
             "data": {
-                **cache.get_stats(),
+                **snapshot,
                 "hit_rate": (
                     round(
-                        cache.get_stats()["hits"]
-                        / max(1, cache.get_stats()["hits"] + cache.get_stats()["misses"])
+                        snapshot["hits"]
+                        / max(1, snapshot["hits"] + snapshot["misses"])
                         * 100,
                         2,
                     )
                 ),
-                "uptime": redis_client.info("server").get("uptime_in_seconds"),
-                "redis_version": redis_client.info("server").get("redis_version"),
+                "uptime": server.get("uptime_in_seconds"),
+                "redis_version": server.get("redis_version"),
             },
         }
     )
 
 
 @cache_bp.get("/sessions")
+@admin_api_required
 def sessions():
     """Danh sach phien dang nhap (Hash tren Redis) kem TTL con lai."""
     session_service = _session_service()
@@ -62,6 +67,7 @@ def sessions():
 
 
 @cache_bp.get("/keys")
+@admin_api_required
 def keys():
     """Danh sach key dang co tren Redis + TTL cua tung key."""
     redis_client = current_app.extensions["redis"]
@@ -80,15 +86,17 @@ def keys():
 
 
 @cache_bp.post("/reset")
+@admin_api_required
 def reset():
     """Dat lai bo dem Hit/Miss (dung khi bat dau buoi demo)."""
     _cache().reset_stats()
-    return jsonify({"success": True, "message": "Da reset bo dem Hit/Miss"})
+    return jsonify({"success": True, "message": "Đã đặt lại bộ đếm Hit/Miss"})
 
 
 @cache_bp.post("/invalidate/<article_id>")
+@admin_api_required
 def invalidate(article_id):
-    """Xoa cache cua 1 bai viet (dung cho buoc demo 'Cache Miss' lan dau)."""
+    """Xoa cache cua 1 bài viết (dung cho buoc demo 'Lượt trượt bộ nhớ đệm' lan dau)."""
     removed = _cache().invalidate_article(article_id)
     return jsonify(
         {"success": True, "removed": removed, "article_id": article_id}

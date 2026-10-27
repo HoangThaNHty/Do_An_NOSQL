@@ -4,7 +4,7 @@
 {% block content %}
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ url_for('article.index') }}">Trang chu</a></li>
+        <li class="breadcrumb-item"><a href="{{ url_for('article.index') }}">Trang chủ</a></li>
         <li class="breadcrumb-item"><a href="{{ url_for('article.list_articles', category=article.category) }}">{{ article.category }}</a></li>
         <li class="breadcrumb-item active" aria-current="page">{{ article.title[:48] }}</li>
     </ol>
@@ -13,19 +13,29 @@
 <div class="row g-4">
     <div class="col-lg-8">
         <article class="card border-0 shadow-sm">
-            <img src="{{ article.image }}" class="card-img-top" alt="{{ article.title }}"
+            <img src="{{ article.image }}" class="card-img-top" alt="{{ article.image_alt or article.title }}"
                  style="max-height:460px;object-fit:cover;width:100%">
             <div class="card-body p-4">
+                {% if article.image_caption %}<p class="article-caption">{{ article.image_caption }}</p>{% endif %}
                 <div class="cat-label">{{ article.category }}</div>
                 <h1 class="article-title">{{ article.title }}</h1>
 
                 <div class="article-meta">
-                    <span><i class="bi bi-person-circle me-1"></i>{{ article.author_name or 'Ban bien tap' }}</span>
+                    <span><i class="bi bi-person-circle me-1"></i>{{ article.author_name or 'Ban biên tập' }}</span>
                     <span><i class="bi bi-clock me-1"></i>{{ article.created_at }}</span>
-                    <span><i class="bi bi-eye me-1"></i>{{ article.views }} luot xem</span>
+                    <span><i class="bi bi-eye me-1"></i>{{ article.views }} lượt xem</span>
                     <span class="ms-auto"><i class="bi bi-tag me-1"></i>{{ article.category }}</span>
                 </div>
 
+                <div class="mb-3">
+                    {% if current_user %}
+                    <button class="btn btn-outline-secondary btn-sm" data-save-article="{{ article._id }}" data-saved="{{ 'true' if is_saved else 'false' }}" aria-pressed="{{ 'true' if is_saved else 'false' }}">{{ 'Đã lưu · Bỏ lưu' if is_saved else 'Lưu để đọc sau' }}</button>
+                    <a class="small ms-2" href="{{ url_for('saved.index') }}">Bài đã lưu</a>
+                    <span class="small d-block mt-1" data-save-message role="status"></span>
+                    {% else %}
+                    <a class="btn btn-outline-secondary btn-sm" href="{{ url_for('auth.login', next=request.path) }}"><i class="bi bi-bookmark me-1"></i>Đăng nhập để lưu bài</a>
+                    {% endif %}
+                </div>
                 {% if article.summary %}
                 <p class="article-lead">{{ article.summary }}</p>
                 {% endif %}
@@ -44,7 +54,7 @@
 
                 {% if article.tags %}
                 <div class="mt-4 pt-3 border-top">
-                    <span class="text-muted small me-2">The:</span>
+                    <span class="text-muted small me-2">Thẻ:</span>
                     {% for t in article.tags %}
                     <a class="tag-pill" href="{{ url_for('article.list_articles', q=t) }}">#{{ t }}</a>
                     {% endfor %}
@@ -56,7 +66,7 @@
 
     <div class="col-lg-4">
         <div class="card border-0 shadow-sm mb-3">
-            <div class="card-header bg-white fw-bold"><i class="bi bi-newspaper me-2"></i>Bai viet lien quan</div>
+            <div class="card-header bg-white fw-bold"><i class="bi bi-newspaper me-2"></i>Bài viết liên quan</div>
             <div class="list-group list-group-flush">
                 {% for r in related %}
                 <a class="list-group-item list-group-item-action border-0 py-3" href="{{ url_for('article.article_detail', article_id=r._id) }}">
@@ -68,7 +78,7 @@
         </div>
 
         <div class="card border-0 shadow-sm">
-            <div class="card-header bg-white fw-bold"><i class="bi bi-tags me-2"></i>Chuyen muc</div>
+            <div class="card-header bg-white fw-bold"><i class="bi bi-tags me-2"></i>Chuyên mục</div>
             <div class="card-body">
                 <div class="d-flex flex-wrap gap-2">
                     {% for c in categories %}

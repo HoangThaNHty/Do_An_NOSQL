@@ -1,7 +1,7 @@
-{# The bai viet dung chung - trang chu, danh sach, lien quan #}
+{# The bài viết dung chung - trang chu, danh sach, lien quan #}
 <div class="card-news">
     <a class="thumb" href="{{ url_for('article.article_detail', article_id=a._id) }}">
-        <img src="{{ a.image }}" alt="{{ a.title }}" loading="lazy">
+        <img src="{{ a.image }}" alt="{{ a.image_alt or a.title }}" loading="lazy">
         <span class="chip">{{ a.category }}</span>
     </a>
     <div class="body">

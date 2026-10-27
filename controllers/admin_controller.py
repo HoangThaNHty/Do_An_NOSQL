@@ -1,7 +1,7 @@
 """
 controllers/admin_controller.py - CONTROLLER TRANG QUAN TRI
 
-Trang /admin: quan tri bai viet (them - sua - xoa) va quan ly nguoi dung.
+Trang /admin: quan tri bài viết (them - sua - xoa) va quan ly nguoi dung.
 Moi thay doi deu di qua services/article_service de Cache Invalidation
 duoc thuc hien tu dong.
 """
@@ -26,7 +26,7 @@ def _services():
 @admin_bp.get("/")
 @admin_required
 def dashboard():
-    """Trang chu quan tri: thong ke nhanh."""
+    """Trang chủ quan tri: thong ke nhanh."""
     article_service, auth_service = _services()
     cache = current_app.extensions["cache_service"]
     session_service = current_app.extensions["session_service"]
@@ -46,8 +46,8 @@ def dashboard():
 @admin_required
 def cache_dashboard():
     """
-    Bang dieu khien Cache & Session - noi trinh bay bang chung cho GV:
-    so lan Cache Hit/Miss, danh sach key Redis kem TTL, phien dang nhap.
+    Bảng điều khiển Bộ nhớ đệm & Phiên đăng nhập - noi trinh bay bang chung cho GV:
+    so lan Lượt trúng bộ nhớ đệm/Miss, danh sach key Redis kem TTL, phien dang nhap.
     """
     cache = current_app.extensions["cache_service"]
     session_service = current_app.extensions["session_service"]
@@ -84,12 +84,12 @@ def cache_dashboard():
 @admin_bp.get("/articles")
 @admin_required
 def articles():
-    """Danh sach bai viet trong trang quan tri + tim kiem + phan trang."""
+    """Danh sach bài viết trong trang quan tri + tim kiem + phan trang."""
     article_service, _ = _services()
     page = request.args.get("page", 1, type=int)
     keyword = request.args.get("q", "").strip()
     category = request.args.get("category", "all")
-    result = article_service.search(keyword, category=category, page=page, per_page=10)
+    result = article_service.search(keyword, category=category, page=page, per_page=10, status=None)
     return render_template(
         "admin_articles.html",
         articles=result["items"],
@@ -103,7 +103,7 @@ def articles():
 @admin_bp.route("/articles/create", methods=["GET", "POST"])
 @admin_required
 def create_article():
-    """Them bai viet moi."""
+    """Thêm bài viết moi."""
     article_service, _ = _services()
     if request.method == "POST":
         payload = {
@@ -111,21 +111,23 @@ def create_article():
             "summary": request.form.get("summary", ""),
             "content": request.form.get("content", ""),
             "image": request.form.get("image", ""),
-            "category": request.form.get("category", "Cong nghe"),
+            "category": request.form.get("category", "Công nghệ"),
             "status": request.form.get("status", "published"),
             "tags": [t.strip() for t in request.form.get("tags", "").split(",") if t.strip()],
         }
         if not payload["title"] or not payload["content"]:
-            flash("Vui long nhap tieu de va noi dung.", "danger")
+            flash("Vui lòng nhập tiêu đề và nội dung.", "danger")
             return render_template(
                 "admin_article_form.html", article=None, categories=article_service.categories()
             )
-        article_service.create(
-            payload,
-            author_id=g.current_user.get("user_id"),
-            author_name=g.current_user.get("full_name"),
-        )
-        flash("Da them bai viet moi thanh cong.", "success")
+        try:
+            article_service.create(payload, author_id=g.current_user.get("user_id"),
+                                   author_name=g.current_user.get("full_name"))
+        except ValueError as exc:
+            flash(str(exc), "danger")
+            return render_template("admin_article_form.html", article=payload,
+                                   is_edit=False, categories=article_service.categories()), 400
+        flash("Đã thêm bài viết mới thành công.", "success")
         return redirect(url_for("admin.articles"))
     return render_template(
         "admin_article_form.html", article=None, categories=article_service.categories()
@@ -135,11 +137,11 @@ def create_article():
 @admin_bp.route("/articles/edit/<article_id>", methods=["GET", "POST"])
 @admin_required
 def edit_article(article_id):
-    """Sua bai viet. Luu -> xoa cache lien quan (Cache Invalidation)."""
+    """Sửa bài viết. Luu -> xoa cache lien quan (Cache Invalidation)."""
     article_service, _ = _services()
     article = article_service.get(article_id)
     if not article:
-        flash("Khong tim thay bai viet.", "danger")
+        flash("Không tìm thấy bài viết.", "danger")
         return redirect(url_for("admin.articles"))
 
     if request.method == "POST":
@@ -148,12 +150,17 @@ def edit_article(article_id):
             "summary": request.form.get("summary", ""),
             "content": request.form.get("content", ""),
             "image": request.form.get("image", ""),
-            "category": request.form.get("category", "Cong nghe"),
+            "category": request.form.get("category", "Công nghệ"),
             "status": request.form.get("status", "published"),
             "tags": [t.strip() for t in request.form.get("tags", "").split(",") if t.strip()],
         }
-        article_service.update(article_id, payload)
-        flash("Da cap nhat bai viet va xoa cache cu (Cache Invalidation).", "success")
+        try:
+            article_service.update(article_id, payload)
+        except ValueError as exc:
+            flash(str(exc), "danger")
+            return render_template("admin_article_form.html", article={**article, **payload},
+                                   categories=article_service.categories()), 400
+        flash("Đã cập nhật bài viết và xóa bộ nhớ đệm cũ.", "success")
         return redirect(url_for("admin.articles"))
 
     return render_template(
@@ -164,12 +171,12 @@ def edit_article(article_id):
 @admin_bp.post("/articles/delete/<article_id>")
 @admin_required
 def delete_article(article_id):
-    """Xoa bai viet + xoa cache lien quan."""
+    """Xoa bài viết + xoa cache lien quan."""
     article_service, _ = _services()
     if article_service.delete(article_id):
-        flash("Da xoa bai viet va xoa cache lien quan.", "success")
+        flash("Đã xóa bài viết và bộ nhớ đệm liên quan.", "success")
     else:
-        flash("Xoa bai viet that bai.", "danger")
+        flash("Xóa bài viết thất bại.", "danger")
     return redirect(url_for("admin.articles"))
 
 
@@ -179,6 +186,6 @@ def delete_article(article_id):
 @admin_bp.get("/users")
 @admin_only_required
 def users():
-    """Danh sach nguoi dung."""
+    """Danh sách người dùng."""
     _, auth_service = _services()
     return render_template("admin_users.html", users=auth_service.list_users())

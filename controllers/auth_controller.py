@@ -38,7 +38,12 @@ def _make_session(user):
         ip=request.headers.get("X-Forwarded-For", request.remote_addr),
         user_agent=request.headers.get("User-Agent", ""),
     )
-    response = redirect(url_for("article.index"))
+    # Chỉ cho phép các đường dẫn nội bộ phục vụ luồng đọc sau.
+    import re
+    target = request.args.get("next", "")
+    if not re.fullmatch(r"/saved|/articles/[0-9a-fA-F]{24}", target):
+        target = url_for("article.index")
+    response = redirect(target)
     response.set_cookie(
         SessionService.COOKIE_NAME,
         session_id,
@@ -65,7 +70,7 @@ def login():
             flash(error, "danger")
             return render_template("login.html", identifier=identifier)
         response = _make_session(user)
-        flash(f"Xin chao {user.get('full_name') or user.get('username')}!", "success")
+        flash(f"Xin chào {user.get('full_name') or user.get('username')}!", "success")
         return response
     return render_template("login.html", identifier="")
 
@@ -87,21 +92,21 @@ def register():
         if error:
             flash(error, "danger")
             return render_template("register.html", form=data)
-        flash("Dang ky thanh cong. Hay dang nhap.", "success")
+        flash("Đăng ký thành công. Hãy đăng nhập.", "success")
         return redirect(url_for("auth.login"))
     return render_template("register.html", form={})
 
 
 @auth_bp.get("/logout")
 def logout():
-    """Dang xuat - xoa key session tren Redis + xoa cookie."""
+    """Đăng xuất - xoa key session tren Redis + xoa cookie."""
     session_service = _session_service()
     session_id = request.cookies.get(SessionService.COOKIE_NAME)
     if session_id:
         session_service.destroy_session(session_id)
     response = redirect(url_for("article.index"))
     response.delete_cookie(SessionService.COOKIE_NAME)
-    flash("Ban da dang xuat. Phien tren Redis da duoc xoa.", "info")
+    flash("Bạn đã đăng xuất thành công.", "info")
     return response
 
 
@@ -183,7 +188,7 @@ def api_session():
     session_id = request.cookies.get(SessionService.COOKIE_NAME)
     session_data = session_service.get_session(session_id)
     if not session_data:
-        return jsonify({"success": False, "error": "Khong co phien dang nhap"}), 401
+        return jsonify({"success": False, "error": "Không có phiên đăng nhập"}), 401
     return jsonify(
         {
             "success": True,

@@ -2,7 +2,7 @@
 models/article.py - MODEL cho collection `articles` trong MongoDB (DB goc)
 
 Trach nhiemm:
-    - Tao index (slug unique, title text, category+created_at, author)
+    - Tao index (slug unique, category+created_at, author, created_at)
     - CRUD co ban tren DB goc
     - Truy van co ban: lay danh sach, chi tiet
     - Truy van nang cao: tim kiem (keyword), loc (category), sap xep, phan trang
@@ -12,14 +12,15 @@ from datetime import datetime, timezone
 
 from bson import ObjectId
 from pymongo import ASCENDING, DESCENDING, TEXT
+from models.search import relevance
 
 CATEGORIES = [
-    "Cong nghe",
-    "Kinh te",
-    "The thao",
-    "Khoa hoc",
-    "Xa hoi",
-    "Doi song",
+    "Công nghệ",
+    "Kinh tế",
+    "Thể thao",
+    "Khoa học",
+    "Xã hội",
+    "Đời sống",
 ]
 
 SORT_OPTIONS = {
@@ -60,6 +61,8 @@ def to_dict(doc):
         return None
     out = dict(doc)
     out["_id"] = str(doc["_id"])
+    if isinstance(out.get("author"), ObjectId):
+        out["author"] = str(out["author"])
     for key in ("created_at", "updated_at"):
         value = out.get(key)
         if isinstance(value, datetime):
@@ -78,7 +81,7 @@ def slugify(text):
     import re
     import unicodedata
 
-    text = unicodedata.normalize("NFD", text)
+    text = unicodedata.normalize("NFD", text.replace("đ", "d").replace("Đ", "D"))
     text = text.encode("ascii", "ignore").decode("ascii")
     text = re.sub(r"[^\w\s-]", "", text).strip().lower()
     return re.sub(r"[-\s]+", "-", text) or "bai-viet"
@@ -88,7 +91,7 @@ def slugify(text):
 # Truy van co ban
 # ------------------------------------------------------------------
 def get_article(db, article_id):
-    """Lay 1 bai viet theo id. Tra None neu khong ton tai / id khong hop le."""
+    """Lay 1 bài viết theo id. Tra None neu không tồn tại / id khong hop le."""
     if not ObjectId.is_valid(article_id):
         return None
     return db["articles"].find_one({"_id": ObjectId(article_id)})
@@ -102,42 +105,46 @@ def list_articles(
     keyword=None,
     sort="newest",
     status="published",
+    view_counts=None,
 ):
     """
-    Truy van danh sach bai viet co phan trang + loc + tim kiem + sap xep.
+    Truy van danh sach bài viết co phan trang + loc + tim kiem + sap xep.
 
     day   : dieu kien loc
     sort  : 'newest' | 'oldest' | 'views' | 'title'
     """
     page = max(1, int(page))
-    per_page = max(1, int(per_page))
+    per_page = min(100, max(1, int(per_page)))
     query = {}
     if status:
         query["status"] = status
     if category and category != "all":
         query["category"] = category
-    if keyword:
-        # Tim kiem "tuong doi" - dung regex de phong bi loi dac biet regex
-        import re
-
-        pattern = re.escape(keyword)
-        query["$or"] = [
-            {"title": {"$regex": pattern, "$options": "i"}},
-            {"summary": {"$regex": pattern, "$options": "i"}},
-            {"content": {"$regex": pattern, "$options": "i"}},
-            {"tags": {"$regex": pattern, "$options": "i"}},
-        ]
-
     sort_spec = SORT_OPTIONS.get(sort, SORT_OPTIONS["newest"])
-    total = db["articles"].count_documents(query)
-    cursor = (
-        db["articles"]
-        .find(query)
-        .sort(sort_spec)
-        .skip((page - 1) * per_page)
-        .limit(per_page)
-    )
-    items = list(cursor)
+    if keyword:
+        candidates = list(db["articles"].find(query).sort(sort_spec))
+        scored = [(doc, relevance(doc, keyword)) for doc in candidates]
+        ranked = [(doc, score) for doc, score in scored if score > 0]
+        if sort == "relevance":
+            ranked.sort(key=lambda pair: pair[1], reverse=True)
+        if sort == "views" and view_counts is not None:
+            ranked.sort(key=lambda pair: view_counts.get(str(pair[0]["_id"]), 0), reverse=True)
+        total = len(ranked)
+        items = [doc for doc, _ in ranked[(page - 1) * per_page:page * per_page]]
+    elif sort == "views" and view_counts is not None:
+        total = db["articles"].count_documents(query)
+        ranked = list(db["articles"].find(query).sort([("created_at", DESCENDING), ("_id", DESCENDING)]))
+        ranked.sort(key=lambda doc: view_counts.get(str(doc["_id"]), 0), reverse=True)
+        items = ranked[(page - 1) * per_page:page * per_page]
+    else:
+        total = db["articles"].count_documents(query)
+        items = list(
+            db["articles"]
+            .find(query)
+            .sort(sort_spec)
+            .skip((page - 1) * per_page)
+            .limit(per_page)
+        )
     total_pages = max(1, (total + per_page - 1) // per_page)
     return {
         "items": items,
@@ -162,6 +169,9 @@ def create_article(db, data, author_id=None, author_name=""):
         "summary": data.get("summary", "").strip(),
         "content": data.get("content", "").strip(),
         "image": data.get("image", "").strip(),
+        "image_alt": data.get("image_alt", "").strip(),
+        "image_caption": data.get("image_caption", "").strip(),
+        "seed_version": data.get("seed_version"),
         "category": data.get("category", CATEGORIES[0]),
         "tags": data.get("tags", []),
         "status": data.get("status", "published"),
@@ -186,13 +196,23 @@ def update_article(db, article_id, data):
     if not ObjectId.is_valid(article_id):
         return None
     fields = {}
-    for key in ("title", "summary", "content", "image", "category", "status"):
+    for key in ("title", "summary", "content", "image", "image_alt", "image_caption", "category", "status"):
         if key in data and data[key] is not None:
             fields[key] = data[key]
     if "tags" in data and data["tags"] is not None:
         fields["tags"] = data["tags"]
+    current = get_article(db, article_id)
+    if current and "image" in fields and fields["image"] != current.get("image"):
+        # A changed photo must not keep a caption describing the previous photo.
+        fields.setdefault("image_alt", "")
+        fields.setdefault("image_caption", "")
     if "title" in fields:
-        fields["slug"] = slugify(fields["title"])
+        base = slugify(fields["title"])
+        slug, suffix = base, 1
+        while db["articles"].find_one({"slug": slug, "_id": {"$ne": ObjectId(article_id)}}):
+            suffix += 1
+            slug = f"{base}-{suffix}"
+        fields["slug"] = slug
     fields["updated_at"] = utcnow()
     db["articles"].update_one({"_id": ObjectId(article_id)}, {"$set": fields})
     return get_article(db, article_id)

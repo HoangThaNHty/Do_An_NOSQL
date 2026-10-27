@@ -10,7 +10,7 @@ song (TTL)" -> moi Session duoc luu bang lenh HSET vao 1 key Hash:
     HSET session:<session_id> user_id <id>
                         username <ten>
                         email <email>
-                        role <admin|editor|reader>
+                        role <admin|reader>
                         login_at <timestamp>
                         ip <dia chi IP>
                         user_agent <trinh duyet>
@@ -19,7 +19,7 @@ song (TTL)" -> moi Session duoc luu bang lenh HSET vao 1 key Hash:
 ================================================================================
 CO CHE LAM VIEC
 ================================================================================
-    - Dang nhap   : tao SID ngau nhien (uuid4 hex) -> HSET -> EXPIRE -> gan cookie
+    - Dang nhap   : tao SID ngau nhien (secrets.token_hex(32)) -> HSET -> EXPIRE -> gan cookie
     - Moi request : doc cookie -> EXISTS? -> HGETALL -> gan current_user
                     -> neu con thoi gian thi gia han TTL (refresh)
     - Het han     : Redis tu dong xoa key -> EXISTS = false -> nguoi dung
@@ -59,7 +59,7 @@ class SessionService:
 
         mapping = {
             "session_id": session_id,
-            "user_id": str(user.get("_id", "")),
+            "user_id": str(user.get("_id") or user.get("id", "")),
             "username": str(user.get("username", "")),
             "email": str(user.get("email", "")),
             "full_name": str(user.get("full_name", "")),

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}{% if active_category != 'all' %}{{ active_category }} - {% endif %}Tin tuc - {{ site_name }}{% endblock %}
+{% block title %}{% if active_category != 'all' %}{{ active_category }} - {% endif %}Tin tức - {{ site_name }}{% endblock %}
 
 {% block content %}
 <div class="row g-4">
@@ -8,20 +8,20 @@
         <div class="d-flex flex-wrap justify-content-between align-items-end mb-3">
             <div>
                 <h1 class="h3 mb-1">
-                    {% if keyword %}Kiem tra: "{{ keyword }}"{% elif active_category != 'all' %}{{ active_category }}{% else %}Tin tuc{% endif %}
+                    {% if keyword %}Kết quả tìm kiếm: "{{ keyword }}"{% elif active_category != 'all' %}{{ active_category }}{% else %}Tin tức{% endif %}
                 </h1>
-                <span class="text-muted small">Tim thay <strong>{{ result.total }}</strong> bai viet</span>
+                <span class="text-muted small">Tìm thấy <strong>{{ result.total }}</strong> bài viết</span>
             </div>
         </div>
 
         <!-- LOC + SAP XEP -->
         <form class="row g-2 mb-4" method="get" action="{{ url_for('article.list_articles') }}">
-            <div class="col-md-5">
-                <input type="text" name="q" class="form-control" placeholder="Tim kiem tieu de, noi dung, the..." value="{{ keyword }}">
+            <div class="col-md-5 search-input-wrap">
+                <input type="text" name="q" class="form-control" data-live-search placeholder="Tìm theo chủ đề, có dấu hoặc không dấu..." value="{{ keyword }}">
             </div>
             <div class="col-md-3">
                 <select name="category" class="form-select">
-                    <option value="all">Tat ca chuyen muc</option>
+                    <option value="all">Tất cả chuyên mục</option>
                     {% for c in categories %}
                     <option value="{{ c }}" {% if active_category == c %}selected{% endif %}>{{ c }}</option>
                     {% endfor %}
@@ -29,9 +29,10 @@
             </div>
             <div class="col-md-2">
                 <select name="sort" class="form-select">
-                    <option value="newest" {% if sort == 'newest' %}selected{% endif %}>Moi nhat</option>
-                    <option value="oldest" {% if sort == 'oldest' %}selected{% endif %}>Cu nhat</option>
-                    <option value="views" {% if sort == 'views' %}selected{% endif %}>Xem nhieu</option>
+                    {% if keyword %}<option value="relevance" {% if sort == 'relevance' %}selected{% endif %}>Phù hợp nhất</option>{% endif %}
+                    <option value="newest" {% if sort == 'newest' %}selected{% endif %}>Mới nhất</option>
+                    <option value="oldest" {% if sort == 'oldest' %}selected{% endif %}>Cũ nhất</option>
+                    <option value="views" {% if sort == 'views' %}selected{% endif %}>Xem nhiều</option>
                     <option value="title" {% if sort == 'title' %}selected{% endif %}>A - Z</option>
                 </select>
             </div>
@@ -49,7 +50,7 @@
             <div class="col-12">
                 <div class="empty-state">
                     <i class="bi bi-inbox"></i>
-                    Khong tim thay bai viet nao khop yeu cau. Hay thu tu khoa khac.
+                    Không tìm thấy bài viết phù hợp. Hãy thử từ khóa khác.
                 </div>
             </div>
             {% endfor %}
@@ -78,14 +79,14 @@
     <!-- ============ SIDEBAR ============ -->
     <aside class="col-lg-4">
         <div class="widget">
-            <div class="widget-head"><i class="bi bi-fire"></i>Xem nhieu nhat</div>
+            <div class="widget-head"><i class="bi bi-fire"></i>Xem nhiều nhất</div>
             <div class="widget-body">
                 {% for a in popular %}
                 <a class="rank-item" href="{{ url_for('article.article_detail', article_id=a._id) }}">
                     <span class="rank-num">{{ loop.index }}</span>
                     <span>
                         <span class="rank-title d-block">{{ a.title }}</span>
-                        <span class="rank-meta"><i class="bi bi-eye me-1"></i>{{ a.views }} luot xem</span>
+                        <span class="rank-meta"><i class="bi bi-eye me-1"></i>{{ a.views }} lượt xem</span>
                     </span>
                 </a>
                 {% endfor %}
@@ -93,7 +94,7 @@
         </div>
 
         <div class="widget">
-            <div class="widget-head"><i class="bi bi-folder2-open"></i>Chuyen muc</div>
+            <div class="widget-head"><i class="bi bi-folder2-open"></i>Chuyên mục</div>
             <div class="widget-body">
                 <div class="d-flex flex-wrap gap-2">
                     {% for c in categories %}
@@ -105,12 +106,9 @@
 
         <div class="widget" style="background:var(--navy);border:0">
             <div class="widget-body p-4" style="color:#cbd8e8">
-                <h5 class="text-white mb-2">Theo doi tin tuc</h5>
-                <p class="small mb-3">Nhan tin tuc moi nhat vao email cua ban.</p>
-                <div class="input-group">
-                    <input type="email" class="form-control" placeholder="Email cua ban">
-                    <button class="btn btn-accent">Dang ky</button>
-                </div>
+                <h5 class="text-white mb-2">Khám phá mỗi ngày</h5>
+                <p class="small mb-3">Tìm bài viết mới trong các chuyên mục bạn quan tâm.</p>
+                <a class="btn btn-accent" href="{{ url_for('article.list_articles', sort='newest') }}">Đọc bài mới nhất</a>
             </div>
         </div>
     </aside>

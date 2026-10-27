@@ -8,8 +8,8 @@ Application luon doc tu Redis TRUOC. Redis chi la "bo dem" (cache), khong phai
 noi luu du lieu chinh - du lieu chinh van nam trong MongoDB.
 
     Doc bai viet:
-        1) GET article:cache:<id> tren Redis
-             |- HIT  -> tra ket qua ngay tu Redis (khong cham MongoDB)   <5ms
+        1) HGETALL article:cache:<id> tren Redis
+             |- HIT  -> tra ket qua ngay tu Redis (khong nap noi dung tu MongoDB)
              `- MISS -> doc MongoDB -> ghi nguoc lai Redis kem TTL -> tra ve
 
     Sua / xoa bai viet:
@@ -28,8 +28,14 @@ DUONG DAN KEY (quy uoc chung cho ca nhom)
 """
 
 import json
+import secrets
+import time
 
 import redis
+
+
+class CacheBusyError(TimeoutError):
+    """Hết thời gian chờ một yêu cầu khác nạp dữ liệu, có thể thử lại."""
 
 
 class CacheService:
@@ -41,6 +47,30 @@ class CacheService:
     # ---------- He so dem Hit/Miss (phuc vu demo) ----------
     KEY_HITS = "stats:cache:hits"
     KEY_MISSES = "stats:cache:misses"
+    KEY_LOCK_WAITS = "stats:cache:lock_waits"
+    KEY_LOCK_TIMEOUTS = "stats:cache:lock_timeouts"
+    KEY_LIST_VERSION = "meta:article-list-version"
+    RELEASE_LOCK = """
+        if redis.call('GET', KEYS[1]) == ARGV[1] then
+            return redis.call('DEL', KEYS[1])
+        end
+        return 0
+    """
+    PUBLISH_CACHE = """
+        if redis.call('GET', KEYS[1]) ~= ARGV[1] then return 0 end
+        if ARGV[4] ~= '' and (redis.call('GET', KEYS[3]) or '0') ~= ARGV[4] then
+            return 0
+        end
+        redis.call('DEL', KEYS[2])
+        if ARGV[2] == 'hash' then
+            redis.call('HSET', KEYS[2], unpack(ARGV, 5))
+        else
+            redis.call('SET', KEYS[2], ARGV[5])
+        end
+        redis.call('EXPIRE', KEYS[2], ARGV[3])
+        redis.call('DEL', KEYS[1])
+        return 1
+    """
 
     def __init__(self, redis_client: redis.Redis, config):
         self.redis = redis_client
@@ -49,6 +79,11 @@ class CacheService:
         self.ttl_article_hot = config.TTL_ARTICLE_CACHE_HOT
         self.ttl_list = config.TTL_ARTICLE_LIST
         self.ttl_views = config.TTL_VIEWS
+        self.lock_ttl_ms = int(getattr(config, "CACHE_LOCK_TTL_MS", 10000))
+        self.lock_wait_ms = int(getattr(config, "CACHE_LOCK_WAIT_MS", 2000))
+        self.lock_poll_ms = int(getattr(config, "CACHE_LOCK_POLL_MS", 20))
+        if min(self.lock_ttl_ms, self.lock_wait_ms, self.lock_poll_ms) <= 0:
+            raise ValueError("Thời hạn khóa và thời gian chờ phải lớn hơn 0.")
 
     # ==================================================================
     # 1. CAC KEY
@@ -64,15 +99,20 @@ class CacheService:
         return f"article:cache:hot:{article_id}"
 
     @staticmethod
+    def lock_key(cache_key):
+        return f"lock:{cache_key}"
+
+    @staticmethod
     def views_key(article_id):
         """Key bo dem luot xem - tang bang lenh INCR."""
         return f"article:views:{article_id}"
 
     @staticmethod
-    def list_key(page, sort, category="all", keyword=""):
+    def list_key(page, sort, category="all", keyword="", per_page=9):
         """Key cache danh sach bai viet."""
-        tag = f"{category}-{keyword or 'all'}".replace(" ", "_")
-        return f"article:list:{page}:{sort}:{tag}"
+        # JSON avoids collisions between filters; page size changes the result too.
+        tag = json.dumps([category, keyword], ensure_ascii=False, separators=(",", ":"))
+        return f"article:list:v2:{page}:{per_page}:{sort}:{tag}"
 
     # ==================================================================
     # 2. DOC / GHI BAI VIET - TRIEN KHAI CACHE-ASPIDE
@@ -90,21 +130,64 @@ class CacheService:
         key = self.article_hot_key(article_id) if hot else self.article_key(article_id)
         ttl = self.ttl_article_hot if hot else self.ttl_article
 
-        # --- BUOC 1: kiem tra Redis (Cache HIT?) ---
-        cached = self.redis.hgetall(key)
-        if cached:
-            self.redis.incr(self.KEY_HITS)
-            return self._decode_hash(cached), "cache"
+        def read():
+            value = self.redis.hgetall(key)
+            return self._decode_hash(value) if value else None
+        return self._load_locked(key, read, loader, ttl, "hash")
 
-        # --- BUOC 2: Cache MISS -> doc DB goc ---
-        self.redis.incr(self.KEY_MISSES)
-        data = loader()
-        if not data:
-            return None, "none"
+    def _release_lock(self, key, token):
+        return bool(self.redis.eval(self.RELEASE_LOCK, 1, key, token))
 
-        # --- BUOC 3: ghi nguoc lai Redis kem TTL (EXPIRE) ---
-        self.set_article(article_id, data, ttl=ttl, hot=hot)
-        return data, "database"
+    def _load_locked(self, key, read, loader, ttl, kind, version_key=None):
+        """SET NX PX: một chủ nạp; yêu cầu khác chờ có giới hạn, không đọc DB ồ ạt.
+
+        Lua kiểm tra token ngay lúc ghi cache và lúc nhả khóa. Chủ đã hết lease
+        không được ghi đè cache hay xóa khóa của chủ kế tiếp. Với danh sách,
+        version ngăn ghi lại kết quả đã bị invalidate trong khi loader đang chạy.
+        """
+        lock_key = self.lock_key(key)
+        deadline = time.monotonic() + self.lock_wait_ms / 1000
+        waited = False
+        while True:
+            cached = read()
+            if cached is not None:
+                self.redis.incr(self.KEY_HITS)
+                return cached, "cache"
+            token = secrets.token_hex(24)
+            if self.redis.set(lock_key, token, nx=True, px=self.lock_ttl_ms):
+                published = False
+                try:
+                    # Another owner may have published between read() and SET NX.
+                    cached = read()
+                    if cached is not None:
+                        self.redis.incr(self.KEY_HITS)
+                        return cached, "cache"
+                    version = (self.redis.get(version_key) or b"0") if version_key else ""
+                    self.redis.incr(self.KEY_MISSES)
+                    data = loader()
+                    if data is None:
+                        return None, "none"
+                    if kind == "hash":
+                        mapping = self._article_mapping(data.get("_id", ""), data)
+                        payload = [part for pair in mapping.items() for part in pair]
+                    else:
+                        payload = [json.dumps(data, default=str, ensure_ascii=False)]
+                    published = bool(self.redis.eval(
+                        self.PUBLISH_CACHE, 3, lock_key, key, version_key or lock_key,
+                        token, kind, ttl, version, *payload,
+                    ))
+                    return data, "database"
+                finally:
+                    if not published:
+                        self._release_lock(lock_key, token)
+            if not waited:
+                self.redis.incr(self.KEY_LOCK_WAITS)
+                waited = True
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                self.redis.incr(self.KEY_LOCK_TIMEOUTS)
+                raise CacheBusyError("Nội dung đang được tải. Vui lòng thử lại sau ít giây.")
+            time.sleep(min(self.lock_poll_ms / 1000, remaining))
 
     def set_article(self, article_id, data, ttl=None, hot=False):
         """Ghi bai viet vao Redis (HSET) va dat TTL (EXPIRE)."""
@@ -113,12 +196,26 @@ class CacheService:
         key = self.article_hot_key(article_id) if hot else self.article_key(article_id)
         ttl = ttl or (self.ttl_article_hot if hot else self.ttl_article)
 
-        mapping = {
+        mapping = self._article_mapping(article_id, data)
+        pipe = self.redis.pipeline()
+        pipe.hset(key, mapping=mapping)
+        pipe.expire(key, ttl)
+        pipe.execute()
+        return True
+
+    @staticmethod
+    def _article_mapping(article_id, data):
+        return {
             "_id": str(data.get("_id", article_id)),
+            "slug": str(data.get("slug", "")),
+            "author": json.dumps(str(data["author"]) if data.get("author") is not None else None),
+            "seed_version": json.dumps(data.get("seed_version")),
             "title": str(data.get("title", "")),
             "summary": str(data.get("summary", "")),
             "content": str(data.get("content", "")),
             "image": str(data.get("image", "")),
+            "image_alt": str(data.get("image_alt", "")),
+            "image_caption": str(data.get("image_caption", "")),
             "category": str(data.get("category", "")),
             "tags": json.dumps(data.get("tags", []), ensure_ascii=False),
             "author_name": str(data.get("author_name", "")),
@@ -126,24 +223,19 @@ class CacheService:
             "created_at": str(data.get("created_at", "")),
             "updated_at": str(data.get("updated_at", "")),
         }
-        pipe = self.redis.pipeline()
-        pipe.hset(key, mapping=mapping)
-        pipe.expire(key, ttl)
-        pipe.execute()
-        return True
 
     def invalidate_article(self, article_id):
         """
         CACHE INVALIDATION - goi khi bai viet bi SUA hoac XOA.
         Xoa sach key lien quan de lan sau doc se thay du lieu moi tu DB goc.
         """
-        removed = 0
-        for key in (self.article_key(article_id), self.article_hot_key(article_id)):
-            if self.redis.exists(key):
-                removed += self.redis.delete(key)
-        # Xoa luu cache danh sach (vi danh sach chua tieu de cu)
-        for key in self.redis.keys("article:list:*"):
-            self.redis.delete(key)
+        keys = (self.article_key(article_id), self.article_hot_key(article_id))
+        pipe = self.redis.pipeline()
+        pipe.delete(*keys)
+        # Revoke in-flight loaders; guarded publishing will refuse their old token.
+        pipe.delete(*(self.lock_key(key) for key in keys))
+        removed, _ = pipe.execute()
+        self.invalidate_lists()
         return removed
 
     # ==================================================================
@@ -152,7 +244,7 @@ class CacheService:
     def incr_views(self, article_id, ttl=None):
         """
         Tang luot xem bang lenh INCR (atomic, an toan khi nhieu nguoi dung
-        truy cap cung luc). Dung SET NX de tranh dem trung khi F5 lien tuc.
+        truy cap cung luc). Mỗi lần tải trang HTML vẫn được tính một lượt xem.
         """
         key = self.views_key(article_id)
         ttl = ttl or self.ttl_views
@@ -187,22 +279,18 @@ class CacheService:
     # ==================================================================
     # 4. CACHE DANH SACH BAI VIET
     # ==================================================================
-    def get_article_list(self, page, sort, loader, category="all", keyword=""):
+    def get_article_list(self, page, sort, loader, category="all", keyword="", per_page=9):
         """Cache danh sach bai viet theo trang/sap xep/loc/tim kiem."""
-        key = self.list_key(page, sort, category, keyword)
-        cached = self.redis.get(key)
-        if cached:
-            self.redis.incr(self.KEY_HITS)
-            return json.loads(cached), "cache"
-        self.redis.incr(self.KEY_MISSES)
-        data = loader()
-        payload = json.dumps(data, default=str, ensure_ascii=False)
-        self.redis.set(key, payload, ex=self.ttl_list)
-        return data, "database"
+        key = self.list_key(page, sort, category, keyword, per_page)
+        def read():
+            value = self.redis.get(key)
+            return json.loads(value) if value is not None else None
+        return self._load_locked(key, read, loader, self.ttl_list, "string", self.KEY_LIST_VERSION)
 
     def invalidate_lists(self):
         """Xoa toan bo cache danh sach."""
-        keys = self.redis.keys("article:list:*")
+        self.redis.incr(self.KEY_LIST_VERSION)
+        keys = list(self.redis.scan_iter("article:list:*"))
         if keys:
             return self.redis.delete(*keys)
         return 0
@@ -220,10 +308,12 @@ class CacheService:
             "misses": int(misses) if misses else 0,
             "total_keys": total_keys,
             "dbsize": self.redis.info("memory").get("used_memory_human"),
+            "lock_waits": int(self.redis.get(self.KEY_LOCK_WAITS) or 0),
+            "lock_timeouts": int(self.redis.get(self.KEY_LOCK_TIMEOUTS) or 0),
         }
 
     def reset_stats(self):
-        self.redis.delete(self.KEY_HITS, self.KEY_MISSES)
+        self.redis.delete(self.KEY_HITS, self.KEY_MISSES, self.KEY_LOCK_WAITS, self.KEY_LOCK_TIMEOUTS)
 
     def ttl_of(self, key):
         """Tra ve TTL con lai cua 1 key (giay). -1 = khong co TTL, -2 = khong ton tai."""
@@ -239,10 +329,10 @@ class CacheService:
         for k, v in cached.items():
             key = k.decode("utf-8") if isinstance(k, bytes) else k
             val = v.decode("utf-8") if isinstance(v, bytes) else v
-            if key == "tags":
+            if key in ("tags", "author", "seed_version"):
                 try:
                     val = json.loads(val)
                 except (TypeError, ValueError):
-                    val = []
+                    val = [] if key == "tags" else None
             out[key] = val
         return out

@@ -1,29 +1,29 @@
 {% extends "admin_base.html" %}
-{% block title %}Quan ly bai viet - Quan tri{% endblock %}
+{% block title %}Quản lý bài viết - Quản trị{% endblock %}
 
 {% block admin_content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
-        <h1 class="h3 mb-1">Bai viet</h1>
-        <span class="text-muted small">Tim thay <strong>{{ result.total }}</strong> bai viet</span>
+        <h1 class="h3 mb-1">Bài viết</h1>
+        <span class="text-muted small">Tìm thấy <strong>{{ result.total }}</strong> bài viết</span>
     </div>
-    <a class="btn btn-accent" href="{{ url_for('admin.create_article') }}"><i class="bi bi-plus-lg me-1"></i>Them bai viet</a>
+    <a class="btn btn-accent" href="{{ url_for('admin.create_article') }}"><i class="bi bi-plus-lg me-1"></i>Thêm bài viết</a>
 </div>
 
 <form class="row g-2 mb-3" method="get" action="{{ url_for('admin.articles') }}">
     <div class="col-md-5">
-        <input type="text" name="q" class="form-control" placeholder="Tim kiem bai viet..." value="{{ keyword }}">
+        <input type="text" name="q" class="form-control" placeholder="Tìm kiếm bài viết..." value="{{ keyword }}">
     </div>
     <div class="col-md-3">
         <select name="category" class="form-select">
-            <option value="all">Tat ca chuyen muc</option>
+            <option value="all">Tất cả chuyên mục</option>
             {% for c in categories %}
             <option value="{{ c }}" {% if active_category == c %}selected{% endif %}>{{ c }}</option>
             {% endfor %}
         </select>
     </div>
     <div class="col-md-2 d-grid">
-        <button class="btn btn-navy">Loc</button>
+        <button class="btn btn-navy">Lọc</button>
     </div>
 </form>
 
@@ -32,12 +32,12 @@
         <table class="table mb-0 align-middle">
             <thead>
                 <tr>
-                    <th>Bai viet</th>
-                    <th>Chuyen muc</th>
-                    <th>Trang thai</th>
-                    <th class="text-center">Luot xem</th>
-                    <th>Ngay dang</th>
-                    <th class="text-end">Thao tac</th>
+                    <th>Bài viết</th>
+                    <th>Chuyên mục</th>
+                    <th>Trạng thái</th>
+                    <th class="text-center">Lượt xem</th>
+                    <th>Ngày đăng</th>
+                    <th class="text-end">Thao tác</th>
                 </tr>
             </thead>
             <tbody>
@@ -55,23 +55,23 @@
                 <td><span class="badge text-bg-light text-dark border">{{ a.category }}</span></td>
                 <td>
                     {% if a.status == 'published' %}
-                    <span class="badge text-bg-success">Hien thi</span>
+                    <span class="badge text-bg-success">Đã xuất bản</span>
                     {% else %}
-                    <span class="badge text-bg-secondary">Nhap</span>
+                    <span class="badge text-bg-secondary">Bản nháp</span>
                     {% endif %}
                 </td>
                 <td class="text-center fw-semibold">{{ a.views }}</td>
                 <td class="small text-muted">{{ a.created_at }}</td>
                 <td class="text-end">
-                    <a class="btn btn-sm btn-outline-primary" href="{{ url_for('admin.edit_article', article_id=a._id) }}"><i class="bi bi-pencil"></i></a>
-                    <a class="btn btn-sm btn-outline-secondary" href="{{ url_for('article.article_detail', article_id=a._id) }}" target="_blank"><i class="bi bi-eye"></i></a>
+                    <a class="btn btn-sm btn-outline-primary" aria-label="Sửa bài viết" href="{{ url_for('admin.edit_article', article_id=a._id) }}"><i class="bi bi-pencil"></i></a>
+                    <a class="btn btn-sm btn-outline-secondary" aria-label="Xem bài viết" href="{{ url_for('article.article_detail', article_id=a._id) }}" target="_blank"><i class="bi bi-eye"></i></a>
                     <form method="post" action="{{ url_for('admin.delete_article', article_id=a._id) }}" class="d-inline js-confirm-delete">
-                        <button class="btn btn-sm btn-outline-danger" type="submit"><i class="bi bi-trash"></i></button>
+                        <button class="btn btn-sm btn-outline-danger" aria-label="Xóa bài viết" type="submit"><i class="bi bi-trash"></i></button>
                     </form>
                 </td>
             </tr>
             {% else %}
-            <tr><td colspan="6" class="text-center text-muted py-5">Chua co bai viet nao.</td></tr>
+            <tr><td colspan="6" class="text-center text-muted py-5">Chưa có bài viết nào.</td></tr>
             {% endfor %}
             </tbody>
         </table>

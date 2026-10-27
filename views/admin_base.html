@@ -6,21 +6,23 @@
 {% block content %}
 <div class="admin-shell">
     <nav class="admin-nav">
-        <div class="title">Quan tri</div>
+        <div class="title">Quản trị</div>
         <a href="{{ url_for('admin.dashboard') }}" class="{% if request.endpoint == 'admin.dashboard' %}active{% endif %}">
-            <i class="bi bi-speedometer2"></i>Tong quan
+            <i class="bi bi-speedometer2"></i>Tổng quan
         </a>
         <a href="{{ url_for('admin.articles') }}" class="{% if request.endpoint in ('admin.articles', 'admin.create_article', 'admin.edit_article') %}active{% endif %}">
-            <i class="bi bi-journal-text"></i>Bai viet
+            <i class="bi bi-journal-text"></i>Bài viết
         </a>
+        {% if current_user.get('role') == 'admin' %}
         <a href="{{ url_for('admin.users') }}" class="{% if request.endpoint == 'admin.users' %}active{% endif %}">
-            <i class="bi bi-people"></i>Nguoi dung
+            <i class="bi bi-people"></i>Người dùng
         </a>
+        {% endif %}
         <a href="{{ url_for('admin.cache_dashboard') }}" class="{% if request.endpoint == 'admin.cache_dashboard' %}active{% endif %}">
-            <i class="bi bi-hdd-stack"></i>Cache &amp; Session
+            <i class="bi bi-hdd-stack"></i>Bộ nhớ đệm &amp; Phiên đăng nhập
         </a>
         <div class="sep"></div>
-        <a href="{{ url_for('article.index') }}"><i class="bi bi-house"></i>Ve trang chu</a>
+        <a href="{{ url_for('article.index') }}"><i class="bi bi-house"></i>Về trang chủ</a>
     </nav>
 
     <div>

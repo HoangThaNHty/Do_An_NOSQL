@@ -2,7 +2,7 @@
 config.py - Cau hinh chung cho toan bo du an (Doi duong voi appsettings.json cua ASP.NET Core)
 
 Moi thu so voi thoi gian / bien mau deu doc tu file .env de khong roi mat khau
-vao ma nguon (khong commit file .env len GitHub).
+vao ma nguon (không cómmit file .env len GitHub).
 """
 
 import os
@@ -35,21 +35,24 @@ class Config:
     REDIS_DB = int(os.getenv("REDIS_DB", 0))
     REDIS_PASSWORD = os.getenv("REDIS_PASSWORD") or None
 
-    # ---------------- TTL (giay) ----------------
-    # Cache bai viet: 5 phut
+    # ---------------- TTL (giây) ----------------
+    # Cache bài viết: 5 phut
     TTL_ARTICLE_CACHE = int(os.getenv("TTL_ARTICLE_CACHE", 300))
     # Bai "nong" giu cache lau hon: 30 phut
     TTL_ARTICLE_CACHE_HOT = int(os.getenv("TTL_ARTICLE_CACHE_HOT", 1800))
-    # Cache danh sach bai viet: 1 phut
+    # Cache danh sach bài viết: 1 phut
     TTL_ARTICLE_LIST = int(os.getenv("TTL_ARTICLE_LIST", 60))
     # Session dang nhap: 30 phut
     TTL_SESSION = int(os.getenv("TTL_SESSION", 1800))
-    # Bo dem luot xem: 1 ngay
+    # Bo dem lượt xem: 1 ngay
     TTL_VIEWS = int(os.getenv("TTL_VIEWS", 86400))
+    CACHE_LOCK_TTL_MS = int(os.getenv("CACHE_LOCK_TTL_MS", 10000))
+    CACHE_LOCK_WAIT_MS = int(os.getenv("CACHE_LOCK_WAIT_MS", 2000))
+    CACHE_LOCK_POLL_MS = int(os.getenv("CACHE_LOCK_POLL_MS", 20))
 
     # ---------------- Giao dien ----------------
     PER_PAGE = 9
-    SITE_NAME = "Tin Tuc NoSQL"
+    SITE_NAME = "Điểm Tin"
 
     # ---------------- Mo phong do tre mang (chi dung khi demo) ----------------
     # Khi MongoDB nam o may khac, moi lan doc deu phai trai qua 1 lan

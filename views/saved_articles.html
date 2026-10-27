@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Bài đã lưu - {{ site_name }}{% endblock %}
+{% block content %}
+<div class="mb-4">
+    <h1 class="h3 fw-bold"><i class="bi bi-bookmark-check me-2"></i>Bài đã lưu</h1>
+    <p class="text-muted">Những bài viết bạn muốn dành thời gian đọc lại. Sắp xếp theo ngày đăng mới nhất.</p>
+</div>
+{% if result.total %}
+<p class="text-muted small">{{ result.total }} bài viết đang có sẵn</p>
+<div class="row g-4">
+    {% for a in result['items'] %}
+    <div class="col-md-6 col-lg-4 d-flex flex-column saved-entry" data-saved-card>
+        {% include "partials/_card.html" %}
+        <button class="btn btn-outline-secondary btn-sm mt-2" data-save-article="{{ a._id }}" data-saved="true" aria-pressed="true">Bỏ lưu</button>
+        <span class="small d-block mt-1" data-save-message role="status"></span>
+    </div>
+    {% endfor %}
+</div>
+<nav class="mt-4" aria-label="Phân trang bài đã lưu"><ul class="pagination flex-wrap">
+    {% for p in range(1, result.pages + 1) %}
+    <li class="page-item {{ 'active' if p == result.page else '' }}"><a class="page-link" href="{{ url_for('saved.index', page=p) }}">{{ p }}</a></li>
+    {% endfor %}
+</ul></nav>
+{% else %}
+<div class="card border-0 shadow-sm p-5 text-center">
+    <i class="bi bi-bookmark fs-1 text-muted mb-3"></i>
+    <h2 class="h5">Chưa có bài viết nào được lưu</h2>
+    <p class="text-muted">Mở một bài viết và chọn “Lưu để đọc sau” để thêm vào danh sách của bạn.</p>
+    <a class="btn btn-accent align-self-center" href="{{ url_for('article.list_articles') }}">Khám phá bài viết</a>
+</div>
+{% endif %}
+<p class="small text-muted mt-4">Bài viết đã gỡ hoặc chưa xuất bản sẽ không xuất hiện trong danh sách.</p>
+{% endblock %}

@@ -1,0 +1,37 @@
+{
+  "date": "2026-10-26",
+  "pytest_passed": 65,
+  "browser_checks": [
+    {
+      "id": "LOCK-HTTP-01",
+      "pass": true,
+      "detail": {
+        "database": 1,
+        "cache": 11
+      }
+    },
+    {
+      "id": "LOCK-HTTP-02",
+      "pass": true,
+      "detail": "Cùng payload giữa các nguồn"
+    },
+    {
+      "id": "LOCK-HTTP-03",
+      "pass": true,
+      "detail": {
+        "dbLoads": 1,
+        "waits": 2
+      }
+    },
+    {
+      "id": "LOCK-UI-01",
+      "pass": true,
+      "detail": "Hiện thống kê chờ khóa và quá hạn"
+    },
+    {
+      "id": "LOCK-UI-02",
+      "pass": true,
+      "detail": "Bố cục quản trị cache trên điện thoại"
+    }
+  ]
+}

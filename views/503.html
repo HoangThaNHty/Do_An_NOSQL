@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Vui lòng thử lại sau{% endblock %}
+{% block content %}
+<div class="text-center py-5">
+    <h1 class="h3">Nội dung đang được tải</h1>
+    <p class="text-muted">Vui lòng thử tải lại trang sau ít giây.</p>
+    <a class="btn btn-accent" href="{{ request.path }}">Thử lại</a>
+    <a class="btn btn-outline-secondary" href="{{ url_for('article.index') }}">Về trang chủ</a>
+</div>
+{% endblock %}

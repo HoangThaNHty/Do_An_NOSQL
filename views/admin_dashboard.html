@@ -1,20 +1,20 @@
 {% extends "admin_base.html" %}
-{% block title %}Tong quan - Quan tri{% endblock %}
+{% block title %}Tổng quan - Quản trị{% endblock %}
 
 {% block admin_content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
-        <h1 class="h3 mb-1">Tong quan</h1>
-        <span class="text-muted small">Chao {{ current_user.get('full_name') or current_user.get('username') }}!</span>
+        <h1 class="h3 mb-1">Tổng quan</h1>
+        <span class="text-muted small">Chào {{ current_user.get('full_name') or current_user.get('username') }}!</span>
     </div>
-    <a class="btn btn-accent" href="{{ url_for('admin.create_article') }}"><i class="bi bi-plus-lg me-1"></i>Viet bai moi</a>
+    <a class="btn btn-accent" href="{{ url_for('admin.create_article') }}"><i class="bi bi-plus-lg me-1"></i>Viết bài mới</a>
 </div>
 
 <div class="row g-3 mb-4">
     <div class="col-md-3">
         <div class="stat-card d-flex justify-content-between align-items-center">
             <div>
-                <div class="label">Bai viet</div>
+                <div class="label">Bài viết</div>
                 <div class="value text-primary">{{ total_articles }}</div>
             </div>
             <div class="icon" style="background:rgba(13,110,253,.12);color:#0d6efd"><i class="bi bi-journal-text"></i></div>
@@ -23,7 +23,7 @@
     <div class="col-md-3">
         <div class="stat-card d-flex justify-content-between align-items-center">
             <div>
-                <div class="label">Nguoi dung</div>
+                <div class="label">Người dùng</div>
                 <div class="value" style="color:#198754">{{ total_users }}</div>
             </div>
             <div class="icon" style="background:rgba(25,135,84,.12);color:#198754"><i class="bi bi-people"></i></div>
@@ -32,7 +32,7 @@
     <div class="col-md-3">
         <div class="stat-card d-flex justify-content-between align-items-center">
             <div>
-                <div class="label">Phien dang nhap</div>
+                <div class="label">Phiên đăng nhập</div>
                 <div class="value" style="color:#fd7e14">{{ total_sessions }}</div>
             </div>
             <div class="icon" style="background:rgba(255,127,20,.12);color:#fd7e14"><i class="bi bi-person-check"></i></div>
@@ -41,7 +41,7 @@
     <div class="col-md-3">
         <div class="stat-card d-flex justify-content-between align-items-center">
             <div>
-                <div class="label">Key tren Redis</div>
+                <div class="label">Khóa trên Redis</div>
                 <div class="value" style="color:#d63384">{{ cache_stats.total_keys }}</div>
             </div>
             <div class="icon" style="background:rgba(214,51,132,.12);color:#d63384"><i class="bi bi-hdd-stack"></i></div>
@@ -53,12 +53,12 @@
     <div class="col-lg-7">
         <div class="table-site">
             <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
-                <strong><i class="bi bi-fire me-2 text-danger"></i>Bai viet xem nhieu nhat</strong>
-                <a class="small" href="{{ url_for('admin.articles', sort='views') }}">Xem tat ca</a>
+                <strong><i class="bi bi-fire me-2 text-danger"></i>Bài viết xem nhiều nhất</strong>
+                <a class="small" href="{{ url_for('admin.articles', sort='views') }}">Xem tất cả</a>
             </div>
             <div class="table-responsive">
                 <table class="table mb-0 align-middle">
-                    <thead><tr><th>Bai viet</th><th>Chuyen muc</th><th class="text-center">Luot xem</th></tr></thead>
+                    <thead><tr><th>Bài viết</th><th>Chuyên mục</th><th class="text-center">Lượt xem</th></tr></thead>
                     <tbody>
                         {% for a in popular %}
                         <tr>
@@ -80,18 +80,18 @@
 
     <div class="col-lg-5">
         <div class="table-site">
-            <div class="p-3 border-bottom"><strong><i class="bi bi-speedometer2 me-2 text-primary"></i>Trang thai cache</strong></div>
+            <div class="p-3 border-bottom"><strong><i class="bi bi-speedometer2 me-2 text-primary"></i>Trạng thái bộ nhớ đệm</strong></div>
             <div class="p-4">
                 <div class="d-flex justify-content-between align-items-center mb-2">
-                    <span class="text-muted small">Cache Hit</span>
+                    <span class="text-muted small">Lượt trúng bộ nhớ đệm</span>
                     <span class="fw-bold text-success">{{ cache_stats.hits }}</span>
                 </div>
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <span class="text-muted small">Cache Miss</span>
+                    <span class="text-muted small">Lượt trượt bộ nhớ đệm</span>
                     <span class="fw-bold text-danger">{{ cache_stats.misses }}</span>
                 </div>
                 <a class="btn btn-outline-primary w-100" href="{{ url_for('admin.cache_dashboard') }}">
-                    <i class="bi bi-speedometer2 me-1"></i>Mo bang dieu khien cache
+                    <i class="bi bi-speedometer2 me-1"></i>Mở bảng điều khiển bộ nhớ đệm
                 </a>
             </div>
         </div>

@@ -1,118 +1,100 @@
-"""
-scripts/plot_benchmark.py - VE BIE DO SO SANH THOI GIAN MONGODB vs REDIS (Chuong 8)
-
-Doc ket qua tu scripts/result_benchmark.json va ve:
-    - Bieu do cot so sanh thoi gian phan hoi (ms) giua MongoDB va Redis
-    - Bieu do duong: phan bo thoi gian theo cac lan do
-
-Chay:  python scripts/plot_benchmark.py
-Ket qua: docs/figures/bieu_do_hieu_nang.png
-"""
-
+"""Vẽ kết quả schema v2: số đo thật tách khỏi mô phỏng, giữ phân bố mẫu thô."""
+import argparse
 import json
 import sys
 from pathlib import Path
 
 import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
 
-matplotlib.use("Agg")  # khong mo cua so khi ve (phuc vu may chay khong co man hinh)
-import matplotlib.pyplot as plt  # noqa: E402
+ROOT = Path(__file__).resolve().parent.parent
+RESULT_FILE = ROOT / "data" / "result_benchmark.json"
+OUT_DIR = ROOT / "docs" / "figures"
+COLORS = {"mongodb": "#d94841", "redis": "#16865b"}
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-RESULT_FILE = Path(__file__).resolve().parent / "result_benchmark.json"
-OUT_DIR = Path(__file__).resolve().parent.parent / "docs" / "figures"
-
-LABELS = {
-    "article_detail": "Chi tiet bai viet",
-    "article_list": "Danh sach bai viet",
-    "search": "Tim kiem",
-    "article_detail_network": "Chi tiet bai viet (mo phong RTT 50ms)",
-    "http_request": "HTTP request (tab Network F12)",
-}
+def bar_chart(axis, keys, scenarios, title):
+    for offset, source in ((-.18, "mongodb"), (.18, "redis")):
+        values = [scenarios[key][source]["avg"] for key in keys]
+        bars = axis.bar([i + offset for i in range(len(keys))], values, .34,
+                        label="DB / MISS" if source == "mongodb" else "Redis / HIT", color=COLORS[source])
+        axis.bar_label(bars, labels=[f"{value:.3f}" for value in values], padding=4, fontsize=9)
+    axis.set_xticks(range(len(keys)), ["Chi tiết bài" if key == "article_detail" else "Danh sách 9 bài" if key == "article_list" else "HTTP request" for key in keys])
+    axis.set_ylabel("Thời gian trung bình (ms)")
+    axis.set_title(title)
+    axis.grid(axis="y", alpha=.2)
+    axis.set_axisbelow(True)
+    axis.margins(y=.25)
+    axis.legend()
 
 
 def main():
-    if not RESULT_FILE.exists():
-        print("Chua co ket qua benchmark. Chay:  python scripts/benchmark.py")
-        return
-    data = json.loads(RESULT_FILE.read_text(encoding="utf-8"))
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
-
-    # ---------------- Bieu do 1: so sanh trung binh ----------------
-    scenarios = [k for k in LABELS if k in data]
-    mongo_avg = [data[k]["mongodb"]["avg"] for k in scenarios]
-    redis_avg = [data[k]["redis"]["avg"] for k in scenarios]
-    labels = [LABELS[k] for k in scenarios]
-
-    x = range(len(scenarios))
-    width = 0.35
-
-    fig, ax = plt.subplots(figsize=(9, 5.2))
-    bars1 = ax.bar([i - width / 2 for i in x], mongo_avg, width, label="MongoDB (DB goc)", color="#dc3545")
-    bars2 = ax.bar([i + width / 2 for i in x], redis_avg, width, label="Redis (Cache)", color="#198754")
-
-    for bars in (bars1, bars2):
-        for bar in bars:
-            height = bar.get_height()
-            ax.annotate(
-                f"{height:.2f} ms",
-                xy=(bar.get_x() + bar.get_width() / 2, height),
-                xytext=(0, 4),
-                textcoords="offset points",
-                ha="center",
-                fontsize=9,
-            )
-
-    ax.set_ylabel("Thoi gian phan hoi trung binh (ms)")
-    ax.set_title("So sanh thoi gian doc du lieu: MongoDB vs Redis Cache\n(De tai 06 - Cache-Aside Pattern)")
-    ax.set_xticks(list(x))
-    ax.set_xticklabels(labels)
-    ax.legend()
-    ax.grid(axis="y", linestyle="--", alpha=0.35)
-    fig.tight_layout()
-    out1 = OUT_DIR / "bieu_do_hieu_nang.png"
-    fig.savefig(out1, dpi=160)
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--input", type=Path, default=RESULT_FILE)
+    parser.add_argument("--out", type=Path, default=OUT_DIR)
+    args = parser.parse_args()
+    data = json.loads(args.input.read_text(encoding="utf-8"))
+    if data.get("schema_version") != 2:
+        raise ValueError("Cần chạy benchmark.py mới trước khi vẽ; không dùng số liệu cũ sai phương pháp.")
+    args.out.mkdir(parents=True, exist_ok=True)
+    scenarios = data["scenarios"]
+    raw = [key for key, value in scenarios.items() if value["layer"] == "data"]
+    http = [key for key, value in scenarios.items() if value["layer"] == "http" and value["simulated_db_latency_ms"] == 0]
+    env = data["environment"]
+    fig, axes = plt.subplots(1, 2 if http else 1, figsize=(12 if http else 7, 5.2), squeeze=False)
+    bar_chart(axes[0, 0], raw, scenarios, "Đọc và chuyển đổi cùng payload")
+    if http:
+        bar_chart(axes[0, 1], http, scenarios, "HTTP: cùng nội dung, kiểm tra source")
+    fig.suptitle(f"Số đo thực tế cục bộ — {env['n_per_source']} mẫu/nguồn, {env['warmup_per_source']} warm-up", fontsize=13)
+    fig.text(.5, .015, "Hai biểu đồ có thang đo riêng. Chuẩn bị/xóa cache và kiểm tra payload nằm ngoài đồng hồ đo.", ha="center", fontsize=9)
+    fig.tight_layout(rect=(0, .045, 1, .94))
+    fig.savefig(args.out / "bieu_do_hieu_nang.png", dpi=170)
     plt.close(fig)
-    print(f"  + {out1}")
 
-    # ---------------- Bieu do 2: phan bo (min/median/p95/max) ----------------
-    fig, ax = plt.subplots(figsize=(9, 5.2))
-    for offset, (source, color) in enumerate((("mongodb", "#dc3545"), ("redis", "#198754"))):
-        mins = [data[k][source]["min"] for k in scenarios]
-        meds = [data[k][source]["median"] for k in scenarios]
-        p95 = [data[k][source]["p95"] for k in scenarios]
-        maxs = [data[k][source]["max"] for k in scenarios]
-        xs = [i + (offset - 0.5) * 0.28 for i in range(len(scenarios))]
-        ax.bar(xs, maxs, 0.26, color=color, alpha=0.25, label=f"{source.upper()} - max")
-        ax.bar(xs, p95, 0.26, color=color, alpha=0.5, label=f"{source.upper()} - p95")
-        ax.bar(xs, meds, 0.26, color=color, alpha=0.8, label=f"{source.upper()} - median")
-        ax.bar(xs, mins, 0.26, color=color, label=f"{source.upper()} - min")
-
-    ax.set_xticks(list(range(len(scenarios))))
-    ax.set_xticklabels(labels)
-    ax.set_ylabel("Thoi gian (ms)")
-    ax.set_title("Phan bo thoi gian phan hoi (min / median / p95 / max)")
-    ax.legend(fontsize=8, ncol=2)
-    ax.grid(axis="y", linestyle="--", alpha=0.35)
-    fig.tight_layout()
-    out2 = OUT_DIR / "bieu_do_phan_bo.png"
-    fig.savefig(out2, dpi=160)
+    fig, axes = plt.subplots(1, 2 if http else 1, figsize=(12 if http else 7, 5.2), squeeze=False)
+    for axis, group, title in [(axes[0, 0], raw, "Lớp dữ liệu")]+([(axes[0, 1], http, "HTTP request")] if http else []):
+        samples, labels, colors = [], [], []
+        for key in group:
+            for source in ("mongodb", "redis"):
+                samples.append(data["samples_ms"][key][source])
+                short = "Chi tiết" if key == "article_detail" else "Danh sách" if key == "article_list" else "HTTP"
+                labels.append(short + "\n" + ("DB/MISS" if source == "mongodb" else "Redis/HIT"))
+                colors.append(COLORS[source])
+        box = axis.boxplot(samples, tick_labels=labels, patch_artist=True, showfliers=True)
+        for patch, color in zip(box["boxes"], colors):
+            patch.set_facecolor(color)
+            patch.set_alpha(.5)
+        axis.set_ylabel("Thời gian (ms)")
+        axis.set_title(title)
+        axis.grid(axis="y", alpha=.2)
+    fig.suptitle("Phân bố mẫu đo thật — giữ cả các điểm ngoại lệ", fontsize=13)
+    fig.tight_layout(rect=(0, 0, 1, .93))
+    fig.savefig(args.out / "bieu_do_phan_bo.png", dpi=170)
     plt.close(fig)
-    print(f"  + {out2}")
 
-    # ---------------- Bang so sanh (copy vao Word) ----------------
-    lines = [
-        "| Kich ban | MongoDB (ms) | Redis (ms) | Redis nhanh hon |",
-        "|---|---|---|---|",
-    ]
-    for k in scenarios:
-        m = data[k]["mongodb"]["avg"]
-        c = data[k]["redis"]["avg"]
-        lines.append(f"| {LABELS[k]} | {m:.3f} | {c:.3f} | x{(m / c if c else 0):.1f} |")
-    table = OUT_DIR / "bang_so_sanh.md"
-    table.write_text("\n".join(lines), encoding="utf-8")
-    print(f"  + {table}")
+    simulated = [key for key, value in scenarios.items() if value["simulated_db_latency_ms"] > 0]
+    if simulated:
+        fig, axis = plt.subplots(figsize=(8, 4.5))
+        bar_chart(axis, simulated, scenarios, "MÔ PHỎNG — không phải số đo mạng thực tế")
+        axis.set_xticks(range(len(simulated)), [scenarios[key]["label"] for key in simulated])
+        fig.tight_layout()
+        fig.savefig(args.out / "bieu_do_mo_phong.png", dpi=170)
+        plt.close(fig)
+
+    lines = ["# Kết quả benchmark đã đo lại", "", f"Thời điểm: {data['recorded_at']}", "",
+             f"Mỗi nguồn: {env['n_per_source']} mẫu, {env['warmup_per_source']} warm-up. p95: nearest-rank.", "",
+             "| Kịch bản | DB/MISS TB (ms) | Redis/HIT TB (ms) | DB/MISS p95 (ms) | Redis/HIT p95 (ms) | Tỷ số TB DB/Redis |",
+             "|---|---:|---:|---:|---:|---:|"]
+    for key, value in scenarios.items():
+        left, right = value["mongodb"], value["redis"]
+        lines.append(f"| {value['label']} | {left['avg']:.3f} | {right['avg']:.3f} | {left['p95']:.3f} | {right['p95']:.3f} | {left['avg']/max(right['avg'],1e-9):.2f}× |")
+    lines += ["", "Mô phỏng được ghi rõ từng dòng và vẽ riêng. HTTP gồm request + giải mã JSON; không đồng nhất với thời gian một lệnh Redis.",
+              "", "Không có dòng cache tìm kiếm: chức năng tìm kiếm gần đúng hiện không cache kết quả trong app.",
+              "", "Nguồn: data/result_benchmark.json và CSV cùng tên chứa các mẫu thô. Xem docs/PERFORMANCE_REPORT.md để biết phương pháp và giới hạn."]
+    (args.out / "bang_so_sanh.md").write_text("\n".join(lines)+"\n", encoding="utf-8")
+    print(f"Đã cập nhật biểu đồ và bảng trong {args.out}")
 
 
 if __name__ == "__main__":

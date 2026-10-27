@@ -1,55 +1,68 @@
 {% extends "admin_base.html" %}
-{% block title %}Cache & Session - Quan tri{% endblock %}
+{% block title %}Bộ nhớ đệm & Phiên đăng nhập - Quản trị{% endblock %}
 
 {% block admin_content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
-        <h1 class="h3 mb-1"><i class="bi bi-speedometer2 me-2"></i>Bang dieu khien Cache &amp; Session</h1>
-        <span class="text-muted small">Khu vuc danh cho GV: hien thi trang thai Redis theo thoi gian thuc.</span>
+        <h1 class="h3 mb-1"><i class="bi bi-speedometer2 me-2"></i>Bảng điều khiển Bộ nhớ đệm &amp; Phiên đăng nhập</h1>
+        <span class="text-muted small">Theo dõi bộ nhớ đệm và phiên đăng nhập của hệ thống.</span>
     </div>
     <div class="d-flex gap-2">
-        <button class="btn btn-outline-danger" id="btn-reset"><i class="bi bi-arrow-counterclockwise me-1"></i>Reset Hit/Miss</button>
+        <button class="btn btn-outline-danger" id="btn-reset"><i class="bi bi-arrow-counterclockwise me-1"></i>Đặt lại thống kê</button>
     </div>
 </div>
 
 <div class="row g-3 mb-4">
     <div class="col-md-3">
         <div class="stat-card">
-            <div class="label">Cache Hit</div>
+            <div class="label">Lượt trúng bộ nhớ đệm</div>
             <div class="value text-success" id="live-hits">{{ cache_stats.hits }}</div>
         </div>
     </div>
     <div class="col-md-3">
         <div class="stat-card">
-            <div class="label">Cache Miss</div>
+            <div class="label">Lượt trượt bộ nhớ đệm</div>
             <div class="value text-danger" id="live-misses">{{ cache_stats.misses }}</div>
         </div>
     </div>
     <div class="col-md-3">
         <div class="stat-card">
-            <div class="label">Ty le Hit</div>
+            <div class="label">Tỷ lệ trúng</div>
             <div class="value text-primary">{{ hit_rate }}%</div>
         </div>
     </div>
     <div class="col-md-3">
         <div class="stat-card">
-            <div class="label">Key tren Redis</div>
+            <div class="label">Khóa trên Redis</div>
             <div class="value">{{ cache_stats.total_keys }}</div>
-            <div class="small text-muted">Bo nho: {{ cache_stats.dbsize }}</div>
+            <div class="small text-muted">Bộ nhớ: {{ cache_stats.dbsize }}</div>
         </div>
     </div>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-6"><div class="stat-card">
+        <div class="label">Yêu cầu đã chờ khóa</div>
+        <div class="value" id="live-lock-waits">{{ cache_stats.lock_waits }}</div>
+        <div class="small text-muted">Chờ yêu cầu khác nạp dữ liệu thay vì cùng truy vấn DB.</div>
+    </div></div>
+    <div class="col-md-6"><div class="stat-card">
+        <div class="label">Chờ quá thời hạn</div>
+        <div class="value" id="live-lock-timeouts">{{ cache_stats.lock_timeouts }}</div>
+        <div class="small text-muted">Trả thông báo thử lại, tránh dồn thêm yêu cầu vào DB.</div>
+    </div></div>
 </div>
 
 <div class="row g-4">
     <div class="col-lg-7">
         <div class="table-site">
             <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
-                <strong><i class="bi bi-key me-2 text-primary"></i>Danh sach key Redis</strong>
-                <span class="badge text-bg-light text-dark border">{{ keys | length }} key</span>
+                <strong><i class="bi bi-key me-2 text-primary"></i>Danh sách khóa Redis</strong>
+                <span class="badge text-bg-light text-dark border">{{ keys | length }} khóa</span>
             </div>
             <div class="table-responsive" style="max-height:520px;overflow-y:auto">
                 <table class="table mb-0 align-middle">
-                    <thead><tr><th>Key</th><th>Kieu du lieu</th><th class="text-center">TTL (giay)</th></tr></thead>
+                    <thead><tr><th>Khóa</th><th>Kiểu dữ liệu</th><th class="text-center">TTL (giây)</th></tr></thead>
                     <tbody>
                     {% for item in keys %}
                         <tr>
@@ -57,9 +70,9 @@
                             <td><span class="badge text-bg-secondary">{{ item.type }}</span></td>
                             <td class="text-center">
                                 {% if item.ttl == -1 %}
-                                    <span class="text-muted">khong co</span>
+                                    <span class="text-muted">không có</span>
                                 {% elif item.ttl == -2 %}
-                                    <span class="text-muted">khong ton tai</span>
+                                    <span class="text-muted">không tồn tại</span>
                                 {% else %}
                                     <span class="badge text-bg-warning text-dark">{{ item.ttl }}</span>
                                 {% endif %}
@@ -75,12 +88,12 @@
     <div class="col-lg-5">
         <div class="table-site">
             <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
-                <strong><i class="bi bi-people me-2 text-primary"></i>Phien dang nhap (Hash)</strong>
-                <span class="badge text-bg-light text-dark border">{{ sessions | length }} phien</span>
+                <strong><i class="bi bi-people me-2 text-primary"></i>Phiên đăng nhập</strong>
+                <span class="badge text-bg-light text-dark border">{{ sessions | length }} phiên</span>
             </div>
             <div class="table-responsive" style="max-height:520px;overflow-y:auto">
                 <table class="table mb-0 align-middle">
-                    <thead><tr><th>Nguoi dung</th><th>Vai tro</th><th class="text-center">TTL</th></tr></thead>
+                    <thead><tr><th>Người dùng</th><th>Vai trò</th><th class="text-center">TTL</th></tr></thead>
                     <tbody>
                     {% for s in sessions %}
                         <tr>
@@ -88,11 +101,11 @@
                                 <div class="fw-semibold small">{{ s.username }}</div>
                                 <div class="text-muted small">{{ s.login_at }}</div>
                             </td>
-                            <td><span class="badge text-bg-primary">{{ s.role }}</span></td>
+                            <td><span class="badge text-bg-primary">{{ role_labels.get(s.role, "Độc giả") }}</span></td>
                             <td class="text-center"><span class="badge text-bg-warning text-dark">{{ s.ttl }}</span></td>
                         </tr>
                     {% else %}
-                        <tr><td colspan="3" class="text-center text-muted py-5">Chua co phien dang nhap nao.</td></tr>
+                        <tr><td colspan="3" class="text-center text-muted py-5">Chưa có phiên đăng nhập nào.</td></tr>
                     {% endfor %}
                     </tbody>
                 </table>

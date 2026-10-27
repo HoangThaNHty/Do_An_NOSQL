@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Trang chu - {{ site_name }}{% endblock %}
+{% block title %}Trang chủ - {{ site_name }}{% endblock %}
 {% block main_class %}container py-4{% endblock %}
 
 {% block content %}
@@ -8,17 +8,17 @@
 <!-- ============ KHOI HERO ============ -->
 <div class="hero">
     <a class="hero-feature" href="{{ url_for('article.article_detail', article_id=featured._id) }}">
-        <img src="{{ featured.image }}" alt="{{ featured.title }}">
+        <img src="{{ featured.image }}" alt="{{ featured.image_alt or featured.title }}">
         <div class="hero-body">
             <span class="chip">{{ featured.category }}</span>
             <h2>{{ featured.title }}</h2>
             <p>{{ featured.summary or (featured.content[:150]) }}</p>
             <span class="meta text-white-50 small">
-                <i class="bi bi-person me-1"></i>{{ featured.author_name or 'Ban bien tap' }}
+                <i class="bi bi-person me-1"></i>{{ featured.author_name or 'Ban biên tập' }}
                 <span class="mx-2">|</span>
                 <i class="bi bi-clock me-1"></i>{{ featured.created_at }}
                 <span class="mx-2">|</span>
-                <i class="bi bi-eye me-1"></i>{{ featured.views }} luot xem
+                <i class="bi bi-eye me-1"></i>{{ featured.views }} lượt xem
             </span>
         </div>
     </a>
@@ -26,11 +26,11 @@
     <div class="hero-side">
         {% for a in side_items %}
         <a class="hero-item" href="{{ url_for('article.article_detail', article_id=a._id) }}">
-            <img src="{{ a.image }}" alt="{{ a.title }}">
+            <img src="{{ a.image }}" alt="{{ a.image_alt or a.title }}">
             <div class="overflow-hidden">
                 <div class="meta text-uppercase" style="color:var(--accent);font-weight:700;font-size:11px">{{ a.category }}</div>
                 <h5 class="text-truncate-2">{{ a.title }}</h5>
-                <div class="meta"><i class="bi bi-eye me-1"></i>{{ a.views }} luot xem</div>
+                <div class="meta"><i class="bi bi-eye me-1"></i>{{ a.views }} lượt xem</div>
             </div>
         </a>
         {% endfor %}
@@ -43,11 +43,11 @@
 <section class="section">
     <div class="section-head">
         <div>
-            <span class="kicker">Chuyen muc</span>
+            <span class="kicker">Chuyên mục</span>
             <h2>{{ section.category }}</h2>
         </div>
         <a class="link-all" href="{{ url_for('article.list_articles', category=section.category) }}">
-            Xem tat ca <i class="bi bi-arrow-right"></i>
+            Xem tất cả <i class="bi bi-arrow-right"></i>
         </a>
     </div>
     <div class="row g-4">
@@ -64,13 +64,13 @@
 <section class="section">
     <div class="section-head">
         <div>
-            <span class="kicker">Xem nhieu nhat</span>
-            <h2>Doc nhieu nhat</h2>
+            <span class="kicker">Xem nhiều nhất</span>
+            <h2>Đọc nhiều nhất</h2>
         </div>
-        <a class="link-all" href="{{ url_for('article.list_articles', sort='views') }}">Xem tat ca <i class="bi bi-arrow-right"></i></a>
+        <a class="link-all" href="{{ url_for('article.list_articles', sort='views') }}">Xem tất cả <i class="bi bi-arrow-right"></i></a>
     </div>
     <div class="row g-4">
-        {% for a in articles[5:11] %}
+        {% for a in popular %}
         <div class="col-sm-6 col-lg-4">
             {% include "partials/_card.html" %}
         </div>

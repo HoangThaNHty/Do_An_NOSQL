@@ -23,6 +23,9 @@ from controllers.cache_controller import cache_bp
 from models import article as article_model
 from models import user as user_model
 from services import ArticleService, AuthService, CacheService, SessionService
+from services.cache_service import CacheBusyError
+from services.saved_service import SavedService
+from controllers.saved_controller import saved_bp
 
 
 def create_app():
@@ -61,6 +64,7 @@ def create_app():
     app.extensions["session_service"] = session_service
     app.extensions["article_service"] = article_service
     app.extensions["auth_service"] = auth_service
+    app.extensions["saved_service"] = SavedService(db, redis_client, article_service)
 
     # Tạo index MongoDB (đảm bảo truy vấn nâng cao chạy nhanh)
     with app.app_context():
@@ -77,6 +81,7 @@ def create_app():
     app.register_blueprint(auth_bp)
     app.register_blueprint(admin_bp)
     app.register_blueprint(cache_bp)
+    app.register_blueprint(saved_bp)
 
     # ------------------------------------------------------------------
     # 5. MIDDLEWARE: nạp phiên đăng nhập từ Redis mỗi request
@@ -99,8 +104,15 @@ def create_app():
     @app.after_request
     def remove_expired_session_cookie(response):
         """Nếu cookie còn nhưng session đã hết hạn -> xóa cookie."""
-        if request.cookies.get(SessionService.COOKIE_NAME) and not getattr(g, "current_user", None):
-            response.delete_cookie(SessionService.COOKIE_NAME)
+        incoming = request.cookies.get(SessionService.COOKIE_NAME)
+        sets_session = any(h.startswith(SessionService.COOKIE_NAME + "=")
+                           for h in response.headers.getlist("Set-Cookie"))
+        if incoming and not sets_session:
+            if getattr(g, "current_user", None):
+                response.set_cookie(SessionService.COOKIE_NAME, incoming,
+                                    max_age=session_service.ttl, httponly=True, samesite="Lax")
+            else:
+                response.delete_cookie(SessionService.COOKIE_NAME)
         return response
 
     @app.context_processor
@@ -111,6 +123,7 @@ def create_app():
             "site_name": config.SITE_NAME,
             # Danh muc dung o thanh dieu huong + chan trang
             "nav_categories": article_model.CATEGORIES,
+            "role_labels": {"admin": "Quản trị viên", "reader": "Độc giả"},
         }
 
     # ------------------------------------------------------------------
@@ -119,7 +132,9 @@ def create_app():
     @app.get("/api/health")
     def health():
         """Kiem tra ket noi MongoDB + Redis (dung de kiem thu nhanh)."""
-        status = {"app": "ok", "mongo": "error", "redis": "error"}
+        status = {"app": "ok", "mongo": "error", "redis": "error",
+                  "simulated_db_latency_ms": config.SIMULATED_DB_LATENCY_MS,
+                  "mongo_db": config.MONGO_DB_NAME, "redis_db": config.REDIS_DB}
         try:
             app.extensions["mongo_client"].admin.command("ping")
             status["mongo"] = "ok"
@@ -137,6 +152,18 @@ def create_app():
     def not_found(_error):
         return render_template("404.html"), 404
 
+    @app.errorhandler(ValueError)
+    def invalid_input(error):
+        if request.path.startswith("/api/"):
+            return jsonify({"success": False, "error": str(error)}), 400
+        return render_template("404.html", title=str(error)), 400
+
+    @app.errorhandler(CacheBusyError)
+    def cache_busy(error):
+        if request.path.startswith("/api/"):
+            return jsonify({"success": False, "error": str(error)}), 503, {"Retry-After": "1"}
+        return render_template("503.html"), 503, {"Retry-After": "1"}
+
     @app.errorhandler(500)
     def server_error(_error):
         app.logger.exception("Loi 500")
@@ -149,6 +176,8 @@ app = create_app()
 
 
 if __name__ == "__main__":
+    import sys
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     print("=" * 60)
     print(f"  {config.SITE_NAME} - De tai 06: Cache-Aside + Session Management")
     print(f"  MongoDB : {config.MONGO_URI} / {config.MONGO_DB_NAME}")

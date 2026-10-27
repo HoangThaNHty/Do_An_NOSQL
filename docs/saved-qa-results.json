@@ -1,0 +1,85 @@
+{
+  "checks": [
+    {
+      "name": "Thương hiệu và nội dung đăng nhập",
+      "pass": true
+    },
+    {
+      "name": "Không công khai tài khoản demo",
+      "pass": true
+    },
+    {
+      "name": "API yêu cầu đăng nhập",
+      "pass": true
+    },
+    {
+      "name": "Lưu bài dẫn tới đăng nhập",
+      "pass": true
+    },
+    {
+      "name": "Nội dung đăng ký",
+      "pass": true
+    },
+    {
+      "name": "Đăng ký qua giao diện",
+      "pass": true
+    },
+    {
+      "name": "Đăng nhập quay về bài đang đọc",
+      "pass": true
+    },
+    {
+      "name": "Lưu bài bằng nút giao diện",
+      "pass": true
+    },
+    {
+      "name": "Lưu trùng chỉ có một bài",
+      "pass": true
+    },
+    {
+      "name": "Trạng thái lưu sau tải lại",
+      "pass": true
+    },
+    {
+      "name": "Danh sách bài đã lưu",
+      "pass": true
+    },
+    {
+      "name": "Danh sách trên di động không tràn ngang",
+      "pass": true
+    },
+    {
+      "name": "Đăng xuất và đăng nhập lại vẫn còn bài",
+      "pass": true
+    },
+    {
+      "name": "Hai tài khoản có danh sách riêng",
+      "pass": true
+    },
+    {
+      "name": "Bỏ lưu ở tài khoản khác không ảnh hưởng",
+      "pass": true
+    },
+    {
+      "name": "Bỏ lưu và trạng thái rỗng",
+      "pass": true
+    },
+    {
+      "name": "Đăng nhập trên di động không tràn ngang",
+      "pass": true
+    },
+    {
+      "name": "Đăng ký trên di động không tràn ngang",
+      "pass": true
+    },
+    {
+      "name": "Không có lỗi JavaScript",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "cleanupUsers": [
+    "qa_saved_1793001423620",
+    "qa_saved_1793001423620_b"
+  ]
+}

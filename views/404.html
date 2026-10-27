@@ -1,11 +1,11 @@
 {% extends "base.html" %}
-{% block title %}Khong tim thay trang{% endblock %}
+{% block title %}Không tìm thấy trang{% endblock %}
 
 {% block content %}
 <div class="text-center py-5">
     <h1 class="display-1">404</h1>
-    <h4 class="mb-3">{{ title or 'Khong tim thay trang yeu cau' }}</h4>
-    <p class="text-muted">Bai viet khong ton tai hoac da bi xoa khoi he thong.</p>
-    <a class="btn btn-primary" href="{{ url_for('article.index') }}">Ve trang chu</a>
+    <h4 class="mb-3">{{ title or 'Không tìm thấy trang yêu cầu' }}</h4>
+    <p class="text-muted">Bài viết không tồn tại hoặc đã bị xóa khỏi hệ thống.</p>
+    <a class="btn btn-primary" href="{{ url_for('article.index') }}">Về trang chủ</a>
 </div>
 {% endblock %}

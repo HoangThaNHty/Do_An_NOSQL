@@ -33,22 +33,13 @@ from pymongo import MongoClient
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from config import config  # noqa: E402
+from services.cache_service import CacheService
 from models import article as article_model  # noqa: E402
 
 DEMO_SESSIONS = [
-    ("sv1_admin", "SV1 - Data Architect", "admin", "127.0.0.1"),
-    ("sv2_editor", "SV2 - Cache Specialist", "editor", "127.0.0.1"),
-    ("sv3_editor", "SV3 - Fullstack Integrator", "editor", "127.0.0.1"),
-    ("bien_tap", "Bien Tap", "editor", "127.0.0.1"),
-    ("doc_giang_01", "Giang Vien", "admin", "127.0.0.1"),
-    ("doc_giang_02", "Giang Vien", "admin", "127.0.0.1"),
-    ("reader_01", "Nguoi Doc", "reader", "127.0.0.1"),
-    ("reader_02", "Nguoi Doc", "reader", "127.0.0.1"),
-    ("reader_03", "Nguoi Doc", "reader", "127.0.0.1"),
-    ("reader_04", "Nguoi Doc", "reader", "127.0.0.1"),
-    ("reader_05", "Nguoi Doc", "reader", "127.0.0.1"),
-    ("reader_06", "Nguoi Doc", "reader", "127.0.0.1"),
-]
+    ("admin", "Quản trị viên", "admin", "127.0.0.1"),
+] + [("reader", f"Độc giả mẫu {i:02d}", "reader", "127.0.0.1") for i in range(1, 12)]
+
 
 
 def connect_redis():
@@ -83,19 +74,7 @@ def seed_cache(r, db):
     count = 0
     for index, article in enumerate(articles):
         article_id = str(article["_id"])
-        mapping = {
-            "_id": article_id,
-            "title": article.get("title", ""),
-            "summary": article.get("summary", ""),
-            "content": article.get("content", ""),
-            "image": article.get("image", ""),
-            "category": article.get("category", ""),
-            "tags": json.dumps(article.get("tags", []), ensure_ascii=False),
-            "author_name": article.get("author_name", ""),
-            "status": article.get("status", "published"),
-            "created_at": str(article.get("created_at", "")),
-            "updated_at": str(article.get("updated_at", "")),
-        }
+        mapping = CacheService._article_mapping(article_id, article)
         # 10 bai viet thuong: TTL 300s
         if index < 10:
             key = f"article:cache:{article_id}"
@@ -118,7 +97,7 @@ def seed_cache(r, db):
 
     # Cache danh sach (3 key, TTL 60s) - dung du lieu THAT tu MongoDB
     for page in range(1, 4):
-        key = f"article:list:{page}:newest:all-all"
+        key = CacheService.list_key(page, "newest", per_page=9)
         result = article_model.list_articles(db, page=page, per_page=9, sort="newest")
         items = [article_model.to_dict(doc) for doc in result["items"]]
         payload = {
