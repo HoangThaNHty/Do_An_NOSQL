@@ -2,6 +2,31 @@
 
 Đồ án **Dữ liệu NoSQL, đề tài 06**, dùng **Flask + MongoDB + Redis**. MongoDB lưu nội dung và tài khoản; Redis lưu cache, khóa nạp cache, phiên, lượt xem và bài đọc sau. Giao diện tiếng Việt; ảnh, font, Bootstrap đi kèm source, không dùng CDN.
 
+## Giao diện minh họa
+
+**Trang chủ** — bài nổi bật và nội dung theo chuyên mục.
+
+![Trang chủ Điểm Tin](docs/images/home.png)
+
+<details>
+<summary>Xem thêm: gợi ý tìm kiếm, đăng nhập và bài đã lưu</summary>
+
+**Gợi ý tìm kiếm** — nhập “Container” để xem các bài viết liên quan ngay dưới ô tìm kiếm.
+
+![Gợi ý bài viết khi tìm Container](docs/images/search.png)
+
+**Đăng nhập** — giao diện tài khoản mang tên Điểm Tin.
+
+![Trang đăng nhập Điểm Tin](docs/images/login.png)
+
+**Bài đã lưu** — độc giả lưu bài để đọc sau; danh sách ID được quản lý bằng Redis Set.
+
+![Danh sách bài đã lưu của độc giả](docs/images/saved.png)
+
+</details>
+
+Ảnh chụp từ môi trường demo; nội dung, ngày và số lượt xem có thể khác khi chạy trên máy bạn.
+
 ## 1. Chức năng và công nghệ
 
 | Người dùng | Chức năng |
