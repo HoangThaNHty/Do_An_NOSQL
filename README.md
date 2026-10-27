@@ -253,4 +253,4 @@ Giữ JSON/CSV đo gốc `data/result_benchmark.*`, 26/10/2026: 200 mẫu/nguồ
 - [Kiểm tra bản phát hành](docs/RELEASE_CHECK.md)
 - [Nguồn ảnh](static/images/CREDITS.md), [thành phần bên thứ ba](docs/THIRD_PARTY.md)
 
-Các thành viên tạo nhánh từ main mới; các việc test model, chẩn đoán môi trường và tài liệu API offline vẫn dành cho thành viên tự thực hiện. File Word/PDF/PPTX nộp môn học được giữ riêng. Giấy phép source theo `LICENSE`; ảnh/font/vendor có nguồn và giấy phép riêng.
+Người quản lý repo phụ trách main và tích hợp PR. Hai nhánh công việc được chuẩn bị cho thành viên: `feature/environment-check` và `docs/api-reference`; công cụ chẩn đoán môi trường và tài liệu API offline dành cho thành viên tự thực hiện. File Word/PDF/PPTX nộp môn học được giữ riêng. Giấy phép source theo `LICENSE`; ảnh/font/vendor có nguồn và giấy phép riêng.
