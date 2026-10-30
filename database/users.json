@@ -1,0 +1,32 @@
+[
+  {
+    "_id": {
+      "$oid": "6ae4b162d0ce7be418a5e5c7"
+    },
+    "username": "admin",
+    "email": "admin@example.com",
+    "password_hash": "scrypt:32768:8:1$OUjoLvAb7ERseqH4$a2174cf9de84da3b4aca86b62d35291048afbc77bc4e67fa9d49a8224c5dd57029d8d2df4d2322cb47c5f459b5ae6f196869ec8c032d163f7aeb6a089f7c0450",
+    "full_name": "Quản trị viên",
+    "role": "admin",
+    "avatar": null,
+    "created_at": {
+      "$date": "2026-10-30T15:01:54.134Z"
+    },
+    "last_login": null
+  },
+  {
+    "_id": {
+      "$oid": "6ae4b162d0ce7be418a5e5c8"
+    },
+    "username": "reader",
+    "email": "reader@example.com",
+    "password_hash": "scrypt:32768:8:1$9dayNLRG6ySmNmpV$9ba144079c0db1bb40c13fd16cf1152f745e1f06d01cb7447bcc019fb5baf4a1d55cfb621cc907c2a44fc5b0b5022197beda6d71cfee60fd177b0339110d687a",
+    "full_name": "Độc giả",
+    "role": "reader",
+    "avatar": null,
+    "created_at": {
+      "$date": "2026-10-30T15:01:54.261Z"
+    },
+    "last_login": null
+  }
+]

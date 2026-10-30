@@ -2,6 +2,13 @@
 
 Đồ án **Dữ liệu NoSQL, đề tài 06**, dùng **Flask + MongoDB + Redis**. MongoDB lưu nội dung và tài khoản; Redis lưu cache, khóa nạp cache, phiên, lượt xem và bài đọc sau. Giao diện tiếng Việt; ảnh, font, Bootstrap đi kèm source, không dùng CDN.
 
+## Database nộp kèm mã nguồn — Nhóm 11
+
+Bộ database MongoDB mẫu có sẵn tại **[database/](database/README.md)**: 100 bài viết,
+2 tài khoản demo và script nhập dữ liệu/tạo chỉ mục. Xem hướng dẫn trong thư mục
+để khôi phục database, đăng nhập và tạo các key Redis qua thao tác web.
+Đây là lựa chọn thay cho bước chạy seed; không cần thực hiện cả hai.
+
 ## Giao diện minh họa
 
 **Trang chủ** — bài nổi bật và nội dung theo chuyên mục.
